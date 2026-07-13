@@ -48,18 +48,26 @@ Checkout
 <script>
 
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const cartList = document.getElementById("cart-list");
 
 let total = 0;
 
-cart.forEach(product=>{
+cartList.innerHTML = "";
 
-const price = Number(product.price.replace(/[^\d]/g,""));
+cart.forEach((product,index)=>{
 
-total += price;
+const harga = Number(product.price.replace(/[^\d]/g,""));
+
+const subtotal = harga * product.qty;
+
+total += subtotal;
 
 cartList.innerHTML += `
+
 <div class="cart-item">
 
 <img src="${product.image}" alt="${product.name}">
@@ -70,9 +78,20 @@ cartList.innerHTML += `
 
 <p>${product.price}</p>
 
+<p>Qty : ${product.qty}</p>
+
+<p>Subtotal : Rp${subtotal.toLocaleString("id-ID")}</p>
+
+<button onclick="kurang(${index})">-</button>
+
+<button onclick="tambah(${index})">+</button>
+
+<button onclick="hapus(${index})">Hapus</button>
+
 </div>
 
 </div>
+
 `;
 
 });
@@ -80,6 +99,32 @@ cartList.innerHTML += `
 document.getElementById("cart-total").innerText =
 "Total : Rp" + total.toLocaleString("id-ID");
 
+function tambah(index){
+cart[index].qty++;
+localStorage.setItem("cart",JSON.stringify(cart));
+location.reload();
+}
+
+function kurang(index){
+
+if(cart[index].qty>1){
+cart[index].qty--;
+}else{
+cart.splice(index,1);
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+location.reload();
+
+}
+
+function hapus(index){
+cart.splice(index,1);
+localStorage.setItem("cart",JSON.stringify(cart));
+location.reload();
+}
+
+</script>
              </script>
 </body>
 
