@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="style.css">
 
 </head>
-
 <body>
 
 <header class="navbar">
@@ -31,22 +30,16 @@
 <div id="cart-list"></div>
 
 <h2 id="cart-total">Total : Rp0</h2>
-</div>
-
-</div>
-
 
 <a href="checkout.html" class="checkout-btn">
 Checkout
 </a>
 
 </section>
+
 <script src="products.js"></script>
 <script src="app.js"></script>
 
-<script>
-
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -61,7 +54,9 @@ cart.forEach((product,index)=>{
 
 const harga = Number(product.price.replace(/[^\d]/g,""));
 
-const subtotal = harga * product.qty;
+const qty = product.qty || 1;
+
+const subtotal = harga * qty;
 
 total += subtotal;
 
@@ -77,54 +72,4 @@ cartList.innerHTML += `
 
 <p>${product.price}</p>
 
-<p>Qty : ${product.qty}</p>
-
-<p>Subtotal : Rp${subtotal.toLocaleString("id-ID")}</p>
-
-<button onclick="kurang(${index})">-</button>
-
-<button onclick="tambah(${index})">+</button>
-
-<button onclick="hapus(${index})">Hapus</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("cart-total").innerText =
-"Total : Rp" + total.toLocaleString("id-ID");
-
-function tambah(index){
-cart[index].qty++;
-localStorage.setItem("cart",JSON.stringify(cart));
-location.reload();
-}
-
-function kurang(index){
-
-if(cart[index].qty>1){
-cart[index].qty--;
-}else{
-cart.splice(index,1);
-}
-
-localStorage.setItem("cart",JSON.stringify(cart));
-location.reload();
-
-}
-
-function hapus(index){
-cart.splice(index,1);
-localStorage.setItem("cart",JSON.stringify(cart));
-location.reload();
-}
-
-</script>
-             </script>
-</body>
-
-</html>
+<p>Qty
