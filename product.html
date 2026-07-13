@@ -6,20 +6,18 @@
 <title>Detail Produk | DHUHA</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
 <header class="navbar">
 
-<div class="logo">
-DHUHA
-</div>
+<div class="logo">DHUHA</div>
 
 <nav>
 <a href="index.html">Home</a>
 <a href="shop.html">Shop</a>
+<a href="cart.html">Cart</a>
 <a href="login.html">Account</a>
 </nav>
 
@@ -28,50 +26,65 @@ DHUHA
 <section class="product-detail">
 
 <div class="product-image">
-
-<img src="images/placeholder.png" alt="Produk">
+<img id="product-image" src="" alt="Produk">
 </div>
 
 <div class="product-info">
 
-<h1>Kaos Oversize DHUHA</h1>
+<h1 id="product-name"></h1>
 
-<p class="price">Rp149.000</p>
+<p class="price" id="product-price"></p>
 
-<p>
-Kaos premium berbahan cotton combed 24s yang nyaman dipakai setiap hari.
+<p id="product-description">
+Produk premium DHUHA dengan kualitas terbaik.
 </p>
 
 <h3>Pilih Ukuran</h3>
 
 <div class="size-list">
-
 <button>S</button>
 <button>M</button>
 <button>L</button>
 <button>XL</button>
 <button>XXL</button>
-
 </div>
 
 <h3>Warna</h3>
 
 <div class="color-list">
-
 <button>Hitam</button>
 <button>Putih</button>
 <button>Cream</button>
-
 </div>
 
-<a href="cart.html" class="buy-btn">
+<button class="buy-btn" id="add-cart">
 Tambah ke Keranjang
-</a>
+</button>
 
 </div>
 
 </section>
 
-</body>
+<script src="app.js"></script>
 
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = Number(params.get("id"));
+
+const product = products.find(item => item.id === id);
+
+if(product){
+
+document.getElementById("product-image").src = product.image;
+document.getElementById("product-name").innerText = product.name;
+document.getElementById("product-price").innerText = product.price;
+
+document.getElementById("add-cart").onclick = function(){
+addToCart(product.id);
+};
+
+}
+</script>
+
+</body>
 </html>
