@@ -600,3 +600,21 @@ transition:.3s;
 background:#d4af37;
 color:#111;
 }
+.btn-cart{
+    display:block;
+    width:calc(100% - 30px);
+    margin:0 15px 15px;
+    padding:12px;
+    background:#d4af37;
+    color:#111;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-cart:hover{
+    background:#111;
+    color:#fff;
+}
