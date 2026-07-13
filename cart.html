@@ -28,16 +28,9 @@
 
 <h1>Keranjang Belanja</h1>
 
-<div class="cart-item">
+<div id="cart-list"></div>
 
-<img src="images/placeholder.png" alt="Produk">
-
-<div>
-
-<h2>Kaos Oversize DHUHA</h2>
-
-<p>Rp149.000</p>
-
+<h2 id="cart-total">Total : Rp0</h2>
 </div>
 
 </div>
@@ -49,7 +42,45 @@ Checkout
 </a>
 
 </section>
+<script src="products.js"></script>
+<script src="app.js"></script>
 
+<script>
+
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const cartList = document.getElementById("cart-list");
+
+let total = 0;
+
+cart.forEach(product=>{
+
+const price = Number(product.price.replace(/[^\d]/g,""));
+
+total += price;
+
+cartList.innerHTML += `
+<div class="cart-item">
+
+<img src="${product.image}" alt="${product.name}">
+
+<div>
+
+<h2>${product.name}</h2>
+
+<p>${product.price}</p>
+
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("cart-total").innerText =
+"Total : Rp" + total.toLocaleString("id-ID");
+
+             </script>
 </body>
 
 </html>
