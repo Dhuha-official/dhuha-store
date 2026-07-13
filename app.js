@@ -18,13 +18,24 @@ if (productList) {
   });
 }
 function addToCart(id){
+
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   const product = products.find(item => item.id === id);
 
-  cart.push(product);
+  const existing = cart.find(item => item.id === id);
+
+  if(existing){
+    existing.qty += 1;
+  }else{
+    cart.push({
+      ...product,
+      qty: 1
+    });
+  }
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
   alert(product.name + " berhasil ditambahkan ke keranjang.");
+
 }
