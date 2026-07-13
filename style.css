@@ -314,3 +314,16 @@ background:#b08d57;
     background:#d4af37;
     color:#111;
     }
+.btn-shop{
+    display:inline-block;
+    background:#d4af37;
+    color:#111;
+    padding:15px 35px;
+    text-decoration:none;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+.btn-shop:hover{
+    background:#fff;
+}
