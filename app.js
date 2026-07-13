@@ -19,14 +19,14 @@ const products = [
     name: "Kaos Oversize DHUHA",
     category: "Kaos",
     price: "Rp149.000",
-    image: "images/placeholder.jpg.png"
+    image: "images/placeholder.png"
   },
   {
     id: 4,
     name: "Polo Premium DHUHA",
     category: "Polo",
     price: "Rp189.000",
-    image: "images/placeholder.jpg.png"
+    image: "images/placeholder.png"
   }
 ];
 
