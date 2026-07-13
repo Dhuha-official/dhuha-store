@@ -34,10 +34,14 @@ const productList = document.getElementById("product-list");
 
 products.forEach(product => {
   productList.innerHTML += `
-    <div class="product">
-      <img src="${product.image}" alt="${product.name}">
-      <h3>${product.name}</h3>
-      <p>${product.price}</p>
-    </div>
-  `;
-});
+  <div class="product">
+    <img src="${product.image}" alt="${product.name}">
+    <h3>${product.name}</h3>
+    <p>${product.price}</p>
+
+    <a href="product.html" class="btn-product">
+      Lihat Produk
+    </a>
+
+  </div>
+`;
