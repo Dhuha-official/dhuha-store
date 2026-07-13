@@ -510,3 +510,36 @@ transition:.3s;
 background:#d4af37;
 color:#111;
     }
+#product-list{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.product{
+background:#fff;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+transition:.3s;
+}
+
+.product:hover{
+transform:translateY(-8px);
+}
+
+.product img{
+width:100%;
+height:280px;
+object-fit:cover;
+}
+
+.product h3{
+padding:15px;
+}
+
+.product p{
+padding:0 15px 15px;
+font-weight:bold;
+color:#d4af37;
+    }
