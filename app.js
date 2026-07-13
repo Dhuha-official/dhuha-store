@@ -39,6 +39,9 @@ if (productList) {
         <h3>${product.name}</h3>
         <p>${product.price}</p>
         <a href="product.html" class="btn-product">Lihat Produk</a>
+<button class="btn-cart" onclick="addToCart(${product.id})">
+  Tambah ke Keranjang
+</button>
       </div>
     `;
   });
