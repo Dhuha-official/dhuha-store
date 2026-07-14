@@ -46,7 +46,7 @@ cartList.innerHTML += `
 
 <button onclick="tambah(${index})">+</button>
 
-<button onclick="hapus(${index})">Hapus</button>
+<button class="btn-delete" onclick="hapus(${index})">Hapus</button>
 
 </div>
 
