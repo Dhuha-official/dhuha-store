@@ -17,7 +17,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     email,
     password
   });
-
+alert(JSON.stringify({ data, error }));
   if (error) {
     alert("Pendaftaran gagal: " + error.message);
     return;
