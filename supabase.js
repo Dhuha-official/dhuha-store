@@ -7,7 +7,7 @@ const supabase = window.supabase.createClient(
   supabaseUrl,
   supabaseKey
 );
-
+alert(typeof supabase.auth);
 async function loadProducts() {
 
   const { data, error } = await supabase
