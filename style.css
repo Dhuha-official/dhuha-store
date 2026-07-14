@@ -364,3 +364,19 @@ height:45px;
 border:none;
 border-radius:10px;
 background:#
+.checkout-btn{
+display:inline-block !important;
+background:#d4af37 !important;
+color:#111 !important;
+padding:15px 40px !important;
+border-radius:10px !important;
+text-decoration:none !important;
+font-weight:bold;
+font-size:18px;
+transition:.3s;
+}
+
+.checkout-btn:hover{
+background:#111 !important;
+color:#fff !important;
+   }
