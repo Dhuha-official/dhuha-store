@@ -1,4 +1,5 @@
 alert("register.js berhasil dimuat");
+alert(typeof supabase);
 
 document.getElementById("register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
