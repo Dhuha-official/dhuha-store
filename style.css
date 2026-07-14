@@ -429,3 +429,118 @@ margin-left:8px;
 line-height:38px;
 text-align:center;
 }
+/* =========================
+   CHECKOUT
+========================= */
+
+.checkout-page{
+max-width:700px;
+margin:120px auto 40px;
+padding:20px;
+}
+
+.checkout-page form{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.checkout-page input,
+.checkout-page textarea,
+.checkout-page select{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:16px;
+}
+
+.checkout-page textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.checkout-page button{
+width:100%;
+padding:16px;
+border:none;
+background:#d4af37;
+color:#111;
+font-size:18px;
+font-weight:bold;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login{
+max-width:420px;
+margin:120px auto;
+padding:20px;
+}
+
+.login form{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+header{
+padding:0 15px;
+height:70px;
+}
+
+.logo{
+font-size:20px;
+letter-spacing:4px;
+}
+
+nav{
+gap:12px;
+}
+
+nav a{
+font-size:14px;
+}
+
+.hero{
+height:260px;
+margin-top:70px;
+}
+
+.hero-content{
+left:20px;
+max-width:220px;
+}
+
+.hero-content h1{
+font-size:26px;
+}
+
+.hero-content p{
+font-size:15px;
+}
+
+.product-detail{
+grid-template-columns:1fr;
+}
+
+.cart-item{
+flex-direction:column;
+text-align:center;
+}
+
+.checkout-btn{
+width:100%;
+}
+
+   }
