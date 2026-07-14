@@ -393,3 +393,24 @@ nav a{
 text-decoration:none;
 color:#111;
 }
+.cart-item button{
+width:55px !important;
+height:55px !important;
+font-size:26px !important;
+font-weight:bold;
+border:none;
+border-radius:10px;
+background:#111;
+color:#fff;
+cursor:pointer;
+margin:5px;
+}
+
+.btn-delete{
+width:90px !important;
+height:55px !important;
+font-size:16px !important;
+font-weight:600;
+background:#d4af37 !important;
+color:#111 !important;
+}
