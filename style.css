@@ -618,3 +618,15 @@ color:#111;
     background:#111;
     color:#fff;
 }
+.cart-item button{
+width:45px;
+height:45px;
+font-size:22px;
+font-weight:bold;
+border-radius:10px;
+border:none;
+background:#000;
+color:#fff;
+margin:5px;
+cursor:pointer;
+}
