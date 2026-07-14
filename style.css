@@ -394,15 +394,22 @@ text-decoration:none;
 color:#111;
 }
 .cart-item button:not(.btn-delete){
-width:45px;
-height:45px;
-font-size:22px;
+width:35px;
+height:35px;
+font-size:16px;
 font-weight:bold;
 border:none;
 border-radius:8px;
 background:#111;
 color:#fff;
 cursor:pointer;
+margin:4px;
+transition:.3s;
+}
+
+.cart-item button:not(.btn-delete):hover{
+background:#d4af37;
+color:#111;
 }
 
 .btn-delete{
