@@ -27,8 +27,8 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
         alert("4");
 
         if (error) {
-            alert("Error: " + error.message);
-            return;
+    alert(JSON.stringify(error, null, 2));
+    return;
         }
 
         alert("Pendaftaran berhasil!");
