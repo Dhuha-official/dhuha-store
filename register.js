@@ -1,29 +1,42 @@
-alert("register.js berhasil dimuat");
-alert(typeof supabase);
-
 document.getElementById("register-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirm-password").value;
+    alert("1");
 
-  if (password !== confirmPassword) {
-    alert("Password dan konfirmasi password tidak sama.");
-    return;
-  }
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
 
-  const { error } = await supabase.auth.signUp({
-    email,
-    password
-  });
-alert(JSON.stringify({ data, error }));
-  if (error) {
-    alert("Pendaftaran gagal: " + error.message);
-    return;
-  }
+    alert("2");
 
-  alert("Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi, lalu login.");
+    if (password !== confirmPassword) {
+        alert("Password dan konfirmasi password tidak sama.");
+        return;
+    }
 
-  window.location.href = "login.html";
+    alert("3");
+
+    try {
+
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password
+        });
+
+        alert("4");
+
+        if (error) {
+            alert("Error: " + error.message);
+            return;
+        }
+
+        alert("Pendaftaran berhasil!");
+
+        window.location.href = "login.html";
+
+    } catch (err) {
+        alert("Catch Error: " + err.message);
+    }
+
 });
