@@ -3,45 +3,95 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const cartList = document.getElementById("cart-list");
 const cartTotal = document.getElementById("cart-total");
 
-let total = 0;
+renderCart();
+
+function renderCart(){
 
 cartList.innerHTML = "";
 
-if (cart.length === 0) {
-  cartList.innerHTML = "<p>Keranjang masih kosong.</p>";
+let total = 0;
+
+if(cart.length===0){
+cartList.innerHTML="<p>Keranjang masih kosong.</p>";
+cartTotal.innerHTML="Total : Rp0";
+return;
 }
 
-cart.forEach((product) => {
+cart.forEach((product,index)=>{
 
-  const qty = product.qty || 1;
+const qty = product.qty || 1;
 
-  const harga = Number(product.price.replace(/[^\d]/g, ""));
+const harga = Number(product.price.replace(/[^\d]/g,""));
 
-  const subtotal = harga * qty;
+const subtotal = harga * qty;
 
-  total += subtotal;
+total += subtotal;
 
-  cartList.innerHTML += `
-    <div class="cart-item">
+cartList.innerHTML += `
+<div class="cart-item">
 
-      <img src="${product.image}" alt="${product.name}">
+<img src="${product.image}" alt="${product.name}">
 
-      <div>
+<div>
 
-        <h2>${product.name}</h2>
+<h2>${product.name}</h2>
 
-        <p>${product.price}</p>
+<p>${product.price}</p>
 
-        <p>Qty : ${qty}</p>
+<p>Qty : ${qty}</p>
 
-        <p>Subtotal : Rp${subtotal.toLocaleString("id-ID")}</p>
+<p>Subtotal : Rp${subtotal.toLocaleString("id-ID")}</p>
 
-      </div>
+<button onclick="kurang(${index})">-</button>
 
-    </div>
-  `;
+<button onclick="tambah(${index})">+</button>
+
+<button onclick="hapus(${index})">Hapus</button>
+
+</div>
+
+</div>
+`;
 
 });
 
 cartTotal.innerHTML =
-"Total : Rp" + total.toLocaleString("id-ID");
+"Total : Rp"+total.toLocaleString("id-ID");
+
+}
+
+function tambah(index){
+
+cart[index].qty = (cart[index].qty||1)+1;
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+renderCart();
+
+}
+
+function kurang(index){
+
+cart[index].qty = cart[index].qty||1;
+
+if(cart[index].qty>1){
+cart[index].qty--;
+}else{
+cart.splice(index,1);
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+renderCart();
+
+}
+
+function hapus(index){
+
+cart.splice(index,1);
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+renderCart();
+
+}
