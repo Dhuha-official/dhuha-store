@@ -630,3 +630,11 @@ color:#fff;
 margin:5px;
 cursor:pointer;
 }
+.btn-delete{
+width:auto !important;
+height:35px !important;
+padding:0 12px;
+font-size:14px;
+font-weight:500;
+border-radius:8px;
+}
