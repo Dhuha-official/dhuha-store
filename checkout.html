@@ -28,29 +28,19 @@
 
 <h1>Checkout</h1>
 
-<form>
+<input type="text" id="nama" placeholder="Nama Lengkap">
 
-<input type="text" placeholder="Nama Lengkap" required>
+<input type="text" id="telepon" placeholder="Nomor WhatsApp">
 
-<input type="text" placeholder="Nomor WhatsApp" required>
+<textarea id="alamat" placeholder="Alamat Lengkap"></textarea>
 
-<textarea placeholder="Alamat Lengkap"></textarea>
-
-<select>
-<option>Metode Pembayaran</option>
-<option>Transfer Bank</option>
-<option>QRIS</option>
-<option>COD</option>
-</select>
-
-<button type="submit">
-Pesan Sekarang
+<button id="pesan-wa" class="checkout-btn">
+Pesan via WhatsApp
 </button>
-
-</form>
 
 </section>
 
-</body>
+<script src="checkout.js"></script>
 
+</body>
 </html>
