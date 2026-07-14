@@ -46,3 +46,5 @@ async function loadProducts() {
 }
 
 loadProducts();
+alert(typeof window.supabase);
+alert(window.supabase ? "Ada library" : "Tidak ada library");
