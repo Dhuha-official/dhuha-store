@@ -393,24 +393,32 @@ nav a{
 text-decoration:none;
 color:#111;
 }
-.cart-item button{
-width:55px !important;
-height:55px !important;
-font-size:26px !important;
+.cart-item button:not(.btn-delete){
+width:45px;
+height:45px;
+font-size:22px;
 font-weight:bold;
 border:none;
-border-radius:10px;
+border-radius:8px;
 background:#111;
 color:#fff;
 cursor:pointer;
-margin:5px;
 }
 
 .btn-delete{
-width:90px !important;
-height:55px !important;
-font-size:16px !important;
-font-weight:600;
-background:#d4af37 !important;
-color:#111 !important;
+display:inline-block;
+width:auto !important;
+min-width:70px;
+height:38px !important;
+padding:0 12px;
+font-size:13px !important;
+font-weight:500;
+background:#e53935 !important;
+color:#fff !important;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-left:8px;
+line-height:38px;
+text-align:center;
 }
