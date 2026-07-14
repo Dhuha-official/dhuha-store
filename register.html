@@ -30,16 +30,15 @@
 
 <h2>Buat Akun DHUHA</h2>
 
-<form>
+<form id="register-form">
 
-<input type="text" placeholder="Nama Lengkap">
+<input type="text" id="name" placeholder="Nama Lengkap" required>
 
-<input type="email" placeholder="Email">
+<input type="email" id="email" placeholder="Email" required>
 
-<input type="password" placeholder="Password">
+<input type="password" id="password" placeholder="Password" required>
 
-<input type="password" placeholder="Konfirmasi Password">
-
+<input type="password" id="confirm-password" placeholder="Konfirmasi Password" required>
 <button type="submit">
 Daftar
 </button>
@@ -52,6 +51,8 @@ Sudah punya akun?
 </form>
 
 </section>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="register.js"></script>
 </body>
 </html>
