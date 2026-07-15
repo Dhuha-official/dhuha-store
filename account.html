@@ -6,7 +6,7 @@
 <title>Akun | DHUHA</title>
 
 <link rel="stylesheet" href="style.css">
-
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -17,10 +17,12 @@
 <h1>DHUHA</h1>
 </div>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="account.html">Account</a>
+<nav class="nav-icons">
+
+<a href="account.html" class="nav-icon">
+<i data-lucide="user"></i>
+</a>
+
 </nav>
 
 </header>
@@ -334,6 +336,9 @@ for (let i = tahun; i >= 1990; i--) {
         `<option>${i}</option>`;
 
   }</script>
-
+<script>
+lucide.createIcons();
+</script>
+    
 </body>
 </html>
