@@ -181,7 +181,12 @@ async function loadOrders() {
 
     const { data: { user } } =
         await window.supabaseClient.auth.getUser();
+const { data: { session } } =
+    await window.supabaseClient.auth.getSession();
 
+console.log(session);
+
+const user = session?.user;
     if (!user) return;
 
     const { data, error } =
