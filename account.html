@@ -152,6 +152,25 @@
 
 </div>
 </section>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
 
+<script>
+async function loadUser() {
+    const {
+        data: { user }
+    } = await window.supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    document.getElementById("name").value = user.user_metadata?.name || "";
+    document.getElementById("email").value = user.email;
+
+    document.getElementById("login-btn").style.display = "none";
+    document.getElementById("register-btn").style.display = "none";
+}
+
+loadUser();
+  </script>
 </body>
 </html>
