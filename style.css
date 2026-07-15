@@ -771,3 +771,46 @@ cursor:pointer;
 .menu-btn.active{
 border-bottom:3px solid #111;
    }
+/* ===== Navbar Premium ===== */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 28px;
+background:#fff;
+}
+
+.logo h1{
+font-size:28px;
+font-weight:700;
+letter-spacing:3px;
+color:#000;
+}
+
+.nav-icons{
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.nav-icons a{
+text-decoration:none;
+color:#000;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.nav-icons svg{
+width:24px;
+height:24px;
+stroke:#000;
+stroke-width:1.8;
+transition:.3s;
+}
+
+.nav-icons svg:hover{
+transform:scale(1.1);
+opacity:.7;
+   }
