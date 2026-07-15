@@ -35,8 +35,7 @@
 
 <button class="tab">⚙️ Pengaturan</button>
 
-<button class="tab">🚪 Logout</button>
-
+<button class="tab" id="logout-btn">🚪 Logout</button>
 </div>
 
 <div class="profile-card">
@@ -169,6 +168,15 @@ async function loadUser() {
 }
 
 loadUser();
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+
+    await window.supabaseClient.auth.signOut();
+
+    alert("Logout berhasil");
+
+    window.location.href = "login.html";
+
+});
   </script>
 </body>
 </html>
