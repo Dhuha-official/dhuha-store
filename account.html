@@ -137,6 +137,22 @@
     document.getElementById("email").value =
         user.email;
 
+const { data: profile } = await window.supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+if (profile) {
+
+    document.getElementById("name").value =
+        profile.name || "";
+
+    document.getElementById("phone").value =
+        profile.phone || "";
+
+}
+      
     document.getElementById("login-btn").style.display = "none";
     document.getElementById("register-btn").style.display = "none";
 }
@@ -198,6 +214,49 @@ async function loadOrders() {
 loadUser();
 loadOrders();
 
+document.getElementById("save-profile").addEventListener("click", async () => {
+
+    const { data: { user } } =
+        await window.supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+
+    const tanggal = document.getElementById("tanggal").value;
+    const bulan = document.getElementById("bulan").selectedIndex;
+    const tahun = document.getElementById("tahun").value;
+
+    let birth_date = null;
+
+    if (bulan > 0 &&
+        tanggal !== "Tanggal" &&
+        tahun !== "Tahun") {
+
+        birth_date =
+            `${tahun}-${String(bulan).padStart(2, "0")}-${String(tanggal).padStart(2, "0")}`;
+    }
+
+    const { error } =
+        await window.supabaseClient
+            .from("profiles")
+            .upsert({
+                id: user.id,
+                name,
+                phone,
+                birth_date
+            });
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    alert("Profil berhasil disimpan!");
+
+});
+        
   document.getElementById("logout-btn").addEventListener("click", async () => {
 
     await window.supabaseClient.auth.signOut();
