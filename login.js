@@ -4,16 +4,24 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const { data, error } = await window.supabaseClient.auth.signInWithPassword({
-        email,
-        password
-    });
+    alert(email);
+    alert(password);
 
-    if (error) {
-        alert(error.message);
-        return;
+    try {
+        const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) {
+            alert(error.message);
+            return;
+        }
+
+        alert("Login berhasil");
+        window.location.href = "account.html";
+
+    } catch (err) {
+        alert(err.message);
     }
-
-    alert("Login berhasil!");
-    window.location.href = "account.html";
 });
