@@ -220,9 +220,16 @@ const user = session?.user;
     }
 
     if (data.length === 0) {
-        document.getElementById("orders-list").innerHTML =
-            "<p>Belum ada pesanan.</p>";
-        return;
+    document.getElementById("orders-list").innerHTML = `
+        <div class="empty-orders">
+            <i data-lucide="package-open"></i>
+            <h3>Tidak ada pesanan</h3>
+            <p>Silakan buat pesanan untuk melihatnya di sini.</p>
+        </div>
+    `;
+
+    lucide.createIcons();
+    return;
     }
 
     let html = "";
