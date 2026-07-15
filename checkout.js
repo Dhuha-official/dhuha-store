@@ -1,6 +1,16 @@
 const tombol = document.getElementById("pesan-wa");
 
-tombol.onclick = function () {
+tombol.onclick = async function () {
+
+  const {
+    data: { user }
+  } = await window.supabaseClient.auth.getUser();
+
+  if (!user) {
+    alert("Silakan login terlebih dahulu.");
+    window.location.href = "login.html";
+    return;
+  }
 
   const nama = document.getElementById("nama").value;
   const telepon = document.getElementById("telepon").value;
@@ -14,13 +24,11 @@ tombol.onclick = function () {
   }
 
   let pesan = "Halo DHUHA,%0A%0ASaya ingin memesan:%0A%0A";
-
   let total = 0;
 
-  cart.forEach(item => {
+  for (const item of cart) {
 
     const qty = item.qty || 1;
-
     const harga = Number(item.price.replace(/[^\d]/g, ""));
 
     total += harga * qty;
@@ -31,7 +39,21 @@ tombol.onclick = function () {
       " - " + item.price +
       "%0A";
 
-  });
+    const { error } = await window.supabaseClient
+      .from("orders")
+      .insert({
+        user_id: user.id,
+        product_name: item.name,
+        price: harga,
+        quantity: qty,
+        total: harga * qty
+      });
+
+    if (error) {
+      alert("Gagal menyimpan pesanan: " + error.message);
+      return;
+    }
+  }
 
   pesan += "%0A";
   pesan += "Total : Rp" + total.toLocaleString("id-ID") + "%0A%0A";
@@ -39,9 +61,10 @@ tombol.onclick = function () {
   pesan += "No. WA : " + telepon + "%0A";
   pesan += "Alamat : " + alamat;
 
+  localStorage.removeItem("cart");
+
   window.open(
     "https://wa.me/6283191855735?text=" + pesan,
     "_blank"
   );
-
 };
