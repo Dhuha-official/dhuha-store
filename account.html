@@ -168,7 +168,9 @@ if (profile) {
 
     document.getElementById("phone").value =
         profile.phone || "";
-
+    
+document.getElementById("welcome-user").textContent =
+    "Hai, " + (profile.name || "User");
 }
       
     document.getElementById("login-btn").style.display = "none";
