@@ -148,15 +148,25 @@
 <a href="register.html" class="account-btn" id="register-btn">Daftar</a>
 
 </div>
+
+</div>
+
+<div class="profile-card" id="orders-card" style="display:none;">
+
+<h2>📦 Pesanan Saya</h2>
+
+<p>Belum ada pesanan.</p>
+
+</div>
+
+  </section>
 </section>
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
 <script>
 async function loadUser() {
-    const {
-        data: { user }
-    } = await window.supabaseClient.auth.getUser();
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
 
     if (!user) return;
 
@@ -168,20 +178,17 @@ async function loadUser() {
 }
 
 loadUser();
-  document.getElementById("logout-btn").addEventListener("click", async () => {
 
+document.getElementById("logout-btn").addEventListener("click", async () => {
     await window.supabaseClient.auth.signOut();
 
     alert("Logout berhasil");
-
     window.location.href = "login.html";
-
 });
-  </script>
-  document.getElementById("orders-tab").addEventListener("click", () => {
 
+document.getElementById("orders-tab").addEventListener("click", () => {
     document.getElementById("orders-card").style.display = "block";
-
 });
+    </script>
 </body>
 </html>
