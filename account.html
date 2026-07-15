@@ -74,7 +74,7 @@ Logout
 
 </div>
 
-<div class="profile-card" id="profile-card">
+<div class="profile-card" id="profile-card" style="display:none;">
 
 <h2>Info Profil Saya</h2>
 
@@ -307,14 +307,6 @@ document.getElementById("save-profile").addEventListener("click", async () => {
 
 });
 
-// Tab Profil
-document.getElementById("profile-tab").addEventListener("click", () => {
-
-    document.getElementById("profile-card").style.display = "block";
-    document.getElementById("orders-card").style.display = "none";
-    document.getElementById("settings-card").style.display = "none";
-
-});
 
 // Tab Pesanan
 document.getElementById("orders-tab").addEventListener("click", () => {
