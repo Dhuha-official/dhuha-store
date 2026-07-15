@@ -29,62 +29,33 @@
 
 <div class="account-tabs">
 
-<button class="tab active">👤 Profil</button>
+<button class="tab active" id="profile-tab">👤 Profil</button>
 
 <button class="tab" id="orders-tab">📦 Pesanan</button>
 
-<button class="tab">⚙️ Pengaturan</button>
+<button class="tab" id="settings-tab">⚙️ Pengaturan</button>
 
 <button class="tab" id="logout-btn">🚪 Logout</button>
+
 </div>
 
-<div class="profile-card">
+<div class="profile-card" id="profile-card">
 
 <h2>Info Profil Saya</h2>
 
 <input type="text" id="name" placeholder="Nama Lengkap">
 
-<input type="email" id="email" placeholder="Email">
-<input type="tel" placeholder="Nomor WhatsApp">
+<input type="email" id="email" placeholder="Email" readonly>
+
+<input type="tel" id="phone" placeholder="Nomor WhatsApp">
 
 <div class="birthday">
 
-<select>
+<select id="tanggal">
 <option>Tanggal</option>
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
-<option>5</option>
-<option>6</option>
-<option>7</option>
-<option>8</option>
-<option>9</option>
-<option>10</option>
-<option>11</option>
-<option>12</option>
-<option>13</option>
-<option>14</option>
-<option>15</option>
-<option>16</option>
-<option>17</option>
-<option>18</option>
-<option>19</option>
-<option>20</option>
-<option>21</option>
-<option>22</option>
-<option>23</option>
-<option>24</option>
-<option>25</option>
-<option>26</option>
-<option>27</option>
-<option>28</option>
-<option>29</option>
-<option>30</option>
-<option>31</option>
 </select>
 
-<select>
+<select id="bulan">
 <option>Bulan</option>
 <option>Januari</option>
 <option>Februari</option>
@@ -100,52 +71,19 @@
 <option>Desember</option>
 </select>
 
-<select>
+<select id="tahun">
 <option>Tahun</option>
-<option>2026</option>
-<option>2025</option>
-<option>2024</option>
-<option>2023</option>
-<option>2022</option>
-<option>2021</option>
-<option>2020</option>
-  <option>2019</option>
-<option>2018</option>
-<option>2017</option>
-<option>2016</option>
-<option>2015</option>
-<option>2014</option>
-<option>2013</option>
-<option>2012</option>
-<option>2011</option>
-<option>2010</option>
-<option>2009</option>
-<option>2008</option>
-<option>2007</option>
-<option>2006</option>
-<option>2005</option>
-<option>2004</option>
-<option>2003</option>
-<option>2002</option>
-<option>2001</option>
-<option>2000</option>
-<option>1999</option>
-<option>1998</option>
-<option>1997</option>
-<option>1996</option>
-<option>1995</option>
-<option>1994</option>
-<option>1993</option>
-<option>1992</option>
-<option>1991</option>
-<option>1990</option>
 </select>
 
 </div>
+
 <div class="account-buttons">
 
 <a href="login.html" class="account-btn" id="login-btn">Login</a>
+
 <a href="register.html" class="account-btn" id="register-btn">Daftar</a>
+
+</div>
 
 </div>
 
@@ -159,41 +97,59 @@
 
 </div>
 
-  </div>
-  
+</div>
+
+<div class="profile-card" id="settings-card" style="display:none;">
+
+<h2>⚙️ Pengaturan</h2>
+
+<p>Fitur pengaturan akan segera hadir.</p>
+
+</div>
+
 </section>
+
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
 <script src="supabase.js"></script>
 
 <script>
-async function loadUser() {
-    const { data: { user } } = await window.supabaseClient.auth.getUser();
+
+  async function loadUser() {
+
+    const { data: { user } } =
+        await window.supabaseClient.auth.getUser();
 
     if (!user) {
-    window.location.href = "login.html";
-    return;
+        window.location.href = "login.html";
+        return;
     }
 
-    document.getElementById("name").value = user.user_metadata?.name || "";
-    document.getElementById("email").value = user.email;
+    document.getElementById("name").value =
+        user.user_metadata?.name || "";
+
+    document.getElementById("email").value =
+        user.email;
 
     document.getElementById("login-btn").style.display = "none";
     document.getElementById("register-btn").style.display = "none";
 }
 
-loadUser();
-loadOrders();
 async function loadOrders() {
 
-    const { data: { user } } = await window.supabaseClient.auth.getUser();
+    const { data: { user } } =
+        await window.supabaseClient.auth.getUser();
 
     if (!user) return;
 
-    const { data, error } = await window.supabaseClient
-        .from("orders")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+    const { data, error } =
+        await window.supabaseClient
+            .from("orders")
+            .select("*")
+            .eq("user_id", user.id)
+            .order("created_at", {
+                ascending: false
+            });
 
     if (error) {
         document.getElementById("orders-list").innerHTML =
@@ -212,28 +168,84 @@ async function loadOrders() {
     data.forEach(order => {
 
         html += `
-        <div style="border:1px solid #ddd;padding:15px;border-radius:10px;margin-bottom:15px;">
+        <div class="order-item">
+
             <h3>${order.product_name}</h3>
-            <p>Jumlah: ${order.quantity}</p>
-            <p>Total: Rp ${Number(order.total).toLocaleString("id-ID")}</p>
-            <p>Status: <strong>${order.status}</strong></p>
+
+            <p>Jumlah : ${order.quantity}</p>
+
+            <p>Total : Rp ${Number(order.total).toLocaleString("id-ID")}</p>
+
+            <p>Status :
+            <strong>${order.status}</strong>
+            </p>
+
         </div>
         `;
 
     });
 
     document.getElementById("orders-list").innerHTML = html;
-              }
-document.getElementById("logout-btn").addEventListener("click", async () => {
+
+}
+
+loadUser();
+loadOrders();
+
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+
     await window.supabaseClient.auth.signOut();
 
     alert("Logout berhasil");
+
     window.location.href = "login.html";
+
 });
 
-document.getElementById("orders-tab").addEventListener("click", () => {
-    document.getElementById("orders-card").style.display = "block";
+// Tab Profil
+document.getElementById("profile-tab").addEventListener("click", () => {
+
+    document.getElementById("profile-card").style.display = "block";
+    document.getElementById("orders-card").style.display = "none";
+    document.getElementById("settings-card").style.display = "none";
+
 });
-    </script>
+
+// Tab Pesanan
+document.getElementById("orders-tab").addEventListener("click", () => {
+
+    document.getElementById("profile-card").style.display = "none";
+    document.getElementById("orders-card").style.display = "block";
+    document.getElementById("settings-card").style.display = "none";
+
+});
+
+// Tab Pengaturan
+document.getElementById("settings-tab").addEventListener("click", () => {
+
+    document.getElementById("profile-card").style.display = "none";
+    document.getElementById("orders-card").style.display = "none";
+    document.getElementById("settings-card").style.display = "block";
+
+});
+
+// Isi pilihan tanggal
+for (let i = 1; i <= 31; i++) {
+
+    document.getElementById("tanggal").innerHTML +=
+        `<option>${i}</option>`;
+
+}
+
+// Isi pilihan tahun
+const tahun = new Date().getFullYear();
+
+for (let i = tahun; i >= 1990; i--) {
+
+    document.getElementById("tahun").innerHTML +=
+        `<option>${i}</option>`;
+
+  }</script>
+
 </body>
 </html>
