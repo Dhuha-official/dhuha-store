@@ -182,7 +182,47 @@ async function loadUser() {
 }
 
 loadUser();
+async function loadOrders() {
 
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    const { data, error } = await window.supabaseClient
+        .from("orders")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        document.getElementById("orders-list").innerHTML =
+            "<p>Gagal memuat pesanan.</p>";
+        return;
+    }
+
+    if (data.length === 0) {
+        document.getElementById("orders-list").innerHTML =
+            "<p>Belum ada pesanan.</p>";
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(order => {
+
+        html += `
+        <div style="border:1px solid #ddd;padding:15px;border-radius:10px;margin-bottom:15px;">
+            <h3>${order.product_name}</h3>
+            <p>Jumlah: ${order.quantity}</p>
+            <p>Total: Rp ${Number(order.total).toLocaleString("id-ID")}</p>
+            <p>Status: <strong>${order.status}</strong></p>
+        </div>
+        `;
+
+    });
+
+    document.getElementById("orders-list").innerHTML = html;
+              }
 document.getElementById("logout-btn").addEventListener("click", async () => {
     await window.supabaseClient.auth.signOut();
 
