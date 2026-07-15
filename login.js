@@ -4,7 +4,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { error } = await window.supabaseClient.auth.signInWithPassword({
     email,
     password
   });
