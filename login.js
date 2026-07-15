@@ -4,8 +4,6 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    alert(email);
-    alert(password);
 
     try {
         const { data, error } = await window.supabaseClient.auth.signInWithPassword({
@@ -18,7 +16,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
             return;
         }
 
-        alert("Login berhasil");
+    
         window.location.href = "account.html";
 
     } catch (err) {
