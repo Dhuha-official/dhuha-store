@@ -14,9 +14,14 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     try {
 
         const { data, error } = await window.supabaseClient.auth.signUp({
-            email,
-            password
-        });
+    email,
+    password,
+    options: {
+        data: {
+            name: name
+        }
+    }
+});
 
         if (error) {
             alert(error.message);
