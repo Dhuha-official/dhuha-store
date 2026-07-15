@@ -179,8 +179,6 @@ document.getElementById("welcome-user").textContent =
 
 async function loadOrders() {
 
-    const { data: { user } } =
-        await window.supabaseClient.auth.getUser();
 const { data: { session } } =
     await window.supabaseClient.auth.getSession();
 
