@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
-  <script src="https://unpkg.com/lucide@latest"></script>
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DHUHA Store</title>
 
 <link rel="stylesheet" href="style.css">
-
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -18,12 +18,17 @@
 <h1>DHUHA</h1>
 </div>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="account.html">Account</a>
-</nav>
+<nav class="nav-icons">
 
+<a href="index.html">
+<i data-lucide="house"></i>
+</a>
+
+<a href="account.html">
+<i data-lucide="user"></i>
+</a>
+
+</nav>
 </header>
 
 <section class="hero">
@@ -54,6 +59,9 @@ SHOP NOW
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
-
+<script>
+lucide.createIcons();
+</script>
+  
 </body>
 </html>
