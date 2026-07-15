@@ -182,6 +182,7 @@ async function loadUser() {
 }
 
 loadUser();
+loadOrders();
 async function loadOrders() {
 
     const { data: { user } } = await window.supabaseClient.auth.getUser();
