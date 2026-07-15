@@ -814,3 +814,60 @@ transition:.3s;
 transform:scale(1.1);
 opacity:.7;
    }
+/* ===== Account Header ===== */
+
+.account-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+position:relative;
+}
+
+.settings-menu{
+position:relative;
+}
+
+.setting-btn{
+background:none;
+border:none;
+font-size:15px;
+font-weight:500;
+cursor:pointer;
+color:#000;
+}
+
+/* ===== Dropdown ===== */
+
+.settings-dropdown{
+display:none;
+position:absolute;
+top:38px;
+right:0;
+width:190px;
+background:#fff;
+border:1px solid #eee;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+overflow:hidden;
+z-index:999;
+}
+
+.settings-dropdown.show{
+display:block;
+}
+
+.settings-dropdown button{
+width:100%;
+padding:14px 18px;
+background:#fff;
+border:none;
+text-align:left;
+cursor:pointer;
+font-size:14px;
+transition:.25s;
+}
+
+.settings-dropdown button:hover{
+background:#f7f7f7;
+   }
