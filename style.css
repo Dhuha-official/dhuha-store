@@ -844,3 +844,25 @@ right:0;
 }
 
 }
+.empty-orders{
+text-align:center;
+padding:60px 20px;
+}
+
+.empty-orders svg{
+width:56px;
+height:56px;
+stroke:#999;
+margin-bottom:15px;
+}
+
+.empty-orders h3{
+font-size:22px;
+margin-bottom:8px;
+color:#111;
+}
+
+.empty-orders p{
+font-size:15px;
+color:#777;
+   }
