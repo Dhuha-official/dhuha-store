@@ -31,7 +31,7 @@
 
 <button class="tab active">👤 Profil</button>
 
-<button class="tab">📦 Pesanan</button>
+<button class="tab" id="orders-tab">📦 Pesanan</button>
 
 <button class="tab">⚙️ Pengaturan</button>
 
@@ -178,5 +178,10 @@ loadUser();
 
 });
   </script>
+  document.getElementById("orders-tab").addEventListener("click", () => {
+
+    document.getElementById("orders-card").style.display = "block";
+
+});
 </body>
 </html>
