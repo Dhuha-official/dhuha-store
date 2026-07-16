@@ -23,11 +23,17 @@ async function loadProducts() {
 
     data.forEach(product => {
         container.innerHTML += `
-        <div class="product">
-            <img src="${product.image_url}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <p>Rp ${Number(product.price).toLocaleString("id-ID")}</p>
-        </div>`;
+<div class="product">
+    <img src="${product.image_url}" alt="${product.name}" class="product-image">
+
+    <h3>${product.name}</h3>
+
+    <p>Rp ${Number(product.price).toLocaleString("id-ID")}</p>
+
+    <a href="product.html?id=${product.id}" class="btn-product">
+        Lihat Produk
+    </a>
+</div>`;
     });
 }
 
