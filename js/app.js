@@ -1,5 +1,5 @@
 async function loadProducts() {
-
+console.log("App.js berjalan");
   const productList = document.getElementById("product-list");
 
   if (!productList) return;
@@ -8,7 +8,9 @@ async function loadProducts() {
     await window.supabaseClient
       .from("products")
       .select("*");
-
+  
+console.log(products);
+console.log(error);
   if (error) {
     console.error(error);
     return;
