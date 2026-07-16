@@ -7,22 +7,28 @@
 
 <link rel="stylesheet" href="style.css">
 </head>
-
+<script src="https://unpkg.com/lucide@latest"></script>
 <body>
 
-<header class="navbar">
+<header>
 
-<div class="logo">DHUHA</div>
+<div class="logo">
+<h1>DHUHA</h1>
+</div>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="cart.html">Cart</a>
-<a href="login.html">Account</a>
+<nav class="nav-icons">
+
+<a href="index.html">
+<i data-lucide="house"></i>
+</a>
+
+<a href="account.html">
+<i data-lucide="user"></i>
+</a>
+
 </nav>
 
 </header>
-
 <section class="shop-title">
 
 <h1>DHUHA COLLECTION</h1>
@@ -51,8 +57,12 @@
 
 </section>
 
-<script src="products.js"></script>
-<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+lucide.createIcons();
+</script>
 
 </body>
 </html>
