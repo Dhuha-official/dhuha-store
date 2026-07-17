@@ -1,84 +1,104 @@
+let allProducts = [];
+
 async function loadProducts() {
 
-  const productList = document.getElementById("product-list");
+    try {
 
-  if (!productList) return;
+        const response = await fetch("data/products.json");
 
-  try {
+        allProducts = await response.json();
 
-    const response = await fetch("data/products.json");
-    const products = await response.json();
+        renderProducts(allProducts);
+
+    } catch (err) {
+
+        console.error(err);
+
+        document.getElementById("product-list").innerHTML =
+        "<p style='text-align:center'>Produk gagal dimuat.</p>";
+
+    }
+
+}
+
+function renderProducts(products){
+
+    const productList = document.getElementById("product-list");
 
     productList.innerHTML = "";
 
-    products.forEach(product => {
+    products.forEach(product=>{
 
-      productList.innerHTML += `
-        <div class="product">
+        productList.innerHTML += `
 
-          <img src="${product.image}" alt="${product.name}" class="product-image">
+<div class="product">
 
-          <h3>${product.name}</h3>
+<img src="${product.image}" alt="${product.name}">
 
-          <p>Rp ${Number(product.price).toLocaleString("id-ID")}</p>
+<h3>${product.name}</h3>
 
-          <a href="product.html?id=${product.id}" class="btn-product">
-            Lihat Produk
-          </a>
+<p>Rp ${Number(product.price).toLocaleString("id-ID")}</p>
 
-          <button class="btn-cart" onclick="addToCart(${product.id})">
-            Tambah ke Keranjang
-          </button>
+<a class="btn-product"
+href="product.html?id=${product.id}">
 
-        </div>
-      `;
+Lihat Produk
+
+</a>
+
+<button class="btn-cart"
+onclick="addToCart(${product.id})">
+
+Tambah ke Keranjang
+
+</button>
+
+</div>
+
+`;
 
     });
 
-    window.products = products;
+}
 
-  } catch (err) {
+function filterProducts(category){
 
-    console.error(err);
+    if(category==="Semua"){
 
-    productList.innerHTML =
-      "<h2>Produk gagal dimuat.</h2>";
+        renderProducts(allProducts);
 
-  }
+        return;
+
+    }
+
+    const filtered = allProducts.filter(product=>product.category===category);
+
+    renderProducts(filtered);
 
 }
 
-function addToCart(id) {
+function addToCart(id){
 
-  const product = window.products.find(p => p.id == id);
+    const product = allProducts.find(item=>item.id===id);
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  const existing = cart.find(item => item.id == id);
+    const existing = cart.find(item=>item.id===id);
 
-  if (existing) {
+    if(existing){
 
-    existing.qty += 1;
+        existing.qty++;
 
-  } else {
+    }else{
 
-    cart.push({
-      ...product,
-      qty: 1
-    });
+        cart.push({
 
-  }
+            ...product,
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+            qty:1
 
-  alert(product.name + " berhasil ditambahkan.");
+        });
 
-}
+    }
 
-loadProducts();
-const filterBtn = document.getElementById("filter-btn");
-const filterPanel = document.getElementById("filter-panel");
-
-filterBtn.onclick = () => {
-    filterPanel.classList.toggle("show");
-};
+    localStorage.setItem("cart
