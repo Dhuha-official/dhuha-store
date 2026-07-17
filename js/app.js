@@ -76,3 +76,9 @@ function addToCart(id) {
 }
 
 loadProducts();
+const filterBtn = document.getElementById("filter-btn");
+const filterPanel = document.getElementById("filter-panel");
+
+filterBtn.onclick = () => {
+    filterPanel.classList.toggle("show");
+};
