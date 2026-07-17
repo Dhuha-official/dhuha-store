@@ -866,3 +866,36 @@ color:#111;
 font-size:15px;
 color:#777;
 }
+/* FILTER KATEGORI */
+
+.filter{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    padding:20px;
+    margin-bottom:20px;
+    scrollbar-width:none;
+}
+
+.filter::-webkit-scrollbar{
+    display:none;
+}
+
+.filter button{
+    flex:0 0 auto;
+    padding:12px 24px;
+    border:none;
+    border-radius:50px;
+    background:#111;
+    color:#fff;
+    font-size:15px;
+    font-weight:500;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.filter button:hover,
+.filter button.active{
+    background:#d4af37;
+    color:#fff;
+   }
