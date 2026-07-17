@@ -1,42 +1,77 @@
 async function loadProducts() {
-console.log("App.js berjalan");
+
   const productList = document.getElementById("product-list");
 
   if (!productList) return;
 
-  const { data: products, error } =
-    await window.supabaseClient
-      .from("products")
-      .select("*");
-  
-console.log(products);
-console.log(error);
-  if (error) {
-    console.error(error);
-    return;
+  try {
+
+    const response = await fetch("data/products.json");
+    const products = await response.json();
+
+    productList.innerHTML = "";
+
+    products.forEach(product => {
+
+      productList.innerHTML += `
+        <div class="product">
+
+          <img src="${product.image}" alt="${product.name}" class="product-image">
+
+          <h3>${product.name}</h3>
+
+          <p>Rp ${Number(product.price).toLocaleString("id-ID")}</p>
+
+          <a href="product.html?id=${product.id}" class="btn-product">
+            Lihat Produk
+          </a>
+
+          <button class="btn-cart" onclick="addToCart(${product.id})">
+            Tambah ke Keranjang
+          </button>
+
+        </div>
+      `;
+
+    });
+
+    window.products = products;
+
+  } catch (err) {
+
+    console.error(err);
+
+    productList.innerHTML =
+      "<h2>Produk gagal dimuat.</h2>";
+
   }
 
-  productList.innerHTML = "";
+}
 
-  products.forEach(product => {
+function addToCart(id) {
 
-    productList.innerHTML += `
-      <div class="product">
+  const product = window.products.find(p => p.id == id);
 
-        <img src="${product.image_url}" alt="${product.name}">
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        <h3>${product.name}</h3>
+  const existing = cart.find(item => item.id == id);
 
-        <p>Rp ${Number(product.price).toLocaleString("id-ID")}</p>
+  if (existing) {
 
-        <a href="product.html?id=${product.id}" class="btn-product">
-          Lihat Produk
-        </a>
+    existing.qty += 1;
 
-      </div>
-    `;
+  } else {
 
-  });
+    cart.push({
+      ...product,
+      qty: 1
+    });
+
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  alert(product.name + " berhasil ditambahkan.");
 
 }
 
