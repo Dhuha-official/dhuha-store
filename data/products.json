@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "DHUHA Oversize Black",
+    "price": 149000,
+    "image": "images/oversize/cat/oversize-cat1.png",
+    "category": "Kaos",
+    "description": "Cotton Combed 24s Premium"
+  },
+  {
+    "id": 2,
+    "name": "DHUHA Royal",
+    "price": 249000,
+    "image": "images/parfum/royal.png",
+    "category": "Parfum",
+    "description": "Royal Classy Scent"
+  }
+]
