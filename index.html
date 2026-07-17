@@ -2,63 +2,174 @@
 <html lang="id">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DHUHA Store</title>
 
-<link rel="stylesheet" href="css/style.css">
-  
-  <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>DHUHA | Built With Faith</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 
 <body>
 
-<header>
+<header class="header">
 
 <div class="logo">
-<h1>DHUHA</h1>
-</div>
 
-<nav class="nav-icons">
+<a href="index.html">
 
-<a href="account.html" class="nav-icon">
-<i data-lucide="user"></i>
+<img src="images/logo.png"
+alt="DHUHA">
+
 </a>
 
-</nav>
+</div>
+
+<div class="header-icons">
+
+<button class="icon-btn">
+
+<i data-lucide="search"></i>
+
+</button>
+
+<a href="account.html"
+class="icon-btn">
+
+<i data-lucide="user"></i>
+
+</a>
+
+<a href="cart.html"
+class="icon-btn">
+
+<i data-lucide="shopping-bag"></i>
+
+</a>
+
+</div>
+
 </header>
 
 <section class="hero">
 
-<img src="images/banner.png" alt="DHUHA Banner">
+<div class="slider">
+
+<div class="slide active">
+
+<img src="images/banner1.jpg">
 
 <div class="hero-content">
 
-<h1>DHUHA COLLECTION</h1>
+<h1>
 
-<p>Built With Faith</p>
+BUILT WITH FAITH
 
-<a href="shop.html" class="btn-shop">
+</h1>
+
+<p>
+
+Premium Fashion &
+Fragrance
+
+</p>
+
+<a href="shop.html"
+class="hero-btn">
+
 SHOP NOW
+
 </a>
 
 </div>
 
+</div>
+
+<div class="slide">
+
+<img src="images/banner2.jpg">
+
+<div class="hero-content">
+
+<h1>
+
+NEW COLLECTION
+
+</h1>
+
+<p>
+
+Minimalist Style
+
+</p>
+
+<a href="shop.html"
+class="hero-btn">
+
+SHOP NOW
+
+</a>
+
+</div>
+
+</div>
+
+<div class="slide">
+
+<img src="images/banner3.jpg">
+
+<div class="hero-content">
+
+<h1>
+
+ROYAL PERFUME
+
+</h1>
+
+<p>
+
+Luxury Scent
+
+</p>
+
+<a href="shop.html"
+class="hero-btn">
+
+SHOP NOW
+
+</a>
+
+</div>
+
+</div>
+
+<div class="dots">
+
+<span class="dot active"></span>
+
+<span class="dot"></span>
+
+<span class="dot"></span>
+
+</div>
+
+</div>
+
 </section>
-
-<section class="products" id="product-list-section">
-
-<h2>New Collection</h2>
-
-<div id="product-list"></div>
-
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase.js"></script>
-<script>
-lucide.createIcons();
-</script>
-  
-</body>
-</html>
