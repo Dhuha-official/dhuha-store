@@ -1,53 +1,50 @@
-const params = new URLSearchParams(window.location.search);
-const productId = params.get("id");
+let productData = null;
 
-async function loadProduct() {
+async function loadProduct(){
 
-  const { data: product, error } = await window.supabaseClient
-    .from("products")
-    .select("*")
-    .eq("id", productId)
-    .single();
+    const params = new URLSearchParams(window.location.search);
 
-  if (error || !product) {
-    document.body.innerHTML = "<h2>Produk tidak ditemukan</h2>";
-    return;
-  }
+    const id = Number(params.get("id"));
 
-  document.getElementById("product-image").src = product.image_url;
-  document.getElementById("product-name").textContent = product.name;
-  document.getElementById("product-price").textContent =
-    "Rp " + Number(product.price).toLocaleString("id-ID");
+    try{
 
-  if (document.getElementById("product-description")) {
-    document.getElementById("product-description").textContent =
-      product.description || "";
-  }
+        const response = await fetch("data/products.json");
 
-  document.getElementById("add-cart").onclick = () => {
+        const products = await response.json();
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        productData = products.find(item=>item.id===id);
 
-    const existing = cart.find(item => item.id == product.id);
+        if(!productData){
 
-    if (existing) {
-      existing.qty += 1;
-    } else {
-      cart.push({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image_url,
-        qty: 1
-      });
+            document.body.innerHTML="<h2 style='text-align:center;padding:50px'>Produk tidak ditemukan</h2>";
+
+            return;
+
+        }
+
+        document.getElementById("product-image").src=productData.image;
+
+        document.getElementById("product-name").textContent=productData.name;
+
+        document.getElementById("product-price").textContent=
+        "Rp "+Number(productData.price).toLocaleString("id-ID");
+
+        const desc=document.getElementById("product-description");
+
+        if(desc){
+
+            desc.textContent=productData.description;
+
+        }
+
+    }catch(err){
+
+        console.error(err);
+
     }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    alert("Produk berhasil ditambahkan ke keranjang.");
-
-  };
 
 }
 
-loadProduct();
+function addToCart(){
+
+    let
