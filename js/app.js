@@ -1,104 +1,85 @@
-let allProducts = [];
+async function loadHomeProducts(){
 
-async function loadProducts() {
+    const response = await fetch("data/products.json");
 
-    try {
+    const products = await response.json();
 
-        const response = await fetch("data/products.json");
+    const home = document.getElementById("home-products");
 
-        allProducts = await response.json();
+    const best = document.getElementById("best-products");
 
-        renderProducts(allProducts);
+    if(home){
 
-    } catch (err) {
+        home.innerHTML = "";
 
-        console.error(err);
+        products.slice(0,4).forEach(product=>{
 
-        document.getElementById("product-list").innerHTML =
-        "<p style='text-align:center'>Produk gagal dimuat.</p>";
+            home.innerHTML += createCard(product);
+
+        });
+
+    }
+
+    if(best){
+
+        best.innerHTML = "";
+
+        products.slice(4,8).forEach(product=>{
+
+            best.innerHTML += createCard(product);
+
+        });
 
     }
 
 }
 
-function renderProducts(products){
+function createCard(product){
 
-    const productList = document.getElementById("product-list");
+return `
 
-    productList.innerHTML = "";
+<div class="product-card">
 
-    products.forEach(product=>{
+<div class="product-image">
 
-        productList.innerHTML += `
+<img src="${product.image}">
 
-<div class="product">
+<span class="badge">
 
-<img src="${product.image}" alt="${product.name}">
+NEW
 
-<h3>${product.name}</h3>
+</span>
 
-<p>Rp ${Number(product.price).toLocaleString("id-ID")}</p>
+</div>
 
-<a class="btn-product"
+<div class="product-info">
+
+<h3>
+
+${product.name}
+
+</h3>
+
+<div class="product-price">
+
+Rp ${Number(product.price).toLocaleString("id-ID")}
+
+</div>
+
+<a class="product-btn"
+
 href="product.html?id=${product.id}">
 
 Lihat Produk
 
 </a>
 
-<button class="btn-cart"
-onclick="addToCart(${product.id})">
-
-Tambah ke Keranjang
-
-</button>
+</div>
 
 </div>
 
 `;
 
-    });
-
 }
 
-function filterProducts(category){
-
-    if(category==="Semua"){
-
-        renderProducts(allProducts);
-
-        return;
-
-    }
-
-    const filtered = allProducts.filter(product=>product.category===category);
-
-    renderProducts(filtered);
-
-}
-
-function addToCart(id){
-
-    const product = allProducts.find(item=>item.id===id);
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const existing = cart.find(item=>item.id===id);
-
-    if(existing){
-
-        existing.qty++;
-
-    }else{
-
-        cart.push({
-
-            ...product,
-
-            qty:1
-
-        });
-
-    }
-
-    localStorage.setItem("cart
+loadHomeProducts();
