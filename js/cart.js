@@ -1,97 +1,116 @@
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function loadCart() {
 
-const cartList = document.getElementById("cart-list");
-const cartTotal = document.getElementById("cart-total");
+    const cartList = document.getElementById("cart-list");
+    const totalText = document.getElementById("cart-total");
 
-renderCart();
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function renderCart(){
+    cartList.innerHTML = "";
 
-cartList.innerHTML = "";
+    let total = 0;
 
-let total = 0;
+    if (cart.length === 0) {
 
-if(cart.length===0){
-cartList.innerHTML="<p>Keranjang masih kosong.</p>";
-cartTotal.innerHTML="Total : Rp0";
-return;
-}
+        cartList.innerHTML = `
+        <div class="empty-cart">
+            <h3>Keranjang masih kosong</h3>
+            <p>Yuk mulai belanja di DHUHA.</p>
+        </div>
+        `;
 
-cart.forEach((product,index)=>{
+        totalText.innerText = "Total : Rp 0";
 
-const qty = product.qty || 1;
+        return;
 
-const harga = Number(product.price.replace(/[^\d]/g,""));
+    }
 
-const subtotal = harga * qty;
+    cart.forEach((item, index) => {
 
-total += subtotal;
+        total += item.price * item.qty;
 
-cartList.innerHTML += `
+        cartList.innerHTML += `
+
 <div class="cart-item">
 
-<img src="${product.image}" alt="${product.name}">
+<img src="${item.image}" alt="${item.name}">
 
-<div>
+<div class="cart-info">
 
-<h2>${product.name}</h2>
+<h3>${item.name}</h3>
 
-<p>${product.price}</p>
+<p>Rp ${Number(item.price).toLocaleString("id-ID")}</p>
 
-<p>Qty : ${qty}</p>
+<div class="qty-box">
 
-<p>Subtotal : Rp${subtotal.toLocaleString("id-ID")}</p>
+<button onclick="minusQty(${index})">−</button>
 
-<button onclick="kurang(${index})">-</button>
+<span>${item.qty}</span>
 
-<button onclick="tambah(${index})">+</button>
+<button onclick="plusQty(${index})">+</button>
 
-<button class="btn-delete" onclick="hapus(${index})">Hapus</button>
+</div>
+
+<button class="remove-btn" onclick="removeItem(${index})">
+
+Hapus
+
+</button>
 
 </div>
 
 </div>
+
 `;
 
-});
+    });
 
-cartTotal.innerHTML =
-"Total : Rp"+total.toLocaleString("id-ID");
-
-}
-
-function tambah(index){
-
-cart[index].qty = (cart[index].qty||1)+1;
-
-localStorage.setItem("cart",JSON.stringify(cart));
-
-renderCart();
+    totalText.innerText =
+        "Total : Rp " + total.toLocaleString("id-ID");
 
 }
 
-function kurang(index){
+function plusQty(index){
 
-cart[index].qty = cart[index].qty||1;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-if(cart[index].qty>1){
-cart[index].qty--;
-}else{
-cart.splice(index,1);
-}
+    cart[index].qty++;
 
-localStorage.setItem("cart",JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-renderCart();
+    loadCart();
 
 }
 
-function hapus(index){
+function minusQty(index){
 
-cart.splice(index,1);
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-localStorage.setItem("cart",JSON.stringify(cart));
+    if(cart[index].qty > 1){
 
-renderCart();
+        cart[index].qty--;
+
+    }else{
+
+        cart.splice(index,1);
+
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    loadCart();
 
 }
+
+function removeItem(index){
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.splice(index,1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    loadCart();
+
+}
+
+loadCart();
