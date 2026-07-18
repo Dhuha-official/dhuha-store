@@ -1,37 +1,43 @@
-document.getElementById("register-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.getElementById("register-btn").onclick = () => {
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
+    const name = document.getElementById("register-name").value.trim();
 
-    if (password !== confirmPassword) {
-        alert("Password dan konfirmasi password tidak sama.");
+    const email = document.getElementById("register-email").value.trim();
+
+    const password = document.getElementById("register-password").value;
+
+    const confirm = document.getElementById("register-confirm").value;
+
+    if (!name || !email || !password || !confirm) {
+
+        alert("Semua data wajib diisi.");
+
         return;
+
     }
 
-    try {
+    if (password !== confirm) {
 
-        const { data, error } = await window.supabaseClient.auth.signUp({
-    email,
-    password,
-    options: {
-        data: {
-            name: name
-        }
+        alert("Konfirmasi password tidak sama.");
+
+        return;
+
     }
-});
 
-        if (error) {
-            alert(error.message);
-            return;
-        }
+    const user = {
 
-        alert("Pendaftaran berhasil!");
-        window.location.href = "login.html";
+        name: name,
 
-    } catch (err) {
-        alert("Catch Error: " + err.message);
-    }
-});
+        email: email,
+
+        password: password
+
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("Pendaftaran berhasil.");
+
+    window.location.href = "login.html";
+
+};
