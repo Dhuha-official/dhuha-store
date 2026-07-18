@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Voucher | DHUHA Admin</title>
+
+<link rel="stylesheet" href="../css/global.css">
+
+<link rel="stylesheet" href="../css/admin.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<img src="../images/logo.png">
+
+<h2>DHUHA</h2>
+
+<p>Admin Panel</p>
+
+</div>
+
+<nav class="sidebar-menu">
+
+<a href="dashboard.html">
+
+<i data-lucide="layout-dashboard"></i>
+
+<span>Dashboard</span>
+
+</a>
+
+<a href="products.html">
+
+<i data-lucide="shopping-bag"></i>
+
+<span>Produk</span>
+
+</a>
+
+<a href="orders.html">
+
+<i data-lucide="package"></i>
+
+<span>Pesanan</span>
+
+</a>
+
+<a href="customers.html">
+
+<i data-lucide="users"></i>
+
+<span>Pelanggan</span>
+
+</a>
+
+<a href="banner.html">
+
+<i data-lucide="image"></i>
+
+<span>Banner</span>
+
+</a>
+
+<a href="voucher.html" class="active">
+
+<i data-lucide="ticket-percent"></i>
+
+<span>Voucher</span>
+
+</a>
+
+<a href="settings.html">
+
+<i data-lucide="settings"></i>
+
+<span>Pengaturan</span>
+
+</a>
+
+</nav>
+
+</aside>
+
+<main class="admin-content">
+
+<header class="admin-header">
+
+<h1>Kelola Voucher</h1>
+
+</header>
+<section class="dashboard-box">
+
+<form id="voucher-form" class="admin-form">
+
+<div class="form-group">
+
+<label>Kode Voucher</label>
+
+<input
+type="text"
+id="voucher-code"
+placeholder="Contoh : DHUHA10">
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label>Tipe Diskon</label>
+
+<select id="voucher-type">
+
+<option value="percent">
+
+Persentase (%)
+
+</option>
+
+<option value="nominal">
+
+Nominal (Rp)
+
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Nilai Diskon</label>
+
+<input
+type="number"
+id="voucher-value">
+
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label>Berlaku Sampai</label>
+
+<input
+type="date"
+id="voucher-expired">
+
+</div>
+
+<div class="form-group">
+
+<label>Maksimal Digunakan</label>
+
+<input
+type="number"
+id="voucher-limit">
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+<input
+type="checkbox"
+id="voucher-active"
+checked>
+
+Voucher Aktif
+
+</label>
+
+</div>
+
+<button
+type="submit"
+class="btn">
+
+Simpan Voucher
+
+</button>
+
+</form>
+
+  </section>
+  </main>
+
+</div>
+
+<script src="../js/admin-voucher.js"></script>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
+</body>
+
+</html>
