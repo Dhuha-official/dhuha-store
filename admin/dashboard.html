@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DHUHA Admin</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/admin.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<img src="../images/logo.png" alt="DHUHA">
+
+<h2>DHUHA</h2>
+
+<p>Admin Panel</p>
+
+</div>
+
+<nav class="sidebar-menu">
+
+<a href="dashboard.html" class="active">
+
+<i data-lucide="layout-dashboard"></i>
+
+<span>Dashboard</span>
+
+</a>
+
+<a href="products.html">
+
+<i data-lucide="shopping-bag"></i>
+
+<span>Produk</span>
+
+</a>
+
+<a href="categories.html">
+
+<i data-lucide="grid-2x2"></i>
+
+<span>Kategori</span>
+
+</a>
+
+<a href="orders.html">
+
+<i data-lucide="package"></i>
+
+<span>Pesanan</span>
+
+</a>
+
+<a href="customers.html">
+
+<i data-lucide="users"></i>
+
+<span>Pelanggan</span>
+
+</a>
+
+<a href="banner.html">
+
+<i data-lucide="image"></i>
+
+<span>Banner</span>
+
+</a>
+
+<a href="voucher.html">
+
+<i data-lucide="ticket-percent"></i>
+
+<span>Voucher</span>
+
+</a>
+
+<a href="settings.html">
+
+<i data-lucide="settings"></i>
+
+<span>Pengaturan</span>
+
+</a>
+
+<a href="login.html">
+
+<i data-lucide="log-out"></i>
+
+<span>Logout</span>
+
+</a>
+
+</nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="admin-content">
+
+<header class="admin-header">
+
+<h1>Dashboard</h1>
+
+<div class="admin-user">
+
+<img src="../images/profile.png">
+
+<span>Administrator</span>
+
+</div>
+
+</header>
+<header class="admin-header">
+
+<h1>Dashboard</h1>
+
+<div class="admin-user">
+
+<img src="../images/profile.png">
+
+<span>Administrator</span>
+
+</div>
+
+</header>
+<!-- STATISTICS -->
+
+<section class="dashboard-cards">
+
+<div class="card">
+
+<div class="card-icon">
+
+<i data-lucide="shopping-bag"></i>
+
+</div>
+
+<div class="card-info">
+
+<h3>Total Produk</h3>
+
+<h2 id="total-products">0</h2>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-icon">
+
+<i data-lucide="package"></i>
+
+</div>
+
+<div class="card-info">
+
+<h3>Total Pesanan</h3>
+
+<h2 id="total-orders">0</h2>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-icon">
+
+<i data-lucide="users"></i>
+
+</div>
+
+<div class="card-info">
+
+<h3>Total Pelanggan</h3>
+
+<h2 id="total-customers">0</h2>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-icon">
+
+<i data-lucide="wallet"></i>
+
+</div>
+
+<div class="card-info">
+
+<h3>Pendapatan</h3>
+
+<h2 id="total-income">
+
+Rp 0
+
+</h2>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- DASHBOARD GRID -->
+
+<section class="dashboard-grid">
+
+<!-- SALES -->
+
+<div class="dashboard-box">
+
+<div class="box-header">
+
+<h2>Statistik Penjualan</h2>
+
+</div>
+
+<div class="chart-placeholder">
+
+<i data-lucide="line-chart"></i>
+
+<p>
+
+Grafik Penjualan
+
+</p>
+
+</div>
+
+</div>
+
+<!-- PRODUCT -->
+
+<div class="dashboard-box">
+
+<div class="box-header">
+
+<h2>Produk Terbaru</h2>
+
+<a href="products.html">
+
+Lihat Semua
+
+</a>
+
+</div>
+
+<div id="latest-products">
+
+<div class="loading">
+
+Loading...
+
+</div>
+
+</div>
+
+</div>
+
+  </section>
+  <!-- ORDERS -->
+
+<section class="dashboard-box">
+
+<div class="box-header">
+
+<h2>Pesanan Terbaru</h2>
+
+<a href="orders.html">
+
+Lihat Semua
+
+</a>
+
+</div>
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>No</th>
+
+<th>Pelanggan</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="latest-orders">
+
+<tr>
+
+<td colspan="4">
+
+Belum ada pesanan
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<!-- ACTIVITY -->
+
+<section class="dashboard-box">
+
+<div class="box-header">
+
+<h2>Aktivitas Terbaru</h2>
+
+</div>
+
+<ul class="activity-list">
+
+<li>
+
+<i data-lucide="shopping-bag"></i>
+
+Produk berhasil ditambahkan
+
+</li>
+
+<li>
+
+<i data-lucide="package"></i>
+
+Pesanan baru masuk
+
+</li>
+
+<li>
+
+<i data-lucide="users"></i>
+
+Pelanggan baru mendaftar
+
+</li>
+
+<li>
+
+<i data-lucide="badge-percent"></i>
+
+Voucher baru dibuat
+
+</li>
+
+</ul>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="../js/admin.js"></script>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
+</body>
+
+  </html>
