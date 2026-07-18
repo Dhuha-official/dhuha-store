@@ -80,3 +80,12 @@ JSON.stringify(settings)
 alert("Pengaturan berhasil disimpan.");
 
 });
+// ======================================
+// AUTO FOCUS
+// ======================================
+
+window.onload=()=>{
+
+document.getElementById("store-name").focus();
+
+};
