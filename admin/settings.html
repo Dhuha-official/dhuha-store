@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pengaturan | DHUHA Admin</title>
+
+<link rel="stylesheet" href="../css/global.css">
+
+<link rel="stylesheet" href="../css/admin.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<img src="../images/logo.png">
+
+<h2>DHUHA</h2>
+
+<p>Admin Panel</p>
+
+</div>
+
+<nav class="sidebar-menu">
+
+<a href="dashboard.html">
+
+<i data-lucide="layout-dashboard"></i>
+
+<span>Dashboard</span>
+
+</a>
+
+<a href="products.html">
+
+<i data-lucide="shopping-bag"></i>
+
+<span>Produk</span>
+
+</a>
+
+<a href="orders.html">
+
+<i data-lucide="package"></i>
+
+<span>Pesanan</span>
+
+</a>
+
+<a href="customers.html">
+
+<i data-lucide="users"></i>
+
+<span>Pelanggan</span>
+
+</a>
+
+<a href="banner.html">
+
+<i data-lucide="image"></i>
+
+<span>Banner</span>
+
+</a>
+
+<a href="voucher.html">
+
+<i data-lucide="ticket-percent"></i>
+
+<span>Voucher</span>
+
+</a>
+
+<a href="settings.html" class="active">
+
+<i data-lucide="settings"></i>
+
+<span>Pengaturan</span>
+
+</a>
+
+</nav>
+
+</aside>
+
+<main class="admin-content">
+
+<header class="admin-header">
+
+<h1>Pengaturan Website</h1>
+
+</header>
+<section class="dashboard-box">
+
+<form id="settings-form" class="admin-form">
+
+<div class="form-group">
+
+<label>Nama Brand</label>
+
+<input
+type="text"
+id="store-name"
+placeholder="DHUHA">
+
+</div>
+
+<div class="form-group">
+
+<label>Email Admin</label>
+
+<input
+type="email"
+id="store-email">
+
+</div>
+
+<div class="form-group">
+
+<label>Nomor WhatsApp</label>
+
+<input
+type="text"
+id="store-whatsapp">
+
+</div>
+
+<div class="form-group">
+
+<label>Instagram</label>
+
+<input
+type="text"
+id="store-instagram"
+placeholder="official.dhuha">
+
+</div>
+
+<div class="form-group">
+
+<label>TikTok</label>
+
+<input
+type="text"
+id="store-tiktok"
+placeholder="official.dhuha">
+
+</div>
+
+<div class="form-group">
+
+<label>Shopee</label>
+
+<input
+type="text"
+id="store-shopee">
+
+</div>
+
+<div class="form-group">
+
+<label>Tokopedia</label>
+
+<input
+type="text"
+id="store-tokopedia">
+
+</div>
+
+<div class="form-group">
+
+<label>Alamat Toko</label>
+
+<textarea
+id="store-address"
+rows="4"></textarea>
+
+</div>
+
+<button
+type="submit"
+class="btn">
+
+Simpan Pengaturan
+
+</button>
+
+</form>
+
+  </section>
+  </main>
+
+</div>
+
+<script src="../js/admin-settings.js"></script>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
+</body>
+
+</html>
