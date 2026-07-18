@@ -1,58 +1,92 @@
 <!DOCTYPE html>
+
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DHUHA | Daftar</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Daftar | DHUHA</title>
 
 <link rel="stylesheet" href="css/style.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 
 <body>
 
-<header>
+<header class="header">
 
 <div class="logo">
-<h1>DHUHA</h1>
-</div>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="cart.html">Cart</a>
-<a href="account.html">Account</a>
-</nav>
+<a href="index.html">
+
+<img src="images/logo.png">
+
+</a>
+
+</div>
 
 </header>
 
-<section class="login">
+<section class="auth-page">
 
-<h2>Buat Akun DHUHA</h2>
+<h1>Buat Akun</h1>
 
-<form id="register-form">
+<p>Daftar untuk mulai berbelanja di DHUHA.</p>
 
-<input type="text" id="name" placeholder="Nama Lengkap" required>
+<input
+type="text"
+id="register-name"
+placeholder="Nama Lengkap">
 
-<input type="email" id="email" placeholder="Email" required>
+<input
+type="email"
+id="register-email"
+placeholder="Email">
 
-<input type="password" id="password" placeholder="Password" required>
+<input
+type="password"
+id="register-password"
+placeholder="Password">
 
-<input type="password" id="confirm-password" placeholder="Konfirmasi Password" required>
-<button type="submit">
+<input
+type="password"
+id="register-confirm"
+placeholder="Konfirmasi Password">
+
+<button
+id="register-btn"
+class="buy-btn">
+
 Daftar
+
 </button>
 
-<p class="register-link">
+<p class="auth-link">
+
 Sudah punya akun?
-<a href="login.html">Masuk</a>
+
+<a href="login.html">
+
+Masuk
+
+</a>
+
 </p>
 
-</form>
+  <script src="js/register.js"></script>
 
-</section>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="js/supabase.js"></script>
-<script src="js/register.js"></script>
+<script>
+
+lucide.createIcons();
+
+</script>
+
 </body>
+
 </html>
+</section>
