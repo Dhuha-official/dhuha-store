@@ -1,32 +1,39 @@
-function loadCart() {
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const cartList = document.getElementById("cart-list");
-    const totalText = document.getElementById("cart-total");
+const cartList = document.getElementById("cart-list");
+const cartTotal = document.getElementById("cart-total");
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function renderCart() {
+
+    if (!cartList) return;
 
     cartList.innerHTML = "";
-
-    let total = 0;
 
     if (cart.length === 0) {
 
         cartList.innerHTML = `
-        <div class="empty-cart">
+        <div style="text-align:center;padding:60px 20px;">
             <h3>Keranjang masih kosong</h3>
-            <p>Yuk mulai belanja di DHUHA.</p>
+            <p>Yuk pilih produk favoritmu.</p>
+            <a href="shop.html" class="checkout-btn" style="margin-top:20px;display:inline-block;width:auto;padding:14px 24px;">
+                Belanja Sekarang
+            </a>
         </div>
         `;
 
-        totalText.innerText = "Total : Rp 0";
+        if (cartTotal) cartTotal.textContent = "Rp 0";
 
         return;
 
     }
 
+    let total = 0;
+
     cart.forEach((item, index) => {
 
-        total += item.price * item.qty;
+        const subtotal = item.price * item.qty;
+
+        total += subtotal;
 
         cartList.innerHTML += `
 
@@ -38,19 +45,23 @@ function loadCart() {
 
 <h3>${item.name}</h3>
 
-<p>Rp ${Number(item.price).toLocaleString("id-ID")}</p>
+<div class="cart-price">
 
-<div class="qty-box">
-
-<button onclick="minusQty(${index})">−</button>
-
-<span>${item.qty}</span>
-
-<button onclick="plusQty(${index})">+</button>
+Rp ${Number(item.price).toLocaleString("id-ID")}
 
 </div>
 
-<button class="remove-btn" onclick="removeItem(${index})">
+<div class="cart-qty">
+
+<button onclick="changeQty(${index},-1)">−</button>
+
+<span>${item.qty}</span>
+
+<button onclick="changeQty(${index},1)">+</button>
+
+</div>
+
+<button class="cart-remove" onclick="removeItem(${index})">
 
 Hapus
 
@@ -64,53 +75,52 @@ Hapus
 
     });
 
-    totalText.innerText =
-        "Total : Rp " + total.toLocaleString("id-ID");
+    if (cartTotal) {
+
+        cartTotal.textContent =
+
+        "Rp " + total.toLocaleString("id-ID");
+
+    }
 
 }
 
-function plusQty(index){
+function changeQty(index, value) {
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart[index].qty += value;
 
-    cart[index].qty++;
+    if (cart[index].qty <= 0) {
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    loadCart();
-
-}
-
-function minusQty(index){
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    if(cart[index].qty > 1){
-
-        cart[index].qty--;
-
-    }else{
-
-        cart.splice(index,1);
+        cart.splice(index, 1);
 
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    loadCart();
+    renderCart();
+
+    if (typeof updateCartBadge === "function") {
+
+        updateCartBadge();
+
+    }
 
 }
 
-function removeItem(index){
+function removeItem(index) {
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    cart.splice(index,1);
+    cart.splice(index, 1);
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    loadCart();
+    renderCart();
+
+    if (typeof updateCartBadge === "function") {
+
+        updateCartBadge();
+
+    }
 
 }
 
-loadCart();
+renderCart();
