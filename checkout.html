@@ -1,47 +1,202 @@
 <!DOCTYPE html>
+
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
 <title>Checkout | DHUHA</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+href="css/style.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 
 <body>
 
-<header class="navbar">
+<header class="header">
 
-<div class="logo">DHUHA</div>
+<div class="logo">
 
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="cart.html">Cart</a>
-<a href="login.html">Account</a>
-</nav>
+<a href="index.html">
+
+<img src="images/logo.png">
+
+</a>
+
+</div>
+
+<div class="header-icons">
+
+<a href="cart.html"
+class="icon-btn">
+
+<i data-lucide="arrow-left"></i>
+
+</a>
+
+</div>
 
 </header>
 
-<section class="checkout-page">
+<section class="checkout">
 
-<h1>Checkout</h1>
+<h2>
 
-<input type="text" id="nama" placeholder="Nama Lengkap">
+Checkout
 
-<input type="text" id="telepon" placeholder="Nomor WhatsApp">
+</h2>
 
-<textarea id="alamat" placeholder="Alamat Lengkap"></textarea>
+<div class="checkout-card">
 
-<button id="pesan-wa" class="checkout-btn">
-Pesan via WhatsApp
+<h3>
+
+Informasi Penerima
+
+</h3>
+
+<input
+type="text"
+placeholder="Nama Lengkap">
+
+<input
+type="text"
+placeholder="Nomor WhatsApp">
+
+<textarea
+placeholder="Alamat Lengkap"></textarea>
+
+</div>
+<div class="checkout-card">
+
+<h3>
+
+Metode Pengiriman
+
+</h3>
+
+<label>
+
+<input
+type="radio"
+name="shipping"
+checked>
+
+JNE
+
+</label>
+
+<label>
+
+<input
+type="radio"
+name="shipping">
+
+J&T
+
+</label>
+
+<label>
+
+<input
+type="radio"
+name="shipping">
+
+SiCepat
+
+</label>
+
+</div>
+
+<div class="checkout-card">
+
+<h3>
+
+Metode Pembayaran
+
+</h3>
+
+<label>
+
+<input
+type="radio"
+name="payment"
+checked>
+
+Transfer Bank
+
+</label>
+
+<label>
+
+<input
+type="radio"
+name="payment">
+
+QRIS
+
+</label>
+
+<label>
+
+<input
+type="radio"
+name="payment">
+
+COD
+
+</label>
+
+</div>
+<div class="checkout-card">
+
+<h3>
+
+Ringkasan Belanja
+
+</h3>
+
+<div id="checkout-list">
+
+</div>
+
+<div class="checkout-total">
+
+<span>Total</span>
+
+<strong id="checkout-total">
+
+Rp 0
+
+</strong>
+
+</div>
+
+<button
+class="buy-btn">
+
+Bayar Sekarang
+
 </button>
+
+</div>
 
 </section>
 
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="js/supabase.js"></script>
 <script src="js/checkout.js"></script>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
 </body>
+
 </html>
