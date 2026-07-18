@@ -1,26 +1,46 @@
-document.getElementById("login-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+document
+.getElementById("login-btn")
+.onclick = ()=>{
 
-    try {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+const email =
+document
+.getElementById("login-email")
+.value;
 
-        const { data, error } = await window.supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
+const password =
+document
+.getElementById("login-password")
+.value;
 
-        if (error) {
-            alert(error.message);
-            return;
-        }
+const user =
+JSON.parse(localStorage.getItem("user"));
 
-        alert("Login berhasil");
+if(!user){
 
-        window.location.href = "account.html";
+alert("Silakan daftar terlebih dahulu.");
 
-    } catch (err) {
-        alert("Error: " + err.message);
-        console.error(err);
-    }
-});
+return;
+
+}
+
+if(
+
+email===user.email &&
+
+password===user.password
+
+){
+
+localStorage.setItem("login","true");
+
+alert("Login berhasil.");
+
+window.location.href="account.html";
+
+}else{
+
+alert("Email atau password salah.");
+
+}
+
+};
