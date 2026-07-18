@@ -52,22 +52,26 @@ Rp ${Number(item.price).toLocaleString("id-ID")}
 </div>
 
 <div class="cart-qty">
+<div class="cart-action">
 
-<button onclick="changeQty(${index},-1)">−</button>
+<div class="cart-qty">
 
-<span>${item.qty}</span>
+<button class="qty-btn" onclick="changeQty(${index},-1)">−</button>
 
-<button onclick="changeQty(${index},1)">+</button>
+<span class="qty-number">${item.qty}</span>
+
+<button class="qty-btn" onclick="changeQty(${index},1)">+</button>
 
 </div>
 
-<button class="cart-remove" onclick="removeItem(${index})">
+<button class="remove-btn" onclick="removeItem(${index})">
 
 Hapus
 
 </button>
 
 </div>
+
 
 </div>
 
