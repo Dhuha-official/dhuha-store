@@ -1,14 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="id">
 
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
 <title>DHUHA | Product</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+href="css/style.css">
 
 <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -22,52 +26,153 @@
 
 <a href="index.html">
 
-<img src="images/Logo DH.png" alt="DHUHA">
+<img src="images/logo.png">
 
 </a>
 
 </div>
 
-<nav class="nav-icons">
+<div class="header-icons">
 
-<a href="shop.html">
+<a href="shop.html"
+class="icon-btn">
 
 <i data-lucide="arrow-left"></i>
 
 </a>
 
-<a href="cart.html">
+<a href="cart.html"
+class="icon-btn">
 
 <i data-lucide="shopping-bag"></i>
 
 </a>
 
-</nav>
+</div>
 
 </header>
 
-<section class="product-detail">
+<section class="product-page">
 
-<div class="product-image-box">
+<div class="product-slider">
 
-<img id="product-image" src="" alt="Product">
+<img
+id="product-image"
+src="">
 
 </div>
 
-<div class="product-info">
+<div class="product-detail">
 
 <h1 id="product-name"></h1>
 
-<p id="product-price"></p>
+<div
+class="price"
+id="product-price">
 
-<p id="product-description"></p>
+</div>
 
-<button id="add-cart">
+<p
+id="product-description">
 
-Tambah ke Keranjang
+</p>
+<div class="size-title">
+
+Ukuran
+
+</div>
+
+<div class="size-list">
+
+<button>S</button>
+
+<button>M</button>
+
+<button>L</button>
+
+<button>XL</button>
+
+</div>
+
+<div class="color-title">
+
+Warna
+
+</div>
+
+<div class="color-list">
+
+<div class="color black"></div>
+
+<div class="color white"></div>
+
+<div class="color beige"></div>
+
+</div>
+
+<div class="qty">
+
+<button id="minus">
+
+−
+
+</button>
+
+<span id="qty">
+
+1
+
+</span>
+
+<button id="plus">
+
++
 
 </button>
 
 </div>
 
-</section
+<button
+id="add-cart"
+class="buy-btn">
+
+Tambah ke Keranjang
+
+</button>
+
+<button
+class="checkout-btn">
+
+Beli Sekarang
+
+</button>
+
+</div>
+
+</section>
+<section class="related">
+
+<h2>
+
+Produk Lainnya
+
+</h2>
+
+<div
+id="related-products">
+
+</div>
+
+</section>
+
+<script src="js/product.js"></script>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
+</body>
+
+</html>
