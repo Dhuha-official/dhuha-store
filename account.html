@@ -1,368 +1,132 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akun | DHUHA</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DHUHA | Akun</title>
 
 <link rel="stylesheet" href="css/style.css">
+
 <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 
 <body>
 
-<header>
+<header class="header">
 
 <div class="logo">
-<h1>DHUHA</h1>
+
+<a href="index.html">
+
+<img src="images/logo.png">
+
+</a>
+
 </div>
 
-<nav class="nav-icons">
+<div class="header-icons">
 
-<a href="index.html" class="nav-icon">
+<a href="index.html" class="icon-btn">
+
 <i data-lucide="house"></i>
+
 </a>
 
-<a href="account.html" class="nav-icon">
-<i data-lucide="user"></i>
+<a href="cart.html" class="icon-btn">
+
+<i data-lucide="shopping-bag"></i>
+
 </a>
 
-</nav>
+</div>
 
 </header>
 
-<section class="account-page">
+<section class="account-header">
 
-<div class="account-header">
+<img src="images/profile.png" class="profile-photo">
 
-<h2 id="welcome-user">Hai, User</h2>
+<h2 id="user-name">Guest</h2>
 
-<div class="settings-menu">
+<p id="user-email">
 
-<button class="setting-btn" id="settings-tab">
-<i data-lucide="settings"></i>
-</button>
+Silakan login untuk melanjutkan
 
-<div class="settings-dropdown" id="settings-dropdown">
+</p>
 
-<button id="profile-setting">
-Info Profil
-</button>
+</section>
+<section class="account-menu">
 
-<button id="cart-setting">
-Keranjang
-</button>
+<a href="orders.html">
 
-<button id="status-setting">
-Status Pesanan
-</button>
-
-<button id="logout-btn">
-Logout
-</button>
-</div>
-
-</div>
-</div>
-<div class="account-menu">
-
-<button id="orders-tab" class="menu-btn">
 <i data-lucide="package"></i>
-<span>Pesanan</span>
-</button>
 
-<button id="wishlist-tab" class="menu-btn">
+<span>Pesanan Saya</span>
+
+<i data-lucide="chevron-right"></i>
+
+</a>
+
+<a href="wishlist.html">
+
 <i data-lucide="heart"></i>
+
 <span>Wishlist</span>
-</button>
 
-</div>
+<i data-lucide="chevron-right"></i>
 
-<div class="profile-card" id="profile-card" style="display:none;">
+</a>
 
-<h2>Info Profil Saya</h2>
+<a href="address.html">
 
-<input type="text" id="name" placeholder="Nama Lengkap">
+<i data-lucide="map-pin"></i>
 
-<input type="email" id="email" placeholder="Email" readonly>
+<span>Alamat</span>
 
-<input type="tel" id="phone" placeholder="Nomor WhatsApp">
+<i data-lucide="chevron-right"></i>
 
-<div class="birthday">
+</a>
 
-<div class="account-buttons">
-    <button class="account-btn" id="save-profile">
-        Simpan Profil
-    </button>
-</div>
-  
-<select id="tanggal">
-<option>Tanggal</option>
-</select>
+<a href="settings.html">
 
-<select id="bulan">
-<option>Bulan</option>
-<option>Januari</option>
-<option>Februari</option>
-<option>Maret</option>
-<option>April</option>
-<option>Mei</option>
-<option>Juni</option>
-<option>Juli</option>
-<option>Agustus</option>
-<option>September</option>
-<option>Oktober</option>
-<option>November</option>
-<option>Desember</option>
-</select>
+<i data-lucide="settings"></i>
 
-<select id="tahun">
-<option>Tahun</option>
-</select>
+<span>Pengaturan</span>
 
-</div>
+<i data-lucide="chevron-right"></i>
 
-<div class="account-buttons">
-
-<a href="login.html" class="account-btn" id="login-btn">Login</a>
-
-<a href="register.html" class="account-btn" id="register-btn">Daftar</a>
-
-</div>
-
-</div>
-
-<div class="profile-card" id="orders-card" style="display:none;">
-
-<h2>📦 Pesanan Saya</h2> 
-
-<div id="orders-list">
-
-<p>Memuat pesanan...</p>
-
-</div>
-
-</div>
-
-<div class="profile-card" id="settings-card" style="display:none;">
-
-<h2>⚙️ Pengaturan</h2>
-
-<p>Fitur pengaturan akan segera hadir.</p>
-
-</div>
+</a>
 
 </section>
 
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<section class="account-action">
 
-<script src="js/supabase.js"></script>
+<a href="login.html" class="buy-btn">
+
+Masuk
+
+</a>
+
+<a href="register.html" class="checkout-btn">
+
+Daftar
+
+</a>
+
+</section>
+<script src="js/account.js"></script>
 
 <script>
 
-  async function loadUser() {
-
-    const { data: { user } } =
-        await window.supabaseClient.auth.getUser();
-
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
-
-    document.getElementById("name").value =
-        user.user_metadata?.name || "";
-
-    document.getElementById("email").value =
-        user.email;
-
-const { data: profile } = await window.supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-if (profile) {
-
-    document.getElementById("name").value =
-        profile.name || "";
-
-    document.getElementById("phone").value =
-        profile.phone || "";
-    
-document.getElementById("welcome-user").textContent =
-    "Hai, " + (profile.name || "User");
-}
-      
-    document.getElementById("login-btn").style.display = "none";
-    document.getElementById("register-btn").style.display = "none";
-}
-
-async function loadOrders() {
-
-const { data: { session } } =
-    await window.supabaseClient.auth.getSession();
-
-console.log(session);
-
-const user = session?.user;
-    if (!user) return;
-
-    const { data, error } =
-        await window.supabaseClient
-            .from("orders")
-            .select("*")
-            .eq("user_id", user.id)
-            .order("created_at", {
-                ascending: false
-            });
-
-    if (error) {
-        document.getElementById("orders-list").innerHTML =
-            "<p>Gagal memuat pesanan.</p>";
-        return;
-    }
-
-    if (data.length === 0) {
-    document.getElementById("orders-list").innerHTML = `
-        <div class="empty-orders">
-            <i data-lucide="package-open"></i>
-            <h3>Tidak ada pesanan</h3>
-            <p>Silakan buat pesanan untuk melihatnya di sini.</p>
-        </div>
-    `;
-
-    lucide.createIcons();
-    return;
-    }
-
-    let html = "";
-
-    data.forEach(order => {
-
-        html += `
-        <div class="order-item">
-
-            <h3>${order.product_name}</h3>
-
-            <p>Jumlah : ${order.quantity}</p>
-
-            <p>Total : Rp ${Number(order.total).toLocaleString("id-ID")}</p>
-
-            <p>Status :
-            <strong>${order.status}</strong>
-            </p>
-
-        </div>
-        `;
-
-    });
-
-    document.getElementById("orders-list").innerHTML = html;
-
-}
-
-loadUser();
-loadOrders();
-
-document.getElementById("save-profile").addEventListener("click", async () => {
-
-    const { data: { user } } =
-        await window.supabaseClient.auth.getUser();
-
-    if (!user) return;
-
-    const name = document.getElementById("name").value;
-    const phone = document.getElementById("phone").value;
-
-    const tanggal = document.getElementById("tanggal").value;
-    const bulan = document.getElementById("bulan").selectedIndex;
-    const tahun = document.getElementById("tahun").value;
-
-    let birth_date = null;
-
-    if (bulan > 0 &&
-        tanggal !== "Tanggal" &&
-        tahun !== "Tahun") {
-
-        birth_date =
-            `${tahun}-${String(bulan).padStart(2, "0")}-${String(tanggal).padStart(2, "0")}`;
-    }
-
-    const { error } =
-        await window.supabaseClient
-            .from("profiles")
-            .upsert({
-                id: user.id,
-                name,
-                phone,
-                birth_date
-            });
-
-    if (error) {
-        alert(error.message);
-        return;
-    }
-
-    alert("Profil berhasil disimpan!");
-
-});
-        
-  document.getElementById("logout-btn").addEventListener("click", async () => {
-
-    await window.supabaseClient.auth.signOut();
-
-    alert("Logout berhasil");
-
-    window.location.href = "login.html";
-
-});
-
-
-// Tab Pesanan
-document.getElementById("orders-tab").addEventListener("click", () => {
-
-    document.getElementById("profile-card").style.display = "none";
-    document.getElementById("orders-card").style.display = "block";
-    document.getElementById("settings-card").style.display = "none";
-
-});
-
-// Tab Pengaturan
-document.getElementById("settings-tab").addEventListener("click", () => {
-
-    document.getElementById("settings-dropdown").classList.toggle("show");
-
-});
-    document.getElementById("profile-setting").addEventListener("click", () => {
-
-    document.getElementById("profile-card").style.display = "block";
-    document.getElementById("orders-card").style.display = "none";
-
-    document.getElementById("settings-dropdown").classList.remove("show");
-
-});
-
-// Isi pilihan tanggal
-for (let i = 1; i <= 31; i++) {
-
-    document.getElementById("tanggal").innerHTML +=
-        `<option>${i}</option>`;
-
-}
-
-// Isi pilihan tahun
-const tahun = new Date().getFullYear();
-
-for (let i = tahun; i >= 1990; i--) {
-
-    document.getElementById("tahun").innerHTML +=
-        `<option>${i}</option>`;
-
-  }</script>
-<script>
 lucide.createIcons();
+
 </script>
-    
+
 </body>
+
 </html>
