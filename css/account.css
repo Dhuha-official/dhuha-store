@@ -1,0 +1,235 @@
+/* =========================
+ACCOUNT PAGE
+========================= */
+
+.account-page{
+
+padding:90px 20px 110px;
+
+max-width:800px;
+
+margin:auto;
+
+}
+
+/* =========================
+PROFILE
+========================= */
+
+.account-header{
+
+text-align:center;
+
+background:#fff;
+
+padding:35px 20px;
+
+border-radius:24px;
+
+box-shadow:0 8px 24px rgba(0,0,0,.06);
+
+margin-bottom:25px;
+
+}
+
+.profile-photo{
+
+width:110px;
+
+height:110px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+margin:auto;
+
+margin-bottom:18px;
+
+border:4px solid #f3f3f3;
+
+}
+
+#user-name{
+
+font-size:26px;
+
+font-weight:700;
+
+margin-bottom:8px;
+
+color:#111;
+
+}
+
+#user-email{
+
+font-size:15px;
+
+color:#777;
+
+}
+
+/* =========================
+MENU
+========================= */
+
+.account-menu{
+
+display:flex;
+
+flex-direction:column;
+
+gap:14px;
+
+margin-bottom:30px;
+
+}
+
+.account-menu a{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:18px 20px;
+
+background:#fff;
+
+border-radius:18px;
+
+box-shadow:0 5px 18px rgba(0,0,0,.05);
+
+transition:.3s;
+
+}
+
+.account-menu a:hover{
+
+transform:translateY(-2px);
+
+}
+
+.account-menu span{
+
+flex:1;
+
+margin-left:15px;
+
+font-size:16px;
+
+font-weight:500;
+
+color:#111;
+
+}
+
+/* =========================
+BUTTON
+========================= */
+
+.account-action{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+margin-bottom:30px;
+
+}
+
+.account-action .buy-btn,
+
+.account-action .checkout-btn{
+
+width:100%;
+
+height:54px;
+
+border-radius:16px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-weight:600;
+
+text-decoration:none;
+
+}
+
+.logout-btn{
+
+width:100%;
+
+height:54px;
+
+background:#e53935;
+
+color:#fff;
+
+border:none;
+
+border-radius:16px;
+
+font-size:16px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.logout-btn:hover{
+
+background:#c62828;
+
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media(max-width:480px){
+
+.account-page{
+
+padding:85px 15px 110px;
+
+}
+
+.account-header{
+
+padding:30px 18px;
+
+}
+
+.profile-photo{
+
+width:90px;
+
+height:90px;
+
+}
+
+#user-name{
+
+font-size:22px;
+
+}
+
+.account-menu a{
+
+padding:16px;
+
+}
+
+}
