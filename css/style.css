@@ -1279,3 +1279,20 @@ margin-top:25px;
 font-weight:600;
 
 }
+.size-list button.active{
+
+background:#111;
+
+color:#fff;
+
+border-color:#111;
+
+}
+
+.color.active{
+
+transform:scale(1.15);
+
+box-shadow:0 0 0 3px #111;
+
+}
