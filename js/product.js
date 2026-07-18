@@ -87,3 +87,82 @@ const wishBtn = document.getElementById("wishlist-btn");
 if (wishBtn) {
     wishBtn.onclick = addToWishlist;
 }
+/* ===========================
+   PILIH UKURAN
+=========================== */
+
+document.querySelectorAll(".size-list button").forEach(button=>{
+
+    button.onclick=()=>{
+
+        document.querySelectorAll(".size-list button")
+        .forEach(btn=>btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+    };
+
+});
+
+/* ===========================
+   PILIH WARNA
+=========================== */
+
+document.querySelectorAll(".color").forEach(color=>{
+
+    color.onclick=()=>{
+
+        document.querySelectorAll(".color")
+        .forEach(c=>c.classList.remove("active"));
+
+        color.classList.add("active");
+
+    };
+
+});
+
+/* ===========================
+   QTY
+=========================== */
+
+let qty = 1;
+
+const qtyText = document.getElementById("qty");
+
+document.getElementById("plus").onclick=()=>{
+
+    qty++;
+
+    qtyText.innerText=qty;
+
+};
+
+document.getElementById("minus").onclick=()=>{
+
+    if(qty>1){
+
+        qty--;
+
+        qtyText.innerText=qty;
+
+    }
+
+};
+
+/* ===========================
+   BELI SEKARANG
+=========================== */
+
+const checkoutBtn = document.querySelector(".checkout-btn");
+
+if(checkoutBtn){
+
+    checkoutBtn.onclick=()=>{
+
+        addToCart();
+
+        window.location.href="checkout.html";
+
+    };
+
+        }
