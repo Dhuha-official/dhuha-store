@@ -1,38 +1,36 @@
-let allProducts = [];
+let products = [];
 
 const productList = document.getElementById("product-list");
 
-const searchInput = document.getElementById("searchInput");
+async function loadProducts() {
 
-const filterBtn = document.getElementById("filterBtn");
+    const response = await fetch("data/products.json");
 
-const filterSheet = document.getElementById("filterSheet");
+    products = await response.json();
 
-async function loadProducts(){
-
-const response = await fetch("data/products.json");
-
-allProducts = await response.json();
-
-renderProducts(allProducts);
+    renderProducts(products);
 
 }
 
-function renderProducts(products){
+function renderProducts(data) {
 
-productList.innerHTML = "";
+    productList.innerHTML = "";
 
-products.forEach(product=>{
+    if (data.length === 0) {
 
-productList.innerHTML += createCard(product);
+        productList.innerHTML = `
+        <p style="text-align:center;padding:40px;">
+            Produk tidak ditemukan
+        </p>
+        `;
 
-});
+        return;
 
-}
+    }
 
-function createCard(product){
+    data.forEach(product => {
 
-return `
+        productList.innerHTML += `
 
 <div class="product-card">
 
@@ -40,21 +38,11 @@ return `
 
 <img src="${product.image}" alt="${product.name}">
 
-<span class="badge">
-
-NEW
-
-</span>
-
 </div>
 
 <div class="product-info">
 
-<h3>
-
-${product.name}
-
-</h3>
+<h3>${product.name}</h3>
 
 <div class="product-price">
 
@@ -62,9 +50,7 @@ Rp ${Number(product.price).toLocaleString("id-ID")}
 
 </div>
 
-<a
-class="product-btn"
-href="product.html?id=${product.id}">
+<a href="product.html?id=${product.id}" class="product-btn">
 
 Lihat Produk
 
@@ -76,73 +62,37 @@ Lihat Produk
 
 `;
 
+    });
+
 }
 
 loadProducts();
-filterBtn.onclick = ()=>{
+const filterButtons = document.querySelectorAll("[data-category]");
 
-filterSheet.classList.toggle("show");
+filterButtons.forEach(button => {
 
-};
+    button.onclick = () => {
 
-document.querySelectorAll(".sheet-body button").forEach(button=>{
+        const category = button.dataset.category;
 
-button.onclick=()=>{
+        filterButtons.forEach(btn => btn.classList.remove("active"));
 
-const category = button.dataset.category;
+        button.classList.add("active");
 
-if(category==="Semua"){
+        if (category === "Semua") {
 
-renderProducts(allProducts);
+            renderProducts(products);
 
-}else{
+        } else {
 
-renderProducts(
+            renderProducts(
 
-allProducts.filter(item=>item.category===category)
+                products.filter(item => item.category === category)
 
-);
+            );
 
-}
+        }
 
-filterSheet.classList.remove("show");
-
-};
+    };
 
 });
-searchInput.addEventListener("input",()=>{
-
-const keyword = searchInput.value.toLowerCase();
-
-const filtered = allProducts.filter(product=>
-
-product.name.toLowerCase().includes(keyword)
-
-);
-
-renderProducts(filtered);
-
-});
-const sortBtn = document.getElementById("sortBtn");
-
-let asc = true;
-
-sortBtn.onclick=()=>{
-
-let sorted=[...allProducts];
-
-sorted.sort((a,b)=>{
-
-return asc
-
-? a.price-b.price
-
-: b.price-a.price;
-
-});
-
-renderProducts(sorted);
-
-asc=!asc;
-
-};
