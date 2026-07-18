@@ -1,51 +1,82 @@
 <!DOCTYPE html>
+
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DHUHA | Login</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Masuk | DHUHA</title>
 
 <link rel="stylesheet" href="css/style.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 
 <body>
 
-<header>
+<header class="header">
 
 <div class="logo">
-<h1>DHUHA</h1>
-</div>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="cart.html">Cart</a>
-<a href="login.html">Login</a>
-</nav>
+<a href="index.html">
+
+<img src="images/logo.png">
+
+</a>
+
+</div>
 
 </header>
 
-<section class="login">
+<section class="auth-page">
 
-<h2>Masuk ke DHUHA</h2>
+<h1>Masuk</h1>
 
-<form id="login-form">
+<p>Selamat datang kembali.</p>
 
-<input type="email" id="email" placeholder="Email" required>
+<input
+type="email"
+id="login-email"
+placeholder="Email">
 
-<input type="password" id="password" placeholder="Password" required>
+<input
+type="password"
+id="login-password"
+placeholder="Password">
 
-<button type="submit">Masuk</button>
-<p class="register-link">
+<button
+id="login-btn"
+class="buy-btn">
+
+Masuk
+
+</button>
+
+<p class="auth-link">
+
 Belum punya akun?
-<a href="register.html">Daftar</a>
+
+<a href="register.html">
+
+Daftar
+
+</a>
+
 </p>
-</form>
 
 </section>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="js/supabase.js"></script>
 <script src="js/login.js"></script>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
 </body>
+
 </html>
