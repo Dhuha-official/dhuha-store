@@ -24,9 +24,52 @@ async function loadProduct() {
 
         const desc = document.getElementById("product-description");
 
-        if (desc) {
-            desc.textContent = productData.description;
-        }
+        const related = document.getElementById("related-products");
+
+if (related) {
+
+    related.innerHTML = "";
+
+    products
+        .filter(item => item.category === productData.category && item.id !== productData.id)
+        .slice(0, 4)
+        .forEach(item => {
+
+            related.innerHTML += `
+
+<div class="product-card">
+
+<div class="product-image">
+
+<img src="${item.image}" alt="${item.name}">
+
+</div>
+
+<div class="product-info">
+
+<h3>${item.name}</h3>
+
+<div class="product-price">
+
+Rp ${Number(item.price).toLocaleString("id-ID")}
+
+</div>
+
+<a href="product.html?id=${item.id}" class="product-btn">
+
+Lihat Produk
+
+</a>
+
+</div>
+
+</div>
+
+`;
+
+        });
+
+}
 
     } catch (err) {
         console.error(err);
