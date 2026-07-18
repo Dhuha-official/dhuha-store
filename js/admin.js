@@ -1,32 +1,84 @@
-let products = JSON.parse(localStorage.getItem("products")) || [];
+// ===============================
+// DHUHA ADMIN DASHBOARD
+// ===============================
 
-const list = document.getElementById("admin-products");
+let products = [];
 
-function render(){
+async function loadDashboard(){
 
-list.innerHTML="";
+try{
 
-products.forEach((item,index)=>{
+const response = await fetch("../data/products.json");
 
-list.innerHTML+=`
+products = await response.json();
 
-<div class="admin-card">
+dashboardCard();
 
-<img src="${item.image}">
+latestProducts();
 
-<div>
+}catch(error){
 
-<h3>${item.name}</h3>
+console.log(error);
 
-<p>Rp ${Number(item.price).toLocaleString("id-ID")}</p>
+}
+
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+loadDashboard();
+
+});
+// ===============================
+// DASHBOARD CARD
+// ===============================
+
+function dashboardCard(){
+
+document.getElementById("total-products").textContent = products.length;
+
+document.getElementById("total-orders").textContent = 0;
+
+document.getElementById("total-customers").textContent = 0;
+
+let total = products.reduce((sum,item)=>sum+Number(item.price),0);
+
+document.getElementById("total-income").textContent =
+
+"Rp "+total.toLocaleString("id-ID");
+
+}
+// ===============================
+// LATEST PRODUCT
+// ===============================
+
+function latestProducts(){
+
+const latest = document.getElementById("latest-products");
+
+latest.innerHTML = "";
+
+products.slice(0,5).forEach(product=>{
+
+latest.innerHTML += `
+
+<div class="latest-item">
+
+<img src="../${product.image}" class="latest-image">
+
+<div class="latest-info">
+
+<h4>${product.name}</h4>
+
+<p>${product.category}</p>
+
+<span>
+
+Rp ${Number(product.price).toLocaleString("id-ID")}
+
+</span>
 
 </div>
-
-<button onclick="removeProduct(${index})">
-
-Hapus
-
-</button>
 
 </div>
 
@@ -35,96 +87,56 @@ Hapus
 });
 
 }
+// ===============================
+// DUMMY ORDER
+// ===============================
 
-render();
+const orderTable = document.getElementById("latest-orders");
 
-document.getElementById("save-product").onclick=()=>{
+if(orderTable){
 
-const product={
+orderTable.innerHTML=`
 
-id:Date.now(),
+<tr>
 
-name:document.getElementById("name").value,
+<td>#1001</td>
 
-price:Number(document.getElementById("price").value),
+<td>Kevin Andrean</td>
 
-category:document.getElementById("category").value,
+<td>Rp 249.000</td>
 
-image:document.getElementById("image").value,
+<td>
 
-description:document.getElementById("description").value
+<span class="status process">
 
-};
+Diproses
 
-products.push(product);
+</span>
 
-localStorage.setItem("products",JSON.stringify(products));
+</td>
 
-render();
+</tr>
 
-};
-let products = JSON.parse(localStorage.getItem("products")) || [];
+<tr>
 
-const list = document.getElementById("admin-products");
+<td>#1002</td>
 
-function render(){
+<td>Teuku Rizki</td>
 
-list.innerHTML="";
+<td>Rp 149.000</td>
 
-products.forEach((item,index)=>{
+<td>
 
-list.innerHTML+=`
+<span class="status success">
 
-<div class="admin-card">
+Selesai
 
-<img src="${item.image}">
+</span>
 
-<div>
+</td>
 
-<h3>${item.name}</h3>
-
-<p>Rp ${Number(item.price).toLocaleString("id-ID")}</p>
-
-</div>
-
-<button onclick="removeProduct(${index})">
-
-Hapus
-
-</button>
-
-</div>
+</tr>
 
 `;
 
-});
-
 }
-
-render();
-
-document.getElementById("save-product").onclick=()=>{
-
-const product={
-
-id:Date.now(),
-
-name:document.getElementById("name").value,
-
-price:Number(document.getElementById("price").value),
-
-category:document.getElementById("category").value,
-
-image:document.getElementById("image").value,
-
-description:document.getElementById("description").value
-
-};
-
-products.push(product);
-
-localStorage.setItem("products",JSON.stringify(products));
-
-render();
-
-};
