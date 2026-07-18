@@ -1,3 +1,28 @@
+const productContainer = document.getElementById("home-products");
+
+if(productContainer){
+
+productContainer.innerHTML="";
+
+for(let i=0;i<4;i++){
+
+productContainer.innerHTML+=`
+
+<div class="skeleton">
+
+<div class="skeleton-image"></div>
+
+<div class="skeleton-text"></div>
+
+<div class="skeleton-price"></div>
+
+</div>
+
+`;
+
+}
+
+}
 async function loadHomeProducts(){
 
     const response = await fetch("data/products.json");
