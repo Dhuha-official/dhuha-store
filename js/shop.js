@@ -123,3 +123,26 @@ product.name.toLowerCase().includes(keyword)
 renderProducts(filtered);
 
 });
+const sortBtn = document.getElementById("sortBtn");
+
+let asc = true;
+
+sortBtn.onclick=()=>{
+
+let sorted=[...allProducts];
+
+sorted.sort((a,b)=>{
+
+return asc
+
+? a.price-b.price
+
+: b.price-a.price;
+
+});
+
+renderProducts(sorted);
+
+asc=!asc;
+
+};
