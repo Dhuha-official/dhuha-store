@@ -1,0 +1,137 @@
+/* =========================
+REGISTER PAGE
+========================= */
+
+.register-page{
+
+padding:90px 20px 110px;
+
+max-width:500px;
+
+margin:auto;
+
+}
+
+.register-title{
+
+text-align:center;
+
+margin-bottom:35px;
+
+}
+
+.register-title img{
+
+width:90px;
+
+margin:auto;
+
+margin-bottom:20px;
+
+}
+
+.register-title h1{
+
+font-size:30px;
+
+font-weight:700;
+
+margin-bottom:8px;
+
+}
+
+.register-title p{
+
+color:#777;
+
+font-size:15px;
+
+}
+
+.register-form{
+
+background:#fff;
+
+padding:25px;
+
+border-radius:22px;
+
+box-shadow:0 8px 24px rgba(0,0,0,.06);
+
+}
+
+.register-form label{
+
+display:block;
+
+font-size:14px;
+
+font-weight:600;
+
+margin-top:18px;
+
+margin-bottom:8px;
+
+}
+
+.register-form input{
+
+width:100%;
+
+height:52px;
+
+border:1px solid #ddd;
+
+border-radius:14px;
+
+padding:0 16px;
+
+font-size:15px;
+
+outline:none;
+
+}
+
+.register-form input:focus{
+
+border-color:#111;
+
+}
+
+.register-btn{
+
+width:100%;
+
+height:54px;
+
+margin-top:25px;
+
+background:#111;
+
+color:#fff;
+
+border-radius:14px;
+
+font-size:16px;
+
+font-weight:600;
+
+}
+
+.register-footer{
+
+margin-top:20px;
+
+text-align:center;
+
+font-size:14px;
+
+}
+
+.register-footer a{
+
+font-weight:600;
+
+color:#111;
+
+}
