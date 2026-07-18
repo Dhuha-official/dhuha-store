@@ -1365,3 +1365,94 @@ body{
 padding-bottom:90px;
 
 }
+/* =======================
+SEARCH
+======================= */
+
+.search-page{
+
+padding:20px;
+
+}
+
+.search-box{
+
+display:flex;
+
+gap:15px;
+
+margin-bottom:25px;
+
+}
+
+.search-box input{
+
+flex:1;
+
+height:52px;
+
+padding:0 18px;
+
+border:none;
+
+background:#fff;
+
+border-radius:14px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.search-box a{
+
+display:flex;
+
+align-items:center;
+
+font-weight:600;
+
+}
+
+.search-item{
+
+display:flex;
+
+gap:15px;
+
+padding:15px;
+
+background:#fff;
+
+border-radius:16px;
+
+margin-bottom:15px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.05);
+
+}
+
+.search-item img{
+
+width:80px;
+
+height:80px;
+
+object-fit:cover;
+
+border-radius:12px;
+
+}
+
+.search-item h3{
+
+font-size:16px;
+
+margin-bottom:8px;
+
+}
+
+.search-item p{
+
+font-weight:700;
+
+}
