@@ -1133,3 +1133,88 @@ font-size:20px;
 font-weight:700;
 
    }
+/* ==========================
+ACCOUNT
+========================== */
+
+.account-header{
+
+padding:40px 20px;
+
+text-align:center;
+
+background:#fff;
+
+}
+
+.profile-photo{
+
+width:100px;
+
+height:100px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+margin:auto;
+
+box-shadow:0 5px 20px rgba(0,0,0,.12);
+
+}
+
+.account-header h2{
+
+margin-top:20px;
+
+font-size:26px;
+
+}
+
+.account-header p{
+
+margin-top:8px;
+
+color:#777;
+
+}
+
+.account-menu{
+
+padding:20px;
+
+}
+
+.account-menu a{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:18px;
+
+margin-bottom:15px;
+
+background:#fff;
+
+border-radius:16px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.06);
+
+}
+
+.account-menu span{
+
+flex:1;
+
+margin-left:15px;
+
+}
+
+.account-action{
+
+padding:20px;
+
+}
