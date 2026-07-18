@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>DHUHA | Shop</title>
@@ -19,118 +20,94 @@
 <header class="header">
 
 <div class="logo">
+
 <a href="index.html">
-<img src="images/Logo DH.png" alt="DHUHA">
+
+<img src="images/logo.png">
+
 </a>
+
 </div>
 
-<nav class="nav-icons">
+<div class="header-icons">
 
-<a href="index.html">
-<i data-lucide="house"></i>
-</a>
+<button class="icon-btn">
 
-<a href="account.html">
+<i data-lucide="search"></i>
+
+</button>
+
+<a href="account.html" class="icon-btn">
+
 <i data-lucide="user"></i>
+
 </a>
 
-<a href="cart.html">
+<a href="cart.html" class="icon-btn">
+
 <i data-lucide="shopping-bag"></i>
+
 </a>
 
-</nav>
+</div>
 
 </header>
 
-<section class="shop-hero">
+<section class="shop-banner">
 
-<img src="images/Logo DH.png" class="shop-logo" alt="DHUHA">
+<img src="images/banner-shop.jpg">
 
-<p class="shop-slogan">
+<div class="shop-overlay">
+
+<h1>
+
+DHUHA COLLECTION
+
+</h1>
+
+<p>
+
 Built With Faith
+
 </p>
+
+</div>
 
 </section>
 
-<section class="toolbar">
+<section class="shop-toolbar">
 
 <button id="filterBtn">
 
 <i data-lucide="sliders-horizontal"></i>
 
-<span>Filter</span>
+Filter
+
+</button>
+
+<button id="sortBtn">
+
+<i data-lucide="arrow-up-down"></i>
+
+Urutkan
 
 </button>
 
 </section>
 
-<div class="filter-modal" id="filterModal">
+<section class="shop-search">
 
-<div class="filter-content">
-
-<h3>Filter Kategori</h3>
-
-<button class="category-btn active" data-category="Semua">Semua</button>
-
-<button class="category-btn" data-category="Kaos">Kaos</button>
-
-<button class="category-btn" data-category="Polo">Polo</button>
-
-<button class="category-btn" data-category="Kemeja">Kemeja</button>
-
-<button class="category-btn" data-category="Oneset">Oneset</button>
-
-<button class="category-btn" data-category="Sportwear">Sportwear</button>
-
-<button class="category-btn" data-category="Parfum">Parfum</button>
-
-<button class="category-btn" data-category="Topi">Topi</button>
-
-<button class="category-btn" data-category="Sandal">Sandal</button>
-
-</div>
-
-</div>
-
-<section class="products">
-
-<div id="product-list"></div>
+<input
+type="text"
+id="searchInput"
+placeholder="Cari produk...">
 
 </section>
-<script src="js/app.js"></script>
 
-<script>
+<section class="shop-products">
 
-lucide.createIcons();
+<div id="product-list">
 
-const filterBtn = document.getElementById("filterBtn");
-const filterModal = document.getElementById("filterModal");
+</div>
 
-filterBtn.addEventListener("click", () => {
-    filterModal.classList.toggle("show");
-});
-
-document.querySelectorAll(".category-btn").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        document
-            .querySelectorAll(".category-btn")
-            .forEach(btn => btn.classList.remove("active"));
-
-        button.classList.add("active");
-
-        filterModal.classList.remove("show");
-
-        if (typeof filterProducts === "function") {
-            filterProducts(button.dataset.category);
-        }
-
-    });
-
-});
-
-</script>
-
-</body>
-    </html>
+</section>
