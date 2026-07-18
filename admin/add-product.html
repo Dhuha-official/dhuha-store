@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tambah Produk | DHUHA Admin</title>
+
+<link rel="stylesheet" href="../css/global.css">
+
+<link rel="stylesheet" href="../css/admin.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<img src="../images/logo.png">
+
+<h2>DHUHA</h2>
+
+<p>Admin Panel</p>
+
+</div>
+
+<nav class="sidebar-menu">
+
+<a href="dashboard.html">
+
+<i data-lucide="layout-dashboard"></i>
+
+<span>Dashboard</span>
+
+</a>
+
+<a href="products.html" class="active">
+
+<i data-lucide="shopping-bag"></i>
+
+<span>Produk</span>
+
+</a>
+
+<a href="orders.html">
+
+<i data-lucide="package"></i>
+
+<span>Pesanan</span>
+
+</a>
+
+<a href="customers.html">
+
+<i data-lucide="users"></i>
+
+<span>Pelanggan</span>
+
+</a>
+
+<a href="settings.html">
+
+<i data-lucide="settings"></i>
+
+<span>Pengaturan</span>
+
+</a>
+
+</nav>
+
+</aside>
+
+<main class="admin-content">
+
+<header class="admin-header">
+
+<h1>Tambah Produk</h1>
+
+<a href="products.html" class="btn">
+
+Kembali
+
+</a>
+
+</header>
+<section class="dashboard-box">
+
+<form id="add-product-form" class="admin-form">
+
+<div class="form-group">
+
+<label>Nama Produk</label>
+
+<input
+type="text"
+id="product-name"
+placeholder="Masukkan nama produk"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Kategori</label>
+
+<select id="product-category" required>
+
+<option value="">Pilih Kategori</option>
+
+<option>Kaos</option>
+
+<option>Polo</option>
+
+<option>Kemeja</option>
+
+<option>DHUHA Co-Ord Collection</option>
+
+<option>Parfum</option>
+
+<option>Aksesoris</option>
+
+</select>
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label>Harga</label>
+
+<input
+type="number"
+id="product-price"
+placeholder="149000"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Stok</label>
+
+<input
+type="number"
+id="product-stock"
+placeholder="100"
+required>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>Deskripsi</label>
+
+<textarea
+id="product-description"
+rows="5"
+placeholder="Deskripsi produk"></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Upload Gambar</label>
+
+<input
+type="file"
+id="product-image"
+accept="image/*">
+
+</div>
+
+<div class="image-preview">
+
+<img
+id="preview-image"
+src="../images/no-image.png"
+alt="Preview">
+
+</div>
+
+<button
+type="submit"
+class="btn">
+
+Simpan Produk
+
+</button>
+
+</form>
+
+  </section>
+  </main>
+
+</div>
+
+<script src="../js/admin-add-product.js"></script>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
+</body>
+
+</html>
