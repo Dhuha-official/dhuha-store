@@ -1,7 +1,8 @@
-const supabaseUrl = "https://valwpmiwzaqgijtrbizl.supabase.co";
-const supabaseKey = "sb_publishable_REbhQNOsjfE4aT5oMXX6YA_COOzqYF8";
+const SUPABASE_URL = "ISI_URL_SUPABASE_KAMU";
 
-window.supabaseClient = window.supabase.createClient(
-    supabaseUrl,
-    supabaseKey
+const SUPABASE_ANON_KEY = "ISI_ANON_KEY_KAMU";
+
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
 );
