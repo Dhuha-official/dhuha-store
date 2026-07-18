@@ -1812,3 +1812,10 @@ justify-content:center;
 align-items:center;
 
                            }
+.filter-panel button.active{
+
+background:#111;
+
+color:#fff;
+
+}
