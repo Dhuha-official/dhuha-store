@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Banner | DHUHA Admin</title>
+
+<link rel="stylesheet" href="../css/global.css">
+
+<link rel="stylesheet" href="../css/admin.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<img src="../images/logo.png">
+
+<h2>DHUHA</h2>
+
+<p>Admin Panel</p>
+
+</div>
+
+<nav class="sidebar-menu">
+
+<a href="dashboard.html">
+
+<i data-lucide="layout-dashboard"></i>
+
+<span>Dashboard</span>
+
+</a>
+
+<a href="products.html">
+
+<i data-lucide="shopping-bag"></i>
+
+<span>Produk</span>
+
+</a>
+
+<a href="orders.html">
+
+<i data-lucide="package"></i>
+
+<span>Pesanan</span>
+
+</a>
+
+<a href="customers.html">
+
+<i data-lucide="users"></i>
+
+<span>Pelanggan</span>
+
+</a>
+
+<a href="banner.html" class="active">
+
+<i data-lucide="image"></i>
+
+<span>Banner</span>
+
+</a>
+
+<a href="voucher.html">
+
+<i data-lucide="ticket-percent"></i>
+
+<span>Voucher</span>
+
+</a>
+
+<a href="settings.html">
+
+<i data-lucide="settings"></i>
+
+<span>Pengaturan</span>
+
+</a>
+
+</nav>
+
+</aside>
+
+<main class="admin-content">
+
+<header class="admin-header">
+
+<h1>Kelola Banner</h1>
+
+</header>
+<section class="dashboard-box">
+
+<form id="banner-form" class="admin-form">
+
+<div class="form-group">
+
+<label>Banner Desktop (1920×800)</label>
+
+<input
+type="file"
+id="banner-desktop"
+accept="image/*">
+
+</div>
+
+<div class="image-preview">
+
+<img
+id="desktop-preview"
+src="../images/no-image.png"
+alt="Desktop Banner">
+
+</div>
+
+<div class="form-group">
+
+<label>Banner Mobile (1080×1350)</label>
+
+<input
+type="file"
+id="banner-mobile"
+accept="image/*">
+
+</div>
+
+<div class="image-preview">
+
+<img
+id="mobile-preview"
+src="../images/no-image.png"
+alt="Mobile Banner">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+<input
+type="checkbox"
+id="banner-active"
+checked>
+
+Banner Aktif
+
+</label>
+
+</div>
+
+<button
+type="submit"
+class="btn">
+
+Simpan Banner
+
+</button>
+
+</form>
+
+</section>
+</main>
+
+</div>
+
+<script src="../js/admin-banner.js"></script>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
+</body>
+
+</html>
