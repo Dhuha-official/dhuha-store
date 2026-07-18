@@ -1819,3 +1819,77 @@ background:#111;
 color:#fff;
 
 }
+.admin{
+
+max-width:700px;
+
+margin:auto;
+
+padding:30px;
+
+}
+
+.admin input,
+.admin textarea{
+
+width:100%;
+
+padding:15px;
+
+margin-bottom:15px;
+
+border:1px solid #ddd;
+
+border-radius:12px;
+
+}
+
+.admin-card{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+background:#fff;
+
+padding:15px;
+
+margin-top:15px;
+
+border-radius:16px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.05);
+
+}
+
+.admin-card img{
+
+width:70px;
+
+height:70px;
+
+object-fit:cover;
+
+border-radius:10px;
+
+}
+
+.admin-card button{
+
+margin-left:auto;
+
+background:#e53935;
+
+color:#fff;
+
+border:none;
+
+padding:10px 15px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+}
