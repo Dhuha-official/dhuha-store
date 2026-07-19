@@ -32,7 +32,7 @@ function renderProducts(data) {
 
         productList.innerHTML += `
 
-<div class="product-card">
+<div class="product-card" onclick="location.href='product.html?id=${product.id}'">
 
 <div class="product-image">
 
@@ -49,12 +49,6 @@ function renderProducts(data) {
 Rp ${Number(product.price).toLocaleString("id-ID")}
 
 </div>
-
-<a href="product.html?id=${product.id}" class="product-btn">
-
-Lihat Produk
-
-</a>
 
 </div>
 
