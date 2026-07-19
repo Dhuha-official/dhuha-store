@@ -62,3 +62,53 @@ ${item.display_name}
 });
 
 }
+function selectAddress(address){
+
+addressInput.value = address;
+
+addressResult.innerHTML = "";
+
+addressResult.style.display = "none";
+
+loadAddressDetail(address);
+
+}
+async function loadAddressDetail(address){
+
+const url =
+`https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(address)}&addressdetails=1&limit=1`;
+
+const response = await fetch(url);
+
+const data = await response.json();
+
+if(data.length === 0) return;
+
+const detail = data[0].address;
+
+city.value =
+detail.city ||
+detail.town ||
+detail.county ||
+detail.municipality ||
+"";
+
+province.value =
+detail.state || "";
+
+postcode.value =
+detail.postcode || "";
+
+}
+document.addEventListener("click",(e)=>{
+
+if(
+!addressResult.contains(e.target) &&
+e.target !== addressInput
+){
+
+addressResult.style.display="none";
+
+}
+
+});
