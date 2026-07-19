@@ -1,75 +1,64 @@
-const checkoutList = document.getElementById("checkout-list");
-const checkoutTotal = document.getElementById("checkout-total");
+const addressInput = document.getElementById("addressSearch");
+const addressResult = document.getElementById("addressResult");
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const city = document.getElementById("city");
+const province = document.getElementById("province");
+const postcode = document.getElementById("postcode");
 
-let total = 0;
+let timer = null;
+addressInput.addEventListener("keyup", () => {
 
-function loadCheckout(){
+clearTimeout(timer);
 
-    checkoutList.innerHTML = "";
+const keyword = addressInput.value.trim();
 
-    total = 0;
+if(keyword.length < 3){
 
-    if(cart.length === 0){
+addressResult.style.display="none";
 
-        checkoutList.innerHTML = `
-            <p>Keranjang masih kosong.</p>
-        `;
+addressResult.innerHTML="";
 
-        checkoutTotal.innerText = "Rp 0";
+return;
 
-        return;
+}
+
+timer = setTimeout(searchAddress,500);
+
+});
+async function searchAddress(){
+
+const keyword = addressInput.value.trim();
+
+const url =
+`https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(keyword)}&countrycodes=id&limit=5`;
+
+const response = await fetch(url);
+
+const data = await response.json();
+
+showAddress(data);
 
     }
+function showAddress(data){
 
-    cart.forEach(product=>{
+addressResult.innerHTML="";
 
-        total += product.price * product.qty;
+addressResult.style.display="block";
 
-        checkoutList.innerHTML += `
+data.forEach(item=>{
 
-<div class="checkout-item">
+addressResult.innerHTML += `
 
-<img src="${product.image}" alt="${product.name}">
+<div class="address-item"
 
-<div class="checkout-info">
+onclick="selectAddress('${item.display_name.replace(/'/g,"")}')">
 
-<h4>${product.name}</h4>
-
-<p>
-${product.qty} × Rp ${Number(product.price).toLocaleString("id-ID")}
-</p>
-
-</div>
+${item.display_name}
 
 </div>
 
 `;
 
-    });
-
-    checkoutTotal.innerText =
-    "Rp " + total.toLocaleString("id-ID");
+});
 
 }
-
-loadCheckout();
-
-document.querySelector(".buy-btn").onclick = ()=>{
-
-    if(cart.length===0){
-
-        alert("Keranjang masih kosong.");
-
-        return;
-
-    }
-
-    alert("Pesanan berhasil dibuat.");
-
-    localStorage.removeItem("cart");
-
-    window.location.href="index.html";
-
-};
