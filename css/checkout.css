@@ -1,20 +1,24 @@
-/* =========================
-CHECKOUT PAGE
-========================= */
+/* =========================================
+   CHECKOUT DHUHA
+========================================= */
 
-.checkout-page{
+.checkout{
 
-padding:90px 20px 110px;
+padding:90px 18px 110px;
 
-max-width:900px;
+max-width:700px;
 
 margin:auto;
 
+background:#fafafa;
+
+min-height:100vh;
+
 }
 
-.checkout-title{
+.checkout h1{
 
-font-size:30px;
+font-size:32px;
 
 font-weight:700;
 
@@ -24,11 +28,7 @@ color:#111;
 
 }
 
-/* =========================
-SECTION
-========================= */
-
-.checkout-box{
+.checkout-card{
 
 background:#fff;
 
@@ -38,13 +38,13 @@ padding:22px;
 
 margin-bottom:20px;
 
-box-shadow:0 8px 24px rgba(0,0,0,.06);
+box-shadow:0 8px 25px rgba(0,0,0,.05);
 
 }
 
-.checkout-box h3{
+.checkout-card h3{
 
-font-size:20px;
+font-size:18px;
 
 font-weight:700;
 
@@ -53,263 +53,70 @@ margin-bottom:18px;
 color:#111;
 
 }
+/* =========================================
+   FORM
+========================================= */
 
-/* =========================
-ADDRESS
-========================= */
+.checkout-card input,
 
-.address-item{
-
-display:flex;
-
-align-items:flex-start;
-
-gap:15px;
-
-}
-
-.address-item i{
-
-margin-top:4px;
-
-}
-
-.address-name{
-
-font-size:17px;
-
-font-weight:600;
-
-margin-bottom:5px;
-
-}
-
-.address-detail{
-
-font-size:14px;
-
-line-height:1.7;
-
-color:#666;
-
-}
-
-/* =========================
-ORDER
-========================= */
-
-.order-item{
-
-display:flex;
-
-gap:15px;
-
-margin-bottom:18px;
-
-}
-
-.order-item:last-child{
-
-margin-bottom:0;
-
-}
-
-.order-item img{
-
-width:80px;
-
-height:80px;
-
-object-fit:cover;
-
-border-radius:16px;
-
-background:#f5f5f5;
-
-}
-
-.order-info{
-
-flex:1;
-
-}
-
-.order-info h4{
-
-font-size:16px;
-
-font-weight:600;
-
-margin-bottom:8px;
-
-line-height:1.4;
-
-}
-
-.order-price{
-
-font-size:16px;
-
-font-weight:700;
-
-color:#111;
-
-}
-
-/* =========================
-PAYMENT
-========================= */
-
-.payment-option{
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-between;
-
-padding:15px 0;
-
-border-bottom:1px solid #eee;
-
-}
-
-.payment-option:last-child{
-
-border-bottom:none;
-
-}
-
-.payment-option label{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-font-size:15px;
-
-font-weight:500;
-
-cursor:pointer;
-
-}
-
-/* =========================
-SUMMARY
-========================= */
-
-.summary-item{
-
-display:flex;
-
-justify-content:space-between;
-
-margin-bottom:12px;
-
-font-size:15px;
-
-color:#555;
-
-}
-
-.summary-total{
-
-display:flex;
-
-justify-content:space-between;
-
-margin-top:20px;
-
-padding-top:20px;
-
-border-top:1px solid #eee;
-
-font-size:22px;
-
-font-weight:700;
-
-color:#111;
-
-}
-
-/* =========================
-PLACE ORDER
-========================= */
-
-.place-order{
+.checkout-card textarea{
 
 width:100%;
 
-height:58px;
-
-background:#111;
-
-color:#fff;
-
 border:none;
+
+outline:none;
+
+background:#f8f8f8;
 
 border-radius:16px;
 
-font-size:17px;
+padding:16px;
 
-font-weight:700;
+font-size:15px;
 
-cursor:pointer;
+margin-bottom:15px;
 
 transition:.3s;
 
 }
 
-.place-order:hover{
+.checkout-card input:focus,
 
-background:#333;
-
-}
-
-/* =========================
-RESPONSIVE
-========================= */
-
-@media(max-width:480px){
-
-.checkout-page{
-
-padding:85px 15px 110px;
-
-}
-
-.checkout-box{
-
-padding:18px;
-
-}
-
-.checkout-title{
-
-font-size:24px;
-
-}
-
-.summary-total{
-
-font-size:18px;
-
-}
-
-  }
-#addressResult{
+.checkout-card textarea:focus{
 
 background:#fff;
 
-border-radius:15px;
+box-shadow:0 0 0 2px #111;
 
-margin-top:8px;
+}
+
+.checkout-card textarea{
+
+height:110px;
+
+resize:none;
+
+}
+/* =========================================
+   ADDRESS RESULT
+========================================= */
+
+#addressResult{
+
+margin-top:-5px;
+
+margin-bottom:15px;
+
+background:#fff;
+
+border-radius:16px;
 
 overflow:hidden;
 
-box-shadow:0 5px 15px rgba(0,0,0,.08);
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+display:none;
 
 }
 
@@ -327,6 +134,98 @@ transition:.2s;
 
 .address-item:hover{
 
-background:#f7f7f7;
+background:#f5f5f5;
+
+}
+/* =========================================
+   SHIPPING & PAYMENT
+========================================= */
+
+.checkout-card label{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:15px;
+
+background:#f8f8f8;
+
+border-radius:14px;
+
+margin-bottom:12px;
+
+cursor:pointer;
+
+font-size:15px;
+
+font-weight:500;
+
+}
+
+.checkout-card input[type=radio]{
+
+width:18px;
+
+height:18px;
+
+margin:0;
+
+}
+/* =========================================
+   TOTAL
+========================================= */
+
+.checkout-total{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding-top:20px;
+
+margin-top:20px;
+
+border-top:1px solid #eee;
+
+font-size:18px;
+
+font-weight:700;
+
+}
+
+.buy-btn{
+
+margin-top:20px;
+
+width:100%;
+
+height:56px;
+
+border:none;
+
+border-radius:16px;
+
+background:#111;
+
+color:#fff;
+
+font-size:17px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.buy-btn:hover{
+
+background:#333;
 
 }
