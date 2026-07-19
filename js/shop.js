@@ -96,3 +96,56 @@ filterButtons.forEach(button => {
     };
 
 });
+// ==========================
+// FILTER
+// ==========================
+
+const filterBtn = document.getElementById("filterBtn");
+const filterSheet = document.getElementById("filterSheet");
+
+filterBtn.addEventListener("click", () => {
+
+    filterSheet.classList.toggle("active");
+
+});
+
+// Tutup saat klik di luar
+window.addEventListener("click", function(e){
+
+    if(
+        !filterSheet.contains(e.target) &&
+        !filterBtn.contains(e.target)
+    ){
+
+        filterSheet.classList.remove("active");
+
+    }
+
+});
+
+
+// ==========================
+// SORT
+// ==========================
+
+const sortBtn = document.getElementById("sortBtn");
+const sortSheet = document.getElementById("sortSheet");
+
+sortBtn.addEventListener("click", () => {
+
+    sortSheet.classList.toggle("active");
+
+});
+
+window.addEventListener("click", function(e){
+
+    if(
+        !sortSheet.contains(e.target) &&
+        !sortBtn.contains(e.target)
+    ){
+
+        sortSheet.classList.remove("active");
+
+    }
+
+});
