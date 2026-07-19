@@ -78,29 +78,39 @@ id="phone"
 placeholder="Nomor WhatsApp">
 
 <input
-type="text"
-id="addressSearch"
-placeholder="Cari alamat...">
+<select id="province">
 
-<div id="addressResult"></div>
+<option value="">Pilih Provinsi</option>
 
-<input
-type="text"
-id="city"
-placeholder="Kota"
-readonly>
+</select>
 
-<input
-type="text"
-id="province"
-placeholder="Provinsi"
-readonly>
+<select id="city">
+
+<option value="">Pilih Kota / Kabupaten</option>
+
+</select>
+
+<select id="district">
+
+<option value="">Pilih Kecamatan</option>
+
+</select>
+
+<select id="village">
+
+<option value="">Pilih Kelurahan</option>
+
+</select>
 
 <input
 type="text"
 id="postcode"
 placeholder="Kode Pos"
 readonly>
+
+<textarea
+id="detailAddress"
+placeholder="Nomor rumah, blok, RT/RW, patokan..."></textarea>
 
 </div>
 
