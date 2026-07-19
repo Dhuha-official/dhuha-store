@@ -137,40 +137,48 @@ updateShipping();
 
 function updateShipping(){
 
-let cost = 0;
+let cost=0;
+let estimate="";
 
-const courier =
-document.querySelector("input[name='shipping']:checked").value;
+const courier=document.querySelector(
+"input[name='shipping']:checked"
+).value;
 
 switch(courier){
 
 case "JNE":
 
-cost = 18000;
+cost=18000;
+estimate="2 - 4 Hari";
 
 break;
 
 case "J&T":
 
-cost = 20000;
+cost=20000;
+estimate="1 - 3 Hari";
 
 break;
 
 case "SiCepat":
 
-cost = 17000;
+cost=17000;
+estimate="2 - 3 Hari";
 
 break;
 
 }
 
-document.getElementById("shippingCost").innerText =
-"Rp " + cost.toLocaleString("id-ID");
+document.getElementById("shippingCost").innerHTML=
+"Rp "+cost.toLocaleString("id-ID");
 
-document.getElementById("shippingTotal").innerText =
-"Rp " + cost.toLocaleString("id-ID");
+document.getElementById("shippingTotal").innerHTML=
+"Rp "+cost.toLocaleString("id-ID");
 
-document.getElementById("checkout-total").innerText =
-"Rp " + (subtotal + cost).toLocaleString("id-ID");
+document.getElementById("shippingEstimate").innerHTML=
+estimate;
+
+document.getElementById("checkout-total").innerHTML=
+"Rp "+(subtotal+cost).toLocaleString("id-ID");
 
     }
