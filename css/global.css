@@ -327,3 +327,72 @@ animation:pulse 1.5s infinite;
 100%{opacity:.5;}
 
 }
+/* =========================
+   FOOTER DHUHA
+========================= */
+
+.footer-tagline{
+
+font-size:16px;
+
+font-weight:600;
+
+margin-top:8px;
+
+color:#555;
+
+}
+
+.footer-description{
+
+max-width:320px;
+
+margin:15px auto;
+
+font-size:14px;
+
+line-height:1.8;
+
+color:#777;
+
+text-align:center;
+
+padding:0 20px;
+
+}
+
+.footer-menu{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:24px;
+
+flex-wrap:wrap;
+
+margin:24px 0;
+
+}
+
+.footer-menu a{
+
+text-decoration:none;
+
+color:#333;
+
+font-size:14px;
+
+font-weight:500;
+
+transition:.3s;
+
+}
+
+.footer-menu a:hover{
+
+color:#000;
+
+}
