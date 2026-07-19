@@ -446,7 +446,7 @@ left:0;
 
 right:0;
 
-bottom:-100%;
+bottom:-500px;
 
 background:#fff;
 
@@ -456,9 +456,19 @@ padding:25px;
 
 box-shadow:0 -10px 40px rgba(0,0,0,.15);
 
-transition:.35s;
+transition:bottom .35s ease;
 
 z-index:9999;
+
+max-height:70vh;
+
+overflow-y:auto;
+
+}
+
+.bottom-sheet.active{
+
+bottom:0;
 
 }
 
