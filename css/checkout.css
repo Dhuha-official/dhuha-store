@@ -299,3 +299,34 @@ font-size:18px;
 }
 
   }
+#addressResult{
+
+background:#fff;
+
+border-radius:15px;
+
+margin-top:8px;
+
+overflow:hidden;
+
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.address-item{
+
+padding:15px;
+
+cursor:pointer;
+
+border-bottom:1px solid #eee;
+
+transition:.2s;
+
+}
+
+.address-item:hover{
+
+background:#f7f7f7;
+
+}
