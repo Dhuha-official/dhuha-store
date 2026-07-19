@@ -229,3 +229,30 @@ transition:.3s;
 background:#333;
 
 }
+.shipping-price,
+.shipping-estimation,
+.checkout-total{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:15px 0;
+
+border-bottom:1px solid #eee;
+
+}
+
+.grand-total{
+
+font-size:20px;
+
+font-weight:700;
+
+border:none;
+
+padding-top:20px;
+
+}
