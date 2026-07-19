@@ -256,3 +256,32 @@ border:none;
 padding-top:20px;
 
 }
+.checkout-card select{
+
+width:100%;
+
+height:55px;
+
+padding:0 16px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:16px;
+
+background:#f8f8f8;
+
+font-size:15px;
+
+outline:none;
+
+}
+
+.checkout-card select:focus{
+
+background:#fff;
+
+box-shadow:0 0 0 2px #111;
+
+}
