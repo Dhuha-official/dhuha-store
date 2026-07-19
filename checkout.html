@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="id">
 
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Checkout | DHUHA</title>
 
@@ -17,7 +14,6 @@ content="width=device-width,initial-scale=1">
 <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
-
 
 <body>
 
@@ -33,10 +29,20 @@ content="width=device-width,initial-scale=1">
 
 <a href="https://instagram.com/official.dhuha" target="_blank" class="icon-btn">
 
-<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<svg xmlns="http://www.w3.org/2000/svg"
+width="22"
+height="22"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+
 <rect x="2" y="2" width="20" height="20" rx="5"/>
+
 <circle cx="12" cy="12" r="4"/>
+
 <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+
 </svg>
 
 </a>
@@ -78,39 +84,25 @@ id="phone"
 placeholder="Nomor WhatsApp">
 
 <input
-<select id="province">
+type="text"
+id="province"
+placeholder="Provinsi">
 
-<option value="">Pilih Provinsi</option>
-
-</select>
-
-<select id="city">
-
-<option value="">Pilih Kota / Kabupaten</option>
-
-</select>
-
-<select id="district">
-
-<option value="">Pilih Kecamatan</option>
-
-</select>
-
-<select id="village">
-
-<option value="">Pilih Kelurahan</option>
-
-</select>
+<input
+type="text"
+id="city"
+placeholder="Kota / Kabupaten">
 
 <input
 type="text"
 id="postcode"
 placeholder="Kode Pos"
-readonly>
+maxlength="5"
+inputmode="numeric">
 
 <textarea
 id="detailAddress"
-placeholder="Nomor rumah, blok, RT/RW, patokan..."></textarea>
+placeholder="Alamat Lengkap (Nama Jalan, Nomor Rumah, Blok, RT/RW, Kelurahan, Kecamatan, Patokan, dll.)"></textarea>
 
 </div>
 
@@ -118,33 +110,56 @@ placeholder="Nomor rumah, blok, RT/RW, patokan..."></textarea>
 
 <h3>Metode Pengiriman</h3>
 
-<label><input type="radio" name="shipping" value="JNE" checked> JNE</label>
+<label>
+<input type="radio" name="shipping" value="JNE" checked>
+JNE
+</label>
 
-<label><input type="radio" name="shipping" value="J&T"> J&T</label>
+<label>
+<input type="radio" name="shipping" value="J&T">
+J&T
+</label>
 
-<label><input type="radio" name="shipping" value="SiCepat"> SiCepat</label>
-
-</div>
+<label>
+<input type="radio" name="shipping" value="SiCepat">
+SiCepat
+</label>
 
 <div class="shipping-price">
 
 <span>Ongkir</span>
 
 <strong id="shippingCost">
-
 Rp 0
-
 </strong>
 
 </div>
-  
+
+<div class="shipping-estimation">
+
+<span>Estimasi</span>
+
+<strong id="shippingEstimate">
+-
+</strong>
+
+</div>
+
+</div>
+
 <div class="checkout-card">
 
 <h3>Metode Pembayaran</h3>
 
-<label><input type="radio" name="payment" value="Transfer" checked> Transfer Bank</label>
+<label>
+<input type="radio" name="payment" value="Transfer" checked>
+Transfer Bank
+</label>
 
-<label><input type="radio" name="payment" value="QRIS"> QRIS</label>
+<label>
+<input type="radio" name="payment" value="QRIS">
+QRIS
+</label>
 
 </div>
 
@@ -159,9 +174,7 @@ Rp 0
 <span>Subtotal</span>
 
 <strong id="subtotal">
-
 Rp 0
-
 </strong>
 
 </div>
@@ -171,31 +184,21 @@ Rp 0
 <span>Ongkir</span>
 
 <strong id="shippingTotal">
-
 Rp 0
-
-  <div class="shipping-estimation">
-
-<span>Estimasi</span>
-
-<strong id="shippingEstimate">
--
 </strong>
 
-  </div>
-
+</div>
 
 <div class="checkout-total grand-total">
 
 <span>Total Bayar</span>
 
 <strong id="checkout-total">
-
 Rp 0
-
 </strong>
 
-  </div>
+</div>
+
 <button class="buy-btn" id="checkoutBtn">
 
 Bayar Sekarang
@@ -212,7 +215,17 @@ Bayar Sekarang
 <script src="js/cart-badge.js"></script>
 
 <script>
+
+const postcode = document.getElementById("postcode");
+
+postcode.addEventListener("input", function(){
+
+this.value = this.value.replace(/\D/g,"");
+
+});
+
 lucide.createIcons();
+
 </script>
 
 </body>
