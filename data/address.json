@@ -1,0 +1,25 @@
+{
+  "Banten": {
+    "Kota Tangerang": {
+      "Cipondoh": {
+        "Poris Plawad": "15141",
+        "Poris Gaga": "15141"
+      },
+      "Karang Tengah": {
+        "Karang Timur": "15157"
+      }
+    },
+    "Kabupaten Tangerang": {
+      "Kelapa Dua": {
+        "Bencongan": "15810"
+      }
+    }
+  },
+  "DKI Jakarta": {
+    "Jakarta Barat": {
+      "Kembangan": {
+        "Meruya Selatan": "11650"
+      }
+    }
+  }
+}
