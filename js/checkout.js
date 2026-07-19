@@ -1,184 +1,109 @@
-const addressInput = document.getElementById("addressSearch");
-const addressResult = document.getElementById("addressResult");
+let addressData = {};
 
-const city = document.getElementById("city");
 const province = document.getElementById("province");
+const city = document.getElementById("city");
+const district = document.getElementById("district");
+const village = document.getElementById("village");
 const postcode = document.getElementById("postcode");
 
-let timer = null;
-addressInput.addEventListener("keyup", () => {
+async function loadAddress(){
 
-clearTimeout(timer);
+const response = await fetch("data/address.json");
 
-const keyword = addressInput.value.trim();
+addressData = await response.json();
 
-if(keyword.length < 3){
-
-addressResult.style.display="none";
-
-addressResult.innerHTML="";
-
-return;
+loadProvince();
 
 }
 
-timer = setTimeout(searchAddress,500);
+loadAddress();
+function loadProvince(){
 
-});
-async function searchAddress(){
+province.innerHTML =
+'<option value="">Pilih Provinsi</option>';
 
-const keyword = addressInput.value.trim();
+for(const item in addressData){
 
-const url =
-`https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(keyword)}&countrycodes=id&limit=5`;
+province.innerHTML +=
 
-const response = await fetch(url);
-
-const data = await response.json();
-
-showAddress(data);
-
-    }
-function showAddress(data){
-
-addressResult.innerHTML="";
-
-addressResult.style.display="block";
-
-data.forEach(item=>{
-
-addressResult.innerHTML += `
-
-<div class="address-item"
-
-onclick="selectAddress('${item.display_name.replace(/'/g,"")}')">
-
-${item.display_name}
-
-</div>
-
-`;
-
-});
+`<option value="${item}">${item}</option>`;
 
 }
-function selectAddress(address){
-
-addressInput.value = address;
-
-addressResult.innerHTML = "";
-
-addressResult.style.display = "none";
-
-loadAddressDetail(address);
 
 }
-async function loadAddressDetail(address){
+province.onchange = function(){
 
-const url =
-`https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(address)}&addressdetails=1&limit=1`;
+city.innerHTML =
+'<option value="">Pilih Kota / Kabupaten</option>';
 
-const response = await fetch(url);
+district.innerHTML =
+'<option value="">Pilih Kecamatan</option>';
 
-const data = await response.json();
+village.innerHTML =
+'<option value="">Pilih Kelurahan</option>';
 
-if(data.length === 0) return;
+postcode.value="";
 
-const detail = data[0].address;
+const data = addressData[this.value];
 
-city.value =
-detail.city ||
-detail.town ||
-detail.county ||
-detail.municipality ||
-"";
+for(const item in data){
 
-province.value =
-detail.state || "";
+city.innerHTML +=
+
+`<option value="${item}">${item}</option>`;
+
+}
+
+}
+city.onchange = function(){
+
+district.innerHTML =
+'<option value="">Pilih Kecamatan</option>';
+
+village.innerHTML =
+'<option value="">Pilih Kelurahan</option>';
+
+postcode.value="";
+
+const data =
+addressData[province.value][this.value];
+
+for(const item in data){
+
+district.innerHTML +=
+
+`<option value="${item}">${item}</option>`;
+
+}
+
+}
+district.onchange = function(){
+
+village.innerHTML =
+'<option value="">Pilih Kelurahan</option>';
+
+postcode.value="";
+
+const data =
+addressData[province.value][city.value][this.value];
+
+for(const item in data){
+
+village.innerHTML +=
+
+`<option value="${item}">${item}</option>`;
+
+}
+
+}
+village.onchange = function(){
 
 postcode.value =
-detail.postcode || "";
+
+addressData
+[province.value]
+[city.value]
+[district.value]
+[this.value];
 
 }
-document.addEventListener("click",(e)=>{
-
-if(
-!addressResult.contains(e.target) &&
-e.target !== addressInput
-){
-
-addressResult.style.display="none";
-
-}
-
-});
-let subtotal = 0;
-
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-cart.forEach(item=>{
-
-subtotal += item.price * item.qty;
-
-});
-
-document.getElementById("subtotal").innerText =
-"Rp " + subtotal.toLocaleString("id-ID");
-const shippingRadio =
-document.querySelectorAll("input[name='shipping']");
-
-shippingRadio.forEach(radio=>{
-
-radio.addEventListener("change",updateShipping);
-
-});
-
-updateShipping();
-
-function updateShipping(){
-
-let cost=0;
-let estimate="";
-
-const courier=document.querySelector(
-"input[name='shipping']:checked"
-).value;
-
-switch(courier){
-
-case "JNE":
-
-cost=18000;
-estimate="2 - 4 Hari";
-
-break;
-
-case "J&T":
-
-cost=20000;
-estimate="1 - 3 Hari";
-
-break;
-
-case "SiCepat":
-
-cost=17000;
-estimate="2 - 3 Hari";
-
-break;
-
-}
-
-document.getElementById("shippingCost").innerHTML=
-"Rp "+cost.toLocaleString("id-ID");
-
-document.getElementById("shippingTotal").innerHTML=
-"Rp "+cost.toLocaleString("id-ID");
-
-document.getElementById("shippingEstimate").innerHTML=
-estimate;
-
-document.getElementById("checkout-total").innerHTML=
-"Rp "+(subtotal+cost).toLocaleString("id-ID");
-
-    }
