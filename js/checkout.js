@@ -1,109 +1,138 @@
-let addressData = {};
+// ==========================
+// KODE POS (HANYA ANGKA)
+// ==========================
 
-const province = document.getElementById("province");
-const city = document.getElementById("city");
-const district = document.getElementById("district");
-const village = document.getElementById("village");
 const postcode = document.getElementById("postcode");
 
-async function loadAddress(){
+if(postcode){
 
-const response = await fetch("data/address.json");
+postcode.addEventListener("input", function(){
 
-addressData = await response.json();
+this.value = this.value.replace(/\D/g,"");
 
-loadProvince();
-
-}
-
-loadAddress();
-function loadProvince(){
-
-province.innerHTML =
-'<option value="">Pilih Provinsi</option>';
-
-for(const item in addressData){
-
-province.innerHTML +=
-
-`<option value="${item}">${item}</option>`;
+});
 
 }
 
-}
-province.onchange = function(){
+// ==========================
+// DATA CART
+// ==========================
 
-city.innerHTML =
-'<option value="">Pilih Kota / Kabupaten</option>';
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-district.innerHTML =
-'<option value="">Pilih Kecamatan</option>';
+const checkoutList = document.getElementById("checkout-list");
+const subtotalElement = document.getElementById("subtotal");
+const shippingCostElement = document.getElementById("shippingCost");
+const shippingTotalElement = document.getElementById("shippingTotal");
+const shippingEstimateElement = document.getElementById("shippingEstimate");
+const totalElement = document.getElementById("checkout-total");
 
-village.innerHTML =
-'<option value="">Pilih Kelurahan</option>';
+let subtotal = 0;
 
-postcode.value="";
+// ==========================
+// TAMPILKAN PRODUK
+// ==========================
 
-const data = addressData[this.value];
+function renderCheckout(){
 
-for(const item in data){
+if(!checkoutList) return;
 
-city.innerHTML +=
+checkoutList.innerHTML = "";
 
-`<option value="${item}">${item}</option>`;
+subtotal = 0;
 
-}
+cart.forEach(item=>{
 
-}
-city.onchange = function(){
+const qty = item.qty || 1;
 
-district.innerHTML =
-'<option value="">Pilih Kecamatan</option>';
+const total = item.price * qty;
 
-village.innerHTML =
-'<option value="">Pilih Kelurahan</option>';
+subtotal += total;
 
-postcode.value="";
+checkoutList.innerHTML += `
 
-const data =
-addressData[province.value][this.value];
+<div class="checkout-item">
 
-for(const item in data){
+<div>
 
-district.innerHTML +=
+<strong>${item.name}</strong><br>
 
-`<option value="${item}">${item}</option>`;
+<small>${qty} x Rp ${item.price.toLocaleString("id-ID")}</small>
 
-}
+</div>
 
-}
-district.onchange = function(){
+<strong>
 
-village.innerHTML =
-'<option value="">Pilih Kelurahan</option>';
+Rp ${total.toLocaleString("id-ID")}
 
-postcode.value="";
+</strong>
 
-const data =
-addressData[province.value][city.value][this.value];
+</div>
 
-for(const item in data){
+`;
 
-village.innerHTML +=
+});
 
-`<option value="${item}">${item}</option>`;
+subtotalElement.innerHTML =
+"Rp " + subtotal.toLocaleString("id-ID");
 
-}
-
-}
-village.onchange = function(){
-
-postcode.value =
-
-addressData
-[province.value]
-[city.value]
-[district.value]
-[this.value];
+updateShipping();
 
 }
+
+// ==========================
+// ONGKIR
+// ==========================
+
+function updateShipping(){
+
+const courier = document.querySelector("input[name='shipping']:checked").value;
+
+let cost = 0;
+let estimate = "-";
+
+switch(courier){
+
+case "JNE":
+cost = 18000;
+estimate = "2-4 Hari";
+break;
+
+case "J&T":
+cost = 20000;
+estimate = "1-3 Hari";
+break;
+
+case "SiCepat":
+cost = 17000;
+estimate = "2-3 Hari";
+break;
+
+}
+
+shippingCostElement.innerHTML =
+"Rp " + cost.toLocaleString("id-ID");
+
+shippingTotalElement.innerHTML =
+"Rp " + cost.toLocaleString("id-ID");
+
+shippingEstimateElement.innerHTML =
+estimate;
+
+totalElement.innerHTML =
+"Rp " + (subtotal + cost).toLocaleString("id-ID");
+
+}
+
+document.querySelectorAll("input[name='shipping']")
+.forEach(item=>{
+
+item.addEventListener("change", updateShipping);
+
+});
+
+// ==========================
+// LOAD
+// ==========================
+
+renderCheckout();
