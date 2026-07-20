@@ -94,17 +94,17 @@ let estimate = "-";
 switch(courier){
 
 case "JNE":
-cost = 18000;
+cost = 28000;
 estimate = "2-4 Hari";
 break;
 
 case "J&T":
-cost = 20000;
+cost = 29000;
 estimate = "1-3 Hari";
 break;
 
 case "SiCepat":
-cost = 17000;
+cost = 32000;
 estimate = "2-3 Hari";
 break;
 
