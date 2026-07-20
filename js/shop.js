@@ -378,3 +378,72 @@ function initBottomSheet() {
     });
 
                        }
+// =====================================
+// AUTO REFRESH DARI ADMIN
+// =====================================
+
+window.addEventListener("storage", () => {
+
+    loadProducts();
+
+});
+
+// =====================================
+// REFRESH SAAT KEMBALI KE TAB
+// =====================================
+
+document.addEventListener("visibilitychange", () => {
+
+    if (!document.hidden) {
+
+        loadProducts();
+
+    }
+
+});
+
+// =====================================
+// UPDATE DARI ADMIN PANEL
+// =====================================
+
+setInterval(() => {
+
+    const localProducts =
+        JSON.parse(localStorage.getItem("products")) || [];
+
+    if (localProducts.length !== products.length) {
+
+        products = localProducts;
+
+        filterAndRender();
+
+    }
+
+}, 1000);
+
+// =====================================
+// ACTIVE MENU
+// =====================================
+
+document.querySelectorAll(".bottom-nav .nav-item")
+.forEach(link => {
+
+    const href = link.getAttribute("href");
+
+    if (window.location.pathname.endsWith(href)) {
+
+        link.classList.add("active");
+
+    }
+
+});
+
+// =====================================
+// UPDATE ICON
+// =====================================
+
+if (typeof lucide !== "undefined") {
+
+    lucide.createIcons();
+
+}
