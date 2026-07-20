@@ -25,7 +25,7 @@
 
 </div>
 
-<h1>Pesanan Berhasil Dibuat</h1>
+<h1>Pesanan Berhasil</h1>
 
 <p>
 
@@ -39,7 +39,7 @@ Terima kasih telah berbelanja di <b>DHUHA</b>.
 
 <span>Nomor Pesanan</span>
 
-<strong id="orderNumber"></strong>
+<strong id="orderNumber">-</strong>
 
 </div>
 
@@ -47,9 +47,21 @@ Terima kasih telah berbelanja di <b>DHUHA</b>.
 
 <span>Status</span>
 
-<strong class="pending">
+<strong class="pending" id="orderStatus">
 
-Menunggu Verifikasi Pembayaran
+Menunggu Verifikasi
+
+</strong>
+
+</div>
+
+<div class="row">
+
+<span>Total Pembayaran</span>
+
+<strong id="orderTotal">
+
+Rp 0
 
 </strong>
 
@@ -79,16 +91,27 @@ Belanja Lagi
 
 <script>
 
-const orderNumber =
-localStorage.getItem("orderNumber");
+const order =
+JSON.parse(localStorage.getItem("currentOrder"));
 
-document.getElementById("orderNumber").innerHTML =
-orderNumber || "-";
+if(order){
+
+document.getElementById("orderNumber").textContent =
+order.id;
+
+document.getElementById("orderStatus").textContent =
+order.status;
+
+document.getElementById("orderTotal").textContent =
+"Rp " + Number(order.total).toLocaleString("id-ID");
+
+}
 
 localStorage.removeItem("cart");
+localStorage.removeItem("buyNow");
 
 </script>
 
 </body>
 
-  </html>
+</html>
