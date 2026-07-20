@@ -111,3 +111,19 @@ document.getElementById("paidBtn").onclick = () => {
     window.location.href = "success.html";
 
 };
+<div class="upload-proof">
+
+<h3>Upload Bukti Pembayaran</h3>
+
+<input
+type="file"
+id="paymentProof"
+accept="image/*">
+
+<button id="uploadBtn">
+
+Upload Bukti
+
+</button>
+
+</div>
