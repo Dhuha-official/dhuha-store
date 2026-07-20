@@ -1,56 +1,69 @@
 // ==========================
-// AMBIL DATA PESANAN
+// AMBIL ORDER
 // ==========================
 
-const order = JSON.parse(localStorage.getItem("order"));
+const order =
+JSON.parse(localStorage.getItem("currentOrder"));
 
-if (!order) {
-    window.location.href = "checkout.html";
+if(!order){
+
+window.location.href="checkout.html";
+
 }
 
 // ==========================
-// NOMOR PESANAN
+// NOMOR ORDER
 // ==========================
-
-const orderNumber =
-"DH" + Date.now().toString().slice(-10);
-
-localStorage.setItem("orderNumber", orderNumber);
 
 document.getElementById("order-number").textContent =
-orderNumber;
+order.id;
 
 // ==========================
-// DAFTAR PRODUK
+// LIST PRODUK
 // ==========================
 
-const list = document.getElementById("payment-list");
+const list =
+document.getElementById("payment-list");
 
-order.items.forEach(item => {
+list.innerHTML="";
 
-    const qty = item.qty || 1;
+order.items.forEach(item=>{
 
-    const total = qty * item.price;
+const qty=item.qty||1;
 
-    list.innerHTML += `
-    <div class="payment-item">
+const total=qty*Number(item.price);
 
-        <div>
+list.innerHTML+=`
 
-            <strong>${item.name}</strong><br>
+<div class="payment-item">
 
-            <small>${qty} x Rp ${item.price.toLocaleString("id-ID")}</small>
+<div>
 
-        </div>
+<strong>${item.name}</strong>
 
-        <strong>
+<br>
 
-            Rp ${total.toLocaleString("id-ID")}
+<small>
 
-        </strong>
+${qty} x Rp ${Number(item.price).toLocaleString("id-ID")}
 
-    </div>
-    `;
+${item.size ? "<br>Ukuran : "+item.size : ""}
+
+${item.color ? "<br>Warna : "+item.color : ""}
+
+</small>
+
+</div>
+
+<strong>
+
+Rp ${total.toLocaleString("id-ID")}
+
+</strong>
+
+</div>
+
+`;
 
 });
 
@@ -58,97 +71,116 @@ order.items.forEach(item => {
 // TOTAL
 // ==========================
 
-document.getElementById("payment-subtotal").textContent =
-"Rp " + order.subtotal.toLocaleString("id-ID");
+document.getElementById("payment-subtotal").textContent=
 
-document.getElementById("payment-shipping").textContent =
-"Rp " + order.shipping.toLocaleString("id-ID");
+"Rp "+order.subtotal.toLocaleString("id-ID");
 
-document.getElementById("payment-total").textContent =
-"Rp " + order.total.toLocaleString("id-ID");
+document.getElementById("payment-shipping").textContent=
+
+"Rp "+order.shipping.toLocaleString("id-ID");
+
+document.getElementById("payment-total").textContent=
+
+"Rp "+order.total.toLocaleString("id-ID");
 
 // ==========================
-// METODE PEMBAYARAN
+// METODE
 // ==========================
 
-document.getElementById("payment-method").textContent =
+document.getElementById("payment-method").textContent=
 order.payment;
 
-const info = document.getElementById("payment-info");
+const info=
+document.getElementById("payment-info");
 
-if (order.payment === "QRIS") {
+if(order.payment==="QRIS"){
 
-    info.innerHTML = `
-    <p>Silakan scan QRIS berikut untuk melakukan pembayaran.</p>
+info.innerHTML=`
 
-    <img src="images/qris.png" alt="QRIS">
+<p>Silakan scan QRIS berikut.</p>
 
-    <p><b>Status:</b> Menunggu Pembayaran</p>
-    `;
+<img src="images/qris.png" alt="QRIS">
 
-} else {
+<p><b>Status :</b> Menunggu Pembayaran</p>
 
-    info.innerHTML = `
-    <p>Transfer ke rekening berikut:</p>
+`;
 
-    <p>
-    <b>BCA</b><br>
-    1234567890<br>
-    a.n. DHUHA
-    </p>
+}else{
 
-    <p><b>Status:</b> Menunggu Pembayaran</p>
-    `;
+info.innerHTML=`
+
+<p>Transfer ke rekening berikut.</p>
+
+<p>
+
+<b>BCA</b>
+
+<br>
+
+1234567890
+
+<br>
+
+a.n DHUHA
+
+</p>
+
+<p>
+
+<b>Status :</b> Menunggu Pembayaran
+
+</p>
+
+`;
 
 }
 
 // ==========================
-// SUDAH BAYAR
+// UPLOAD BUKTI
 // ==========================
 
-document.getElementById("paidBtn").onclick = () => {
-
-    window.location.href = "success.html";
-
-};
-<div class="upload-proof">
-
-<h3>Upload Bukti Pembayaran</h3>
-
-<input
-type="file"
-id="paymentProof"
-accept="image/*">
-
-<button id="uploadBtn">
-
-Upload Bukti
-
-</button>
-
-</div>
-const uploadBtn =
+const uploadBtn=
 document.getElementById("uploadBtn");
 
 if(uploadBtn){
 
 uploadBtn.onclick=()=>{
 
-const file =
+const file=
 document.getElementById("paymentProof").files[0];
 
 if(!file){
 
-alert("Silakan pilih bukti pembayaran.");
+alert("Silakan upload bukti pembayaran.");
 
 return;
 
 }
 
+order.status="Menunggu Verifikasi";
+
+localStorage.setItem("currentOrder",JSON.stringify(order));
+
+let orders=
+JSON.parse(localStorage.getItem("orders"))||[];
+
+const index=
+orders.findIndex(item=>item.id===order.id);
+
+if(index!==-1){
+
+orders[index]=order;
+
+}
+
+localStorage.setItem("orders",JSON.stringify(orders));
+
+localStorage.removeItem("cart");
+
 alert("Bukti pembayaran berhasil diupload.");
 
 window.location.href="success.html";
 
-}
+};
 
-}
+    }
