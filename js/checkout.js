@@ -161,7 +161,6 @@ document.querySelectorAll("input[name='shipping']")
 // CHECKOUT
 // ==========================
 
-const checkoutBtn = document.getElementById("checkoutBtn");
 
 checkoutBtn.onclick = function () {
 
