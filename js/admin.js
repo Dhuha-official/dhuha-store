@@ -1,142 +1,115 @@
-// ===============================
-// DHUHA ADMIN DASHBOARD
-// ===============================
+/* ==========================================
+   DHUHA ADMIN DASHBOARD
+========================================== */
+
+// ===========================
+// LOGIN CHECK
+// ===========================
+
+if (localStorage.getItem("adminLogin") !== "true") {
+    window.location.href = "login.html";
+}
+
+// ===========================
+// LOGOUT
+// ===========================
+
+const logoutBtn = document.querySelector(".sidebar-menu a[href='login.html']");
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener("click", function (e) {
+
+        e.preventDefault();
+
+        if (confirm("Keluar dari Dashboard Admin?")) {
+
+            localStorage.removeItem("adminLogin");
+
+            window.location.href = "login.html";
+
+        }
+
+    });
+
+}
+
+// ===========================
+// DATA
+// ===========================
 
 let products = [];
+let orders = [];
+let customers = [];
 
-async function loadDashboard(){
+// ===========================
+// LOAD PRODUCT
+// ===========================
 
-try{
+async function loadProducts() {
 
-const response = await fetch("../data/products.json");
+    try {
 
-products = await response.json();
+        const response = await fetch("../data/products.json");
 
-dashboardCard();
+        products = await response.json();
 
-latestProducts();
+        document.getElementById("total-products").textContent =
+            products.length;
 
-}catch(error){
+        renderLatestProducts();
 
-console.log(error);
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+}
+
+// ===========================
+// LOAD ORDER
+// ===========================
+
+function loadOrders() {
+
+    orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    document.getElementById("total-orders").textContent =
+        orders.length;
+
+    renderLatestOrders();
 
 }
 
-}
+// ===========================
+// LOAD CUSTOMER
+// ===========================
 
-document.addEventListener("DOMContentLoaded",()=>{
+function loadCustomers() {
 
-loadDashboard();
+    customers = JSON.parse(localStorage.getItem("customers")) || [];
 
-});
-// ===============================
-// DASHBOARD CARD
-// ===============================
-
-function dashboardCard(){
-
-document.getElementById("total-products").textContent = products.length;
-
-document.getElementById("total-orders").textContent = 0;
-
-document.getElementById("total-customers").textContent = 0;
-
-let total = products.reduce((sum,item)=>sum+Number(item.price),0);
-
-document.getElementById("total-income").textContent =
-
-"Rp "+total.toLocaleString("id-ID");
+    document.getElementById("total-customers").textContent =
+        customers.length;
 
 }
-// ===============================
-// LATEST PRODUCT
-// ===============================
 
-function latestProducts(){
+// ===========================
+// TOTAL INCOME
+// ===========================
 
-const latest = document.getElementById("latest-products");
+function loadIncome() {
 
-latest.innerHTML = "";
+    let total = 0;
 
-products.slice(0,5).forEach(product=>{
+    orders.forEach(order => {
 
-latest.innerHTML += `
+        total += order.total || 0;
 
-<div class="latest-item">
+    });
 
-<img src="../${product.image}" class="latest-image">
-
-<div class="latest-info">
-
-<h4>${product.name}</h4>
-
-<p>${product.category}</p>
-
-<span>
-
-Rp ${Number(product.price).toLocaleString("id-ID")}
-
-</span>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-// ===============================
-// DUMMY ORDER
-// ===============================
-
-const orderTable = document.getElementById("latest-orders");
-
-if(orderTable){
-
-orderTable.innerHTML=`
-
-<tr>
-
-<td>#1001</td>
-
-<td>Kevin Andrean</td>
-
-<td>Rp 249.000</td>
-
-<td>
-
-<span class="status process">
-
-Diproses
-
-</span>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>#1002</td>
-
-<td>Teuku Rizki</td>
-
-<td>Rp 149.000</td>
-
-<td>
-
-<span class="status success">
-
-Selesai
-
-</span>
-
-</td>
-
-</tr>
-
-`;
+    document.getElementById("total-income").textContent =
+        "Rp " + total.toLocaleString("id-ID");
 
 }
