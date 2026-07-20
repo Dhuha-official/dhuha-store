@@ -183,7 +183,7 @@ checkoutBtn.addEventListener("click", () => {
 
     const order = {
 
-        id: orderId,
+    orderNumber: orderId,
 
         customer: {
 
