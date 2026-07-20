@@ -159,7 +159,7 @@ currentCategory=btn.dataset.category;
 
 filterAndRender();
 
-document.getElementById("filterSheet").classList.remove("show");
+document.getElementById("filterSheet").classList.remove("active");
 
 };
 
@@ -228,7 +228,7 @@ currentSort=btn.dataset.sort;
 
 filterAndRender();
 
-document.getElementById("sortSheet").classList.remove("show");
+document.getElementById("sortSheet").classList.remove("active");
 
 };
 
@@ -304,61 +304,45 @@ function sortProducts(list) {
 // BOTTOM SHEET
 // =====================================
 
-function initBottomSheet() {
+function initBottomSheet(){
 
-    const filterBtn =
-    document.getElementById("filterBtn");
+const filterBtn=document.getElementById("filterBtn");
+const sortBtn=document.getElementById("sortBtn");
 
-    const sortBtn =
-    document.getElementById("sortBtn");
+const filterSheet=document.getElementById("filterSheet");
+const sortSheet=document.getElementById("sortSheet");
 
-    const filterSheet =
-    document.getElementById("filterSheet");
+filterBtn.onclick=()=>{
 
-    const sortSheet =
-    document.getElementById("sortSheet");
+filterSheet.classList.add("active");
+sortSheet.classList.remove("active");
 
-    if (filterBtn && filterSheet) {
+};
 
-        filterBtn.onclick = () => {
+sortBtn.onclick=()=>{
 
-            filterSheet.classList.add("show");
+sortSheet.classList.add("active");
+filterSheet.classList.remove("active");
 
-            sortSheet.classList.remove("show");
+};
 
-        };
+window.onclick=(e)=>{
 
-    }
+if(e.target===filterSheet){
 
-    if (sortBtn && sortSheet) {
+filterSheet.classList.remove("active");
 
-        sortBtn.onclick = () => {
+}
 
-            sortSheet.classList.add("show");
+if(e.target===sortSheet){
 
-            filterSheet.classList.remove("show");
+sortSheet.classList.remove("active");
 
-        };
+}
 
-    }
+};
 
-    window.addEventListener("click", (e) => {
-
-        if (e.target === filterSheet) {
-
-            filterSheet.classList.remove("show");
-
-        }
-
-        if (e.target === sortSheet) {
-
-            sortSheet.classList.remove("show");
-
-        }
-
-    });
-
-                       }
+}
 // =====================================
 // AUTO REFRESH DARI ADMIN
 // =====================================
