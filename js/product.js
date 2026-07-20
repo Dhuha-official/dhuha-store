@@ -78,46 +78,60 @@ Lihat Produk
 }
 
 function addToCart() {
+function addToCart() {
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const selectedSize =
+        document.querySelector(".size-list .active");
 
-    const existing = cart.find(item => item.id === productData.id);
+    const selectedColor =
+        document.querySelector(".color.active");
 
-    if (existing) {
+    const size =
+        selectedSize ? selectedSize.innerText : "";
+
+    const color =
+        selectedColor ? selectedColor.dataset.color || selectedColor.title || "" : "";
+
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existing = cart.find(item =>
+
+        item.id === productData.id &&
+        item.size === size &&
+        item.color === color
+
+    );
+
+    if(existing){
 
         existing.qty += qty;
 
-    } else {
+    }else{
 
         cart.push({
+
             ...productData,
-            qty: qty
+
+            qty: qty,
+
+            size: size,
+
+            color: color
+
         });
 
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    alert("Produk berhasil ditambahkan ke keranjang.");
+    if(typeof updateCartBadge==="function"){
 
-        }
+        updateCartBadge();
 
-function addToWishlist() {
-
-    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-
-    const existing = wishlist.find(item => item.id === productData.id);
-
-    if (existing) {
-        alert("Produk sudah ada di Wishlist.");
-        return;
     }
 
-    wishlist.push(productData);
-
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
-
-    alert("Produk berhasil ditambahkan ke Wishlist.");
+    alert("Produk berhasil ditambahkan ke keranjang.");
 
 }
 
@@ -204,15 +218,38 @@ const checkoutBtn = document.querySelector(".checkout-btn");
 
 if(checkoutBtn){
 
-    checkoutBtn.onclick = () => {
+checkoutBtn.onclick = ()=>{
 
-    localStorage.setItem("cart", JSON.stringify([
+    const selectedSize =
+        document.querySelector(".size-list .active");
+
+    const selectedColor =
+        document.querySelector(".color.active");
+
+    const size =
+        selectedSize ? selectedSize.innerText : "";
+
+    const color =
+        selectedColor ? selectedColor.dataset.color || selectedColor.title || "" : "";
+
+    localStorage.setItem("buyNow",JSON.stringify([
+
         {
+
             ...productData,
-            qty: qty
+
+            qty:qty,
+
+            size:size,
+
+            color:color
+
         }
+
     ]));
 
-    window.location.href = "checkout.html";
+    window.location.href="checkout.html";
 
-}
+};
+
+    }
