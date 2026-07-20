@@ -46,7 +46,7 @@ function renderOrders(list) {
 
 <tr>
 
-<td>${order.id}</td>
+<td>${order.orderNumber}</td>
 
 <td>${order.customer.name}</td>
 
@@ -138,7 +138,7 @@ alert(
 
 `Nomor :
 
-${order.id}
+${order.orderNumber}
 
 -------------------------
 
