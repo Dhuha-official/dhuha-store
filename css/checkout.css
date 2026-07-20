@@ -3,11 +3,13 @@
 ========================== */
 
 .checkout{
-padding:90px 18px 110px;
+
 max-width:700px;
-margin:auto;
-background:#fafafa;
-min-height:100vh;
+
+margin:30px auto 120px;
+
+padding:0 20px;
+
 }
 
 .checkout h1{
@@ -37,35 +39,81 @@ color:#111;
 }
 
 /* ==========================
-   FORM
+   DATA PENERIMA
 ========================== */
 
-.checkout-card input,
-.checkout-card select,
-.checkout-card textarea{
-width:100%;
-border:none;
-outline:none;
-background:#f8f8f8;
-border-radius:16px;
-padding:16px;
-font-size:15px;
-margin-bottom:15px;
-transition:.25s;
-box-sizing:border-box;
-}
+.checkout-form{
 
-.checkout-card input:focus,
-.checkout-card select:focus,
-.checkout-card textarea:focus{
 background:#fff;
-box-shadow:0 0 0 2px #111;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.06);
+
+margin-bottom:20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
 }
 
-.checkout-card textarea{
-min-height:130px;
-resize:vertical;
-line-height:1.6;
+.checkout-form h2{
+
+font-size:20px;
+
+font-weight:700;
+
+margin-bottom:5px;
+
+color:#111;
+
+}
+
+.checkout-form input,
+
+.checkout-form textarea{
+
+width:100%;
+
+padding:15px 16px;
+
+border:1px solid #ddd;
+
+border-radius:14px;
+
+font-size:15px;
+
+font-family:inherit;
+
+background:#fafafa;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+.checkout-form input:focus,
+
+.checkout-form textarea:focus{
+
+border-color:#111;
+
+background:#fff;
+
+}
+
+.checkout-form textarea{
+
+min-height:110px;
+
+resize:none;
+
 }
 
 /* ==========================
