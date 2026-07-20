@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Pesanan Berhasil | DHUHA</title>
+
+<link rel="stylesheet" href="css/global.css">
+<link rel="stylesheet" href="css/success.css">
+
+</head>
+
+<body>
+
+<section class="success-page">
+
+<div class="success-card">
+
+<div class="success-icon">
+
+✅
+
+</div>
+
+<h1>Pesanan Berhasil Dibuat</h1>
+
+<p>
+
+Terima kasih telah berbelanja di <b>DHUHA</b>.
+
+</p>
+
+<div class="order-box">
+
+<div class="row">
+
+<span>Nomor Pesanan</span>
+
+<strong id="orderNumber"></strong>
+
+</div>
+
+<div class="row">
+
+<span>Status</span>
+
+<strong class="pending">
+
+Menunggu Verifikasi Pembayaran
+
+</strong>
+
+</div>
+
+</div>
+
+<div class="success-btn">
+
+<a href="index.html" class="home-btn">
+
+Kembali ke Beranda
+
+</a>
+
+<a href="shop.html" class="shop-btn">
+
+Belanja Lagi
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const orderNumber =
+localStorage.getItem("orderNumber");
+
+document.getElementById("orderNumber").innerHTML =
+orderNumber || "-";
+
+localStorage.removeItem("cart");
+
+</script>
+
+</body>
+
+  </html>
