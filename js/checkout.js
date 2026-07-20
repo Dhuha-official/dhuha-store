@@ -11,10 +11,14 @@ if (postcode) {
 }
 
 // ==========================
-// DATA
+// DATA CART / BUY NOW
 // ==========================
 
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem("buyNow"));
+
+if (!cart) {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+}
 
 const checkoutList = document.getElementById("checkout-list");
 const subtotalElement = document.getElementById("subtotal");
@@ -40,33 +44,54 @@ function renderCheckout() {
 
     subtotal = 0;
 
+    if (cart.length === 0) {
+
+        checkoutList.innerHTML = `
+        <p style="text-align:center;padding:40px;">
+        Keranjang kosong.
+        </p>`;
+
+        return;
+
+    }
+
     cart.forEach(item => {
 
         const qty = item.qty || 1;
 
-        const total = qty * item.price;
+        const total = qty * Number(item.price);
 
         subtotal += total;
 
         checkoutList.innerHTML += `
-        <div class="checkout-item">
 
-            <div>
+<div class="checkout-item">
 
-                <strong>${item.name}</strong><br>
+<div>
 
-                <small>${qty} x Rp ${item.price.toLocaleString("id-ID")}</small>
+<strong>${item.name}</strong><br>
 
-            </div>
+<small>
 
-            <strong>
+${qty} x Rp ${Number(item.price).toLocaleString("id-ID")}
 
-                Rp ${total.toLocaleString("id-ID")}
+${item.size ? "<br>Ukuran : "+item.size : ""}
 
-            </strong>
+${item.color ? "<br>Warna : "+item.color : ""}
 
-        </div>
-        `;
+</small>
+
+</div>
+
+<strong>
+
+Rp ${total.toLocaleString("id-ID")}
+
+</strong>
+
+</div>
+
+`;
 
     });
 
@@ -119,8 +144,7 @@ function updateShipping() {
 
 }
 
-document
-.querySelectorAll("input[name='shipping']")
+document.querySelectorAll("input[name='shipping']")
 .forEach(item => {
 
     item.addEventListener("change", updateShipping);
@@ -128,28 +152,25 @@ document
 });
 
 // ==========================
-// WHATSAPP
+// CHECKOUT
 // ==========================
 
 checkoutBtn.addEventListener("click", () => {
 
-    const name =
-        document.getElementById("fullname").value;
+    const name = document.getElementById("fullname").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const province = document.getElementById("province").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const postcode = document.getElementById("postcode").value.trim();
+    const address = document.getElementById("detailAddress").value.trim();
 
-    const phone =
-        document.getElementById("phone").value;
+    if (!name || !phone || !province || !city || !postcode || !address) {
 
-    const province =
-        document.getElementById("province").value;
+        alert("Mohon lengkapi data penerima.");
 
-    const city =
-        document.getElementById("city").value;
+        return;
 
-    const postcode =
-        document.getElementById("postcode").value;
-
-    const address =
-        document.getElementById("detailAddress").value;
+    }
 
     const courier =
         document.querySelector("input[name='shipping']:checked").value;
@@ -157,69 +178,67 @@ checkoutBtn.addEventListener("click", () => {
     const payment =
         document.querySelector("input[name='payment']:checked").value;
 
-    let message =
-`Halo Admin DHUHA,
+    const orderId =
+        "DH" + Date.now();
 
-Saya ingin melakukan pemesanan.
+    const order = {
 
-━━━━━━━━━━━━━━
-DATA PEMBELI
-━━━━━━━━━━━━━━
+        id: orderId,
 
-Nama : ${name}
-No WA : ${phone}
+        customer: {
 
-Provinsi : ${province}
-Kota : ${city}
-Kode Pos : ${postcode}
+            name,
 
-Alamat :
-${address}
+            phone,
 
-━━━━━━━━━━━━━━
-PESANAN
-━━━━━━━━━━━━━━
+            province,
 
-`;
+            city,
 
-    cart.forEach(item => {
+            postcode,
 
-        const qty = item.qty || 1;
+            address
 
-        message +=
-`${item.name}
-Qty : ${qty}
-Harga : Rp ${item.price.toLocaleString("id-ID")}
+        },
 
-`;
+        items: cart,
 
-    });
+        subtotal,
 
-    message +=
-`━━━━━━━━━━━━━━
+        shipping: shippingCost,
 
-Kurir : ${courier}
-Estimasi : ${shippingEstimate}
+        total: subtotal + shippingCost,
 
-Subtotal : Rp ${subtotal.toLocaleString("id-ID")}
-Ongkir : Rp ${shippingCost.toLocaleString("id-ID")}
-Total : Rp ${(subtotal + shippingCost).toLocaleString("id-ID")}
+        courier,
 
-Pembayaran : ${payment}
+        estimate: shippingEstimate,
 
-Terima kasih.
-`;
+        payment,
 
-    localStorage.setItem("order", JSON.stringify({
-    items: cart,
-    subtotal,
-    shipping: shippingCost,
-    total: subtotal + shippingCost,
-    payment: document.querySelector("input[name='payment']:checked").value,
-    status: "Menunggu Pembayaran"
-}));
+        status: "Menunggu Pembayaran",
 
-window.location.href = "payment.html";
+        createdAt: new Date().toLocaleString("id-ID")
+
+    };
+
+    let orders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+    orders.unshift(order);
+
+    localStorage.setItem(
+        "orders",
+        JSON.stringify(orders)
+    );
+
+    localStorage.setItem(
+        "currentOrder",
+        JSON.stringify(order)
+    );
+
+    localStorage.removeItem("buyNow");
+
+    window.location.href = "payment.html";
 
 });
 
