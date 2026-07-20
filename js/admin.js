@@ -1,115 +1,189 @@
-/* ==========================================
-   DHUHA ADMIN DASHBOARD
-========================================== */
+// =====================================
+// DHUHA ADMIN DASHBOARD
+// =====================================
 
-// ===========================
-// LOGIN CHECK
-// ===========================
+document.addEventListener("DOMContentLoaded", () => {
 
-if (localStorage.getItem("adminLogin") !== "true") {
-    window.location.href = "login.html";
-}
+    loadDashboard();
 
-// ===========================
-// LOGOUT
-// ===========================
+});
 
-const logoutBtn = document.querySelector(".sidebar-menu a[href='login.html']");
+// =====================================
+// LOAD DASHBOARD
+// =====================================
 
-if (logoutBtn) {
+function loadDashboard() {
 
-    logoutBtn.addEventListener("click", function (e) {
+    const products =
+        JSON.parse(localStorage.getItem("products")) || [];
 
-        e.preventDefault();
+    const orders =
+        JSON.parse(localStorage.getItem("orders")) || [];
 
-        if (confirm("Keluar dari Dashboard Admin?")) {
+    // ==========================
+    // TOTAL PRODUK
+    // ==========================
 
-            localStorage.removeItem("adminLogin");
+    document.getElementById("total-products").textContent =
+        products.length;
 
-            window.location.href = "login.html";
+    // ==========================
+    // TOTAL PESANAN
+    // ==========================
+
+    document.getElementById("total-orders").textContent =
+        orders.length;
+
+    // ==========================
+    // TOTAL PELANGGAN
+    // ==========================
+
+    const customers = [];
+
+    orders.forEach(order => {
+
+        if (!customers.includes(order.customer.phone)) {
+
+            customers.push(order.customer.phone);
 
         }
 
     });
 
-}
-
-// ===========================
-// DATA
-// ===========================
-
-let products = [];
-let orders = [];
-let customers = [];
-
-// ===========================
-// LOAD PRODUCT
-// ===========================
-
-async function loadProducts() {
-
-    try {
-
-        const response = await fetch("../data/products.json");
-
-        products = await response.json();
-
-        document.getElementById("total-products").textContent =
-            products.length;
-
-        renderLatestProducts();
-
-    } catch (err) {
-
-        console.log(err);
-
-    }
-
-}
-
-// ===========================
-// LOAD ORDER
-// ===========================
-
-function loadOrders() {
-
-    orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-    document.getElementById("total-orders").textContent =
-        orders.length;
-
-    renderLatestOrders();
-
-}
-
-// ===========================
-// LOAD CUSTOMER
-// ===========================
-
-function loadCustomers() {
-
-    customers = JSON.parse(localStorage.getItem("customers")) || [];
-
     document.getElementById("total-customers").textContent =
         customers.length;
 
-}
+    // ==========================
+    // TOTAL PENDAPATAN
+    // ==========================
 
-// ===========================
-// TOTAL INCOME
-// ===========================
-
-function loadIncome() {
-
-    let total = 0;
+    let income = 0;
 
     orders.forEach(order => {
 
-        total += order.total || 0;
+        if (
+            order.status === "Diproses" ||
+            order.status === "Dikirim" ||
+            order.status === "Selesai"
+        ) {
+
+            income += Number(order.total);
+
+        }
 
     });
 
     document.getElementById("total-income").textContent =
-        "Rp " + total.toLocaleString("id-ID");
+        "Rp " + income.toLocaleString("id-ID");
+
+    // ==========================
+    // PRODUK TERBARU
+    // ==========================
+
+    const latestProducts =
+        document.getElementById("latest-products");
+
+    if (latestProducts) {
+
+        latestProducts.innerHTML = "";
+
+        if (products.length === 0) {
+
+            latestProducts.innerHTML =
+                "<p>Belum ada produk.</p>";
+
+        } else {
+
+            products
+                .slice(-5)
+                .reverse()
+                .forEach(product => {
+
+                    latestProducts.innerHTML += `
+
+<div class="latest-item">
+
+<img src="${product.image}" width="55">
+
+<div>
+
+<strong>${product.name}</strong>
+
+<br>
+
+<small>
+
+Rp ${Number(product.price).toLocaleString("id-ID")}
+
+</small>
+
+</div>
+
+</div>
+
+`;
+
+                });
+
+        }
+
+    }
+
+    // ==========================
+    // PESANAN TERBARU
+    // ==========================
+
+    const latestOrders =
+        document.getElementById("latest-orders");
+
+    if (latestOrders) {
+
+        latestOrders.innerHTML = "";
+
+        if (orders.length === 0) {
+
+            latestOrders.innerHTML =
+
+            `<tr>
+
+<td colspan="4">
+
+Belum ada pesanan
+
+</td>
+
+</tr>`;
+
+        } else {
+
+            orders
+                .slice(0, 5)
+                .forEach((order, index) => {
+
+                    latestOrders.innerHTML += `
+
+<tr>
+
+<td>${index + 1}</td>
+
+<td>${order.customer.name}</td>
+
+<td>
+
+Rp ${Number(order.total).toLocaleString("id-ID")}
+
+</td>
+
+<td>${order.status}</td>
+
+</tr>
+
+`;
+
+                });
+
+        }
+
+    }
 
 }
