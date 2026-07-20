@@ -1,7 +1,22 @@
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem("buyNow"));
+
+if (!cart) {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+}
 
 const cartList = document.getElementById("cart-list");
 const cartTotal = document.getElementById("cart-total");
+const checkoutBtn = document.getElementById("checkoutBtn");
+
+function saveCart() {
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    if (typeof updateCartBadge === "function") {
+        updateCartBadge();
+    }
+
+}
 
 function renderCart() {
 
@@ -15,23 +30,41 @@ function renderCart() {
         <div style="text-align:center;padding:60px 20px;">
             <h3>Keranjang masih kosong</h3>
             <p>Yuk pilih produk favoritmu.</p>
-            <a href="shop.html" class="checkout-btn" style="margin-top:20px;display:inline-block;width:auto;padding:14px 24px;">
-                Belanja Sekarang
+
+            <a href="shop.html"
+            class="checkout-btn"
+            style="margin-top:20px;display:inline-block;width:auto;padding:14px 24px;">
+
+            Belanja Sekarang
+
             </a>
+
         </div>
         `;
 
-        if (cartTotal) cartTotal.textContent = "Rp 0";
+        if (cartTotal) {
+            cartTotal.textContent = "Rp 0";
+        }
+
+        if (checkoutBtn) {
+            checkoutBtn.disabled = true;
+        }
 
         return;
 
+    }
+
+    if (checkoutBtn) {
+        checkoutBtn.disabled = false;
     }
 
     let total = 0;
 
     cart.forEach((item, index) => {
 
-        const subtotal = item.price * item.qty;
+        const qty = item.qty || 1;
+
+        const subtotal = Number(item.price) * qty;
 
         total += subtotal;
 
@@ -51,20 +84,34 @@ Rp ${Number(item.price).toLocaleString("id-ID")}
 
 </div>
 
-<div class="cart-qty">
+<small>
+
+${item.size ? "Ukuran : " + item.size : ""}
+
+${item.color ? "<br>Warna : " + item.color : ""}
+
+</small>
+
 <div class="cart-action">
 
 <div class="cart-qty">
 
-<button class="qty-btn" onclick="changeQty(${index},-1)">−</button>
+<button class="qty-btn"
+onclick="changeQty(${index},-1)">−</button>
 
-<span class="qty-number">${item.qty}</span>
+<span class="qty-number">
 
-<button class="qty-btn" onclick="changeQty(${index},1)">+</button>
+${qty}
+
+</span>
+
+<button class="qty-btn"
+onclick="changeQty(${index},1)">+</button>
 
 </div>
 
-<button class="remove-btn" onclick="removeItem(${index})">
+<button class="remove-btn"
+onclick="removeItem(${index})">
 
 Hapus
 
@@ -72,6 +119,7 @@ Hapus
 
 </div>
 
+</div>
 
 </div>
 
@@ -82,8 +130,7 @@ Hapus
     if (cartTotal) {
 
         cartTotal.textContent =
-
-        "Rp " + total.toLocaleString("id-ID");
+            "Rp " + total.toLocaleString("id-ID");
 
     }
 
@@ -99,15 +146,9 @@ function changeQty(index, value) {
 
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+    saveCart();
 
     renderCart();
-
-    if (typeof updateCartBadge === "function") {
-
-        updateCartBadge();
-
-    }
 
 }
 
@@ -115,15 +156,9 @@ function removeItem(index) {
 
     cart.splice(index, 1);
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+    saveCart();
 
     renderCart();
-
-    if (typeof updateCartBadge === "function") {
-
-        updateCartBadge();
-
-    }
 
 }
 
