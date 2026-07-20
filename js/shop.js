@@ -1,56 +1,79 @@
+// ==========================
+// DHUHA SHOP
+// ==========================
+
 let products = [];
 
-const productList = document.getElementById("product-list");
+// ==========================
+// LOAD PRODUK
+// ==========================
+
+document.addEventListener("DOMContentLoaded", loadProducts);
 
 async function loadProducts() {
 
-    const response = await fetch("data/products.json");
+    products = JSON.parse(localStorage.getItem("products"));
 
-    products = await response.json();
+    if (!products || products.length === 0) {
+
+        const response = await fetch("data/products.json");
+
+        products = await response.json();
+
+        localStorage.setItem(
+            "products",
+            JSON.stringify(products)
+        );
+
+    }
 
     renderProducts(products);
 
 }
 
-function renderProducts(data) {
+// ==========================
+// RENDER
+// ==========================
 
-    productList.innerHTML = "";
+function renderProducts(list) {
 
-    if (data.length === 0) {
+    const container =
+        document.getElementById("product-list");
 
-        productList.innerHTML = `
-        <p style="text-align:center;padding:40px;">
-            Produk tidak ditemukan
-        </p>
-        `;
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (list.length === 0) {
+
+        container.innerHTML =
+        "<p>Produk tidak ditemukan.</p>";
 
         return;
 
     }
 
-    data.forEach(product => {
+    list.forEach(product => {
 
-        productList.innerHTML += `
+        container.innerHTML += `
 
-<div class="product-card" onclick="location.href='product.html?id=${product.id}'">
-
-<div class="product-image">
+<div class="product-card">
 
 <img src="${product.image}" alt="${product.name}">
 
-</div>
-
-<div class="product-info">
-
 <h3>${product.name}</h3>
 
-<div class="product-price">
+<p>
 
 Rp ${Number(product.price).toLocaleString("id-ID")}
 
-</div>
+</p>
 
-</div>
+<a href="product.html?id=${product.id}" class="product-btn">
+
+Lihat Produk
+
+</a>
 
 </div>
 
@@ -60,86 +83,66 @@ Rp ${Number(product.price).toLocaleString("id-ID")}
 
 }
 
-loadProducts();
-const filterButtons = document.querySelectorAll("[data-category]");
+// ==========================
+// SEARCH
+// ==========================
 
-filterButtons.forEach(button => {
+const search =
+document.getElementById("searchInput")
 
-    button.onclick = () => {
+if (search) {
 
-        const category = button.dataset.category;
+    search.addEventListener("keyup", () => {
 
-        filterButtons.forEach(btn => btn.classList.remove("active"));
+        const key =
+        search.value.toLowerCase();
 
-        button.classList.add("active");
+        renderProducts(
 
-        if (category === "Semua") {
+            products.filter(product =>
 
-            renderProducts(products);
+                product.name.toLowerCase().includes(key)
 
-        } else {
+            )
 
-            renderProducts(
+        );
 
-                products.filter(item => item.category === category)
+    });
 
-            );
+}
 
-        }
-
-    };
-
-});
 // ==========================
 // FILTER
 // ==========================
 
-const filterBtn = document.getElementById("filterBtn");
-const filterSheet = document.getElementById("filterSheet");
+function filterCategory(category) {
 
-filterBtn.addEventListener("click", () => {
+    if (category === "Semua") {
 
-    filterSheet.classList.toggle("active");
+        renderProducts(products);
 
-});
-
-// Tutup saat klik di luar
-window.addEventListener("click", function(e){
-
-    if(
-        !filterSheet.contains(e.target) &&
-        !filterBtn.contains(e.target)
-    ){
-
-        filterSheet.classList.remove("active");
+        return;
 
     }
 
-});
+    renderProducts(
 
+        products.filter(product =>
+
+            product.category === category
+
+        )
+
+    );
+
+}
 
 // ==========================
-// SORT
+// AUTO REFRESH
 // ==========================
 
-const sortBtn = document.getElementById("sortBtn");
-const sortSheet = document.getElementById("sortSheet");
+window.addEventListener("storage", () => {
 
-sortBtn.addEventListener("click", () => {
-
-    sortSheet.classList.toggle("active");
-
-});
-
-window.addEventListener("click", function(e){
-
-    if(
-        !sortSheet.contains(e.target) &&
-        !sortBtn.contains(e.target)
-    ){
-
-        sortSheet.classList.remove("active");
-
-    }
+    loadProducts();
 
 });
