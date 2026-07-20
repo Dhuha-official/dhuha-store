@@ -94,7 +94,7 @@ function updateShipping() {
             break;
 
         case "J&T":
-            shippingCost = 30000;
+            shippingCost = 30500;
             shippingEstimate = "1-3 Hari";
             break;
 
@@ -210,11 +210,16 @@ Pembayaran : ${payment}
 Terima kasih.
 `;
 
-    window.open(
-        "https://wa.me/628xxxxxxxxxx?text=" +
-        encodeURIComponent(message),
-        "_blank"
-    );
+    localStorage.setItem("order", JSON.stringify({
+    items: cart,
+    subtotal,
+    shipping: shippingCost,
+    total: subtotal + shippingCost,
+    payment: document.querySelector("input[name='payment']:checked").value,
+    status: "Menunggu Pembayaran"
+}));
+
+window.location.href = "payment.html";
 
 });
 
