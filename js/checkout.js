@@ -155,7 +155,9 @@ document.querySelectorAll("input[name='shipping']")
 // CHECKOUT
 // ==========================
 
-checkoutBtn.addEventListener("click", () => {
+const checkoutBtn = document.getElementById("checkoutBtn");
+
+checkoutBtn.onclick = function () {
 
     const name = document.getElementById("fullname").value.trim();
     const phone = document.getElementById("phone").value.trim();
@@ -165,55 +167,40 @@ checkoutBtn.addEventListener("click", () => {
     const address = document.getElementById("detailAddress").value.trim();
 
     if (!name || !phone || !province || !city || !postcode || !address) {
-
         alert("Mohon lengkapi data penerima.");
-
         return;
-
     }
 
     const courier =
-        document.querySelector("input[name='shipping']:checked").value;
+    document.querySelector("input[name='shipping']:checked").value;
 
     const payment =
-        document.querySelector("input[name='payment']:checked").value;
-
-    const orderId =
-        "DH" + Date.now();
+    document.querySelector("input[name='payment']:checked").value;
 
     const order = {
 
-    orderNumber: orderId,
+        id: "DH" + Date.now(),
 
         customer: {
-
             name,
-
             phone,
-
             province,
-
             city,
-
             postcode,
-
             address
-
         },
 
         items: cart,
 
-        subtotal,
+        subtotal: subtotal,
 
         shipping: shippingCost,
 
         total: subtotal + shippingCost,
 
-        courier,
+        courier: courier,
 
-        estimate: shippingEstimate,
-
-        payment,
+        payment: payment,
 
         status: "Menunggu Pembayaran",
 
@@ -222,25 +209,19 @@ checkoutBtn.addEventListener("click", () => {
     };
 
     let orders =
-        JSON.parse(localStorage.getItem("orders")) || [];
+    JSON.parse(localStorage.getItem("orders")) || [];
 
     orders.unshift(order);
 
-    localStorage.setItem(
-        "orders",
-        JSON.stringify(orders)
-    );
+    localStorage.setItem("orders", JSON.stringify(orders));
 
-    localStorage.setItem(
-        "currentOrder",
-        JSON.stringify(order)
-    );
+    localStorage.setItem("currentOrder", JSON.stringify(order));
 
     localStorage.removeItem("buyNow");
 
     window.location.href = "payment.html";
 
-});
+};
 
 // ==========================
 // LOAD
