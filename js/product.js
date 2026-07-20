@@ -204,12 +204,15 @@ const checkoutBtn = document.querySelector(".checkout-btn");
 
 if(checkoutBtn){
 
-    checkoutBtn.onclick=()=>{
+    checkoutBtn.onclick = () => {
 
-        addToCart();
-
-        window.location.href="checkout.html";
-
-    };
-
+    localStorage.setItem("cart", JSON.stringify([
+        {
+            ...productData,
+            qty: qty
         }
+    ]));
+
+    window.location.href = "checkout.html";
+
+}
