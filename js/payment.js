@@ -13,7 +13,9 @@ if (!order) {
 // ==========================
 
 const orderNumber =
-    "DH" + Date.now().toString().slice(-10);
+"DH" + Date.now().toString().slice(-10);
+
+localStorage.setItem("orderNumber", orderNumber);
 
 document.getElementById("order-number").textContent =
 orderNumber;
