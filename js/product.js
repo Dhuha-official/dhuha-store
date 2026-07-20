@@ -23,7 +23,11 @@ async function loadProduct() {
             "Rp " + Number(productData.price).toLocaleString("id-ID");
 
         const desc = document.getElementById("product-description");
+if(desc){
 
+desc.textContent=productData.description||"";
+
+}
         const related = document.getElementById("related-products");
 
 if (related) {
@@ -78,7 +82,6 @@ Lihat Produk
 }
 
 function addToCart() {
-function addToCart() {
 
     const selectedSize =
         document.querySelector(".size-list .active");
@@ -103,6 +106,48 @@ function addToCart() {
 
     );
 
+function addToWishlist(){
+
+let wishlist=JSON.parse(localStorage.getItem("wishlist"))||[];
+
+const selectedSize=document.querySelector(".size-list .active");
+const selectedColor=document.querySelector(".color.active");
+
+const size=selectedSize?selectedSize.innerText:"";
+const color=selectedColor?selectedColor.dataset.color||selectedColor.title||"":"";
+
+const exist=wishlist.find(item=>
+
+item.id===productData.id&&
+item.size===size&&
+item.color===color
+
+);
+
+if(exist){
+
+alert("Produk sudah ada di wishlist.");
+
+return;
+
+}
+
+wishlist.push({
+
+...productData,
+
+size:size,
+
+color:color
+
+});
+
+localStorage.setItem("wishlist",JSON.stringify(wishlist));
+
+alert("Produk berhasil ditambahkan ke Wishlist.");
+
+}
+    
     if(existing){
 
         existing.qty += qty;
