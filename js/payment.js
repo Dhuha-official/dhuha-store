@@ -127,3 +127,28 @@ Upload Bukti
 </button>
 
 </div>
+const uploadBtn =
+document.getElementById("uploadBtn");
+
+if(uploadBtn){
+
+uploadBtn.onclick=()=>{
+
+const file =
+document.getElementById("paymentProof").files[0];
+
+if(!file){
+
+alert("Silakan pilih bukti pembayaran.");
+
+return;
+
+}
+
+alert("Bukti pembayaran berhasil diupload.");
+
+window.location.href="success.html";
+
+}
+
+}
