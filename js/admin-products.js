@@ -1,93 +1,86 @@
-// ======================================
+// =====================================
 // DHUHA ADMIN PRODUCTS
-// ======================================
+// =====================================
 
 let products = [];
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-loadProducts();
+    loadProducts();
 
 });
 
-async function loadProducts(){
+// ==========================
+// LOAD
+// ==========================
 
-try{
+function loadProducts() {
 
-const response=await fetch("../data/products.json");
+    products = JSON.parse(localStorage.getItem("products")) || [];
 
-products=await response.json();
-
-renderProducts(products);
-
-}catch(error){
-
-console.log(error);
+    renderProducts();
 
 }
 
-}
-function renderProducts(list){
+// ==========================
+// RENDER
+// ==========================
 
-const table=document.getElementById("product-list-admin");
+function renderProducts() {
 
-table.innerHTML="";
+    const table = document.getElementById("products-table");
 
-list.forEach(product=>{
+    if (!table) return;
 
-table.innerHTML+=`
+    table.innerHTML = "";
+
+    if (products.length === 0) {
+
+        table.innerHTML = `
+        <tr>
+            <td colspan="7">
+            Belum ada produk
+            </td>
+        </tr>
+        `;
+
+        return;
+
+    }
+
+    products.forEach((item, index) => {
+
+        table.innerHTML += `
 
 <tr>
 
 <td>
 
-<img src="../${product.image}"
-
-class="admin-product-image">
+<img src="${item.image}" width="60">
 
 </td>
 
+<td>${item.name}</td>
+
+<td>${item.category}</td>
+
 <td>
 
-${product.name}
+Rp ${Number(item.price).toLocaleString("id-ID")}
 
 </td>
 
-<td>
-
-${product.category}
-
-</td>
+<td>${item.stock}</td>
 
 <td>
 
-Rp ${Number(product.price).toLocaleString("id-ID")}
-
-</td>
-
-<td>
-
-${product.stock ?? "-"}
-
-</td>
-
-<td>
-
-<a
-
-href="edit-product.html?id=${product.id}"
-
-class="btn">
+<button onclick="editProduct(${index})">
 
 Edit
 
-</a>
+</button>
 
-<button
-
-class="btn delete-btn"
-
-onclick="deleteProduct(${product.id})">
+<button onclick="deleteProduct(${index})">
 
 Hapus
 
@@ -99,77 +92,112 @@ Hapus
 
 `;
 
-});
+    });
 
-  // ======================================
-// SEARCH
-// ======================================
+}
 
-const search=document.getElementById("search-product");
+// ==========================
+// SIMPAN
+// ==========================
 
-if(search){
+function saveProducts(){
 
-search.addEventListener("keyup",()=>{
+localStorage.setItem(
 
-const keyword=search.value.toLowerCase();
+"products",
 
-const result=products.filter(item=>
-
-item.name.toLowerCase().includes(keyword)
+JSON.stringify(products)
 
 );
 
-renderProducts(result);
-
-});
-
-}
-  // ======================================
-// FILTER
-// ======================================
-
-const category=document.getElementById("filter-category");
-
-if(category){
-
-category.addEventListener("change",()=>{
-
-if(category.value==="Semua"){
-
-renderProducts(products);
-
-return;
+renderProducts();
 
 }
 
-const result=products.filter(item=>
+// ==========================
+// TAMBAH
+// ==========================
 
-item.category===category.value
+function addProduct(){
 
-);
+const product={
 
-renderProducts(result);
+id:Date.now(),
 
-});
+name:document.getElementById("product-name").value,
+
+category:document.getElementById("product-category").value,
+
+price:Number(document.getElementById("product-price").value),
+
+stock:Number(document.getElementById("product-stock").value),
+
+image:document.getElementById("product-image").value,
+
+description:document.getElementById("product-description").value
+
+};
+
+products.push(product);
+
+saveProducts();
+
+alert("Produk berhasil ditambahkan.");
 
 }
+
+// ==========================
+// EDIT
+// ==========================
+
+function editProduct(index){
+
+const p=products[index];
+
+document.getElementById("product-name").value=p.name;
+
+document.getElementById("product-category").value=p.category;
+
+document.getElementById("product-price").value=p.price;
+
+document.getElementById("product-stock").value=p.stock;
+
+document.getElementById("product-image").value=p.image;
+
+document.getElementById("product-description").value=p.description;
+
+document.getElementById("saveBtn").onclick=()=>{
+
+p.name=document.getElementById("product-name").value;
+
+p.category=document.getElementById("product-category").value;
+
+p.price=Number(document.getElementById("product-price").value);
+
+p.stock=Number(document.getElementById("product-stock").value);
+
+p.image=document.getElementById("product-image").value;
+
+p.description=document.getElementById("product-description").value;
+
+saveProducts();
+
+alert("Produk berhasil diperbarui.");
+
+};
+
 }
-// ======================================
-// DELETE
-// ======================================
 
-function deleteProduct(id){
+// ==========================
+// HAPUS
+// ==========================
 
-const ok=confirm(
+function deleteProduct(index){
 
-"Hapus produk ini?"
+if(!confirm("Hapus produk ini?")) return;
 
-);
+products.splice(index,1);
 
-if(!ok)return;
+saveProducts();
 
-products=products.filter(item=>item.id!==id);
-
-renderProducts(products);
-
-}
+      }
