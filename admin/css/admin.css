@@ -87,3 +87,781 @@ text-align:center;
 color:red;
 
 }
+/* =========================================
+   ADMIN LAYOUT
+========================================= */
+
+.admin-layout{
+display:flex;
+min-height:100vh;
+background:#f5f5f5;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.sidebar{
+width:260px;
+background:#111;
+color:#fff;
+display:flex;
+flex-direction:column;
+padding:25px 18px;
+position:fixed;
+top:0;
+left:0;
+bottom:0;
+overflow-y:auto;
+box-sizing:border-box;
+}
+
+.sidebar-logo{
+text-align:center;
+margin-bottom:35px;
+}
+
+.sidebar-logo img{
+width:85px;
+height:85px;
+object-fit:contain;
+margin-bottom:10px;
+}
+
+.sidebar-logo h2{
+font-size:24px;
+margin:0;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.sidebar-logo p{
+margin-top:6px;
+font-size:13px;
+color:#bbb;
+}
+
+.sidebar-menu{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.sidebar-menu a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px 16px;
+border-radius:14px;
+text-decoration:none;
+color:#ddd;
+transition:.25s;
+font-size:15px;
+font-weight:500;
+}
+
+.sidebar-menu a:hover{
+background:#1f1f1f;
+color:#fff;
+}
+
+.sidebar-menu a.active{
+background:#fff;
+color:#111;
+font-weight:700;
+}
+
+.sidebar-menu i{
+width:20px;
+height:20px;
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.admin-content{
+flex:1;
+margin-left:260px;
+padding:35px;
+box-sizing:border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.admin-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.admin-header h1{
+font-size:30px;
+font-weight:700;
+color:#111;
+margin:0;
+}
+
+.admin-user{
+display:flex;
+align-items:center;
+gap:12px;
+background:#fff;
+padding:10px 16px;
+border-radius:50px;
+box-shadow:0 6px 20px rgba(0,0,0,.05);
+}
+
+.admin-user img{
+width:42px;
+height:42px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.admin-user span{
+font-size:14px;
+font-weight:600;
+color:#222;
+  }
+/* =========================================
+   DASHBOARD CARDS
+========================================= */
+
+.dashboard-cards{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:22px;
+
+margin-bottom:30px;
+
+}
+
+.card{
+
+background:#fff;
+
+border-radius:22px;
+
+padding:24px;
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.05);
+
+transition:.3s;
+
+cursor:pointer;
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 15px 35px rgba(0,0,0,.10);
+
+}
+
+.card-icon{
+
+width:65px;
+
+height:65px;
+
+border-radius:18px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#111;
+
+color:#fff;
+
+flex-shrink:0;
+
+}
+
+.card-icon svg{
+
+width:30px;
+
+height:30px;
+
+}
+
+.card-info{
+
+flex:1;
+
+}
+
+.card-info h3{
+
+font-size:14px;
+
+font-weight:500;
+
+color:#777;
+
+margin-bottom:8px;
+
+}
+
+.card-info h2{
+
+font-size:30px;
+
+font-weight:700;
+
+color:#111;
+
+margin:0;
+
+}
+
+.card:nth-child(1) .card-icon{
+
+background:#111;
+
+}
+
+.card:nth-child(2) .card-icon{
+
+background:#2563eb;
+
+}
+
+.card:nth-child(3) .card-icon{
+
+background:#16a34a;
+
+}
+
+.card:nth-child(4) .card-icon{
+
+background:#d97706;
+
+                     }
+/* =========================================
+   DASHBOARD GRID
+========================================= */
+
+.dashboard-grid{
+
+display:grid;
+
+grid-template-columns:1.3fr 1fr;
+
+gap:25px;
+
+margin-bottom:30px;
+
+}
+
+.dashboard-box{
+
+background:#fff;
+
+border-radius:22px;
+
+padding:24px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.05);
+
+}
+
+.box-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:20px;
+
+}
+
+.box-header h2{
+
+font-size:20px;
+
+font-weight:700;
+
+color:#111;
+
+margin:0;
+
+}
+
+.box-header a{
+
+text-decoration:none;
+
+font-size:14px;
+
+font-weight:600;
+
+color:#111;
+
+}
+
+.box-header a:hover{
+
+text-decoration:underline;
+
+}
+
+/* =========================================
+   CHART
+========================================= */
+
+.chart-placeholder{
+
+height:300px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+background:#fafafa;
+
+border:2px dashed #ddd;
+
+border-radius:18px;
+
+color:#999;
+
+}
+
+.chart-placeholder svg{
+
+width:60px;
+
+height:60px;
+
+margin-bottom:15px;
+
+}
+
+/* =========================================
+   LATEST PRODUCT
+========================================= */
+
+#latest-products{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+.latest-product{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+padding-bottom:15px;
+
+border-bottom:1px solid #eee;
+
+}
+
+.latest-product:last-child{
+
+border:none;
+
+padding-bottom:0;
+
+}
+
+.latest-product img{
+
+width:65px;
+
+height:65px;
+
+border-radius:14px;
+
+object-fit:cover;
+
+}
+
+.latest-product h4{
+
+margin:0;
+
+font-size:16px;
+
+font-weight:600;
+
+}
+
+.latest-product p{
+
+margin-top:4px;
+
+font-size:14px;
+
+color:#777;
+
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.admin-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:15px;
+
+}
+
+.admin-table th{
+
+background:#f7f7f7;
+
+padding:15px;
+
+font-size:14px;
+
+font-weight:700;
+
+color:#444;
+
+text-align:left;
+
+}
+
+.admin-table td{
+
+padding:15px;
+
+border-bottom:1px solid #eee;
+
+font-size:14px;
+
+}
+
+.admin-table tr:hover{
+
+background:#fafafa;
+
+                             }
+/* =========================================
+   STATUS BADGE
+========================================= */
+
+.status{
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:6px 14px;
+
+border-radius:50px;
+
+font-size:13px;
+
+font-weight:600;
+
+}
+
+.status.pending{
+
+background:#fff7e0;
+
+color:#d97706;
+
+}
+
+.status.process{
+
+background:#e0f2fe;
+
+color:#0284c7;
+
+}
+
+.status.shipping{
+
+background:#ede9fe;
+
+color:#7c3aed;
+
+}
+
+.status.success{
+
+background:#dcfce7;
+
+color:#16a34a;
+
+}
+
+.status.cancel{
+
+background:#fee2e2;
+
+color:#dc2626;
+
+}
+
+/* =========================================
+   ACTIVITY
+========================================= */
+
+.activity-list{
+
+list-style:none;
+
+padding:0;
+
+margin:0;
+
+}
+
+.activity-list li{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+padding:16px 0;
+
+border-bottom:1px solid #eee;
+
+font-size:15px;
+
+color:#333;
+
+}
+
+.activity-list li:last-child{
+
+border-bottom:none;
+
+}
+
+.activity-list svg{
+
+width:20px;
+
+height:20px;
+
+color:#111;
+
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+padding:40px;
+
+color:#888;
+
+font-size:15px;
+
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar{
+
+width:8px;
+
+height:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#cfcfcf;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+background:#999;
+
+}
+
+/* =========================================
+   ANIMATION
+========================================= */
+
+.dashboard-box,
+.card{
+
+animation:fadeUp .45s ease;
+
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:1200px){
+
+.dashboard-cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.dashboard-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:900px){
+
+.sidebar{
+
+width:80px;
+
+padding:20px 10px;
+
+}
+
+.sidebar-logo h2,
+.sidebar-logo p,
+.sidebar-menu span{
+
+display:none;
+
+}
+
+.sidebar-menu a{
+
+justify-content:center;
+
+padding:14px;
+
+}
+
+.admin-content{
+
+margin-left:80px;
+
+padding:20px;
+
+}
+
+}
+
+@media(max-width:700px){
+
+.dashboard-cards{
+
+grid-template-columns:1fr;
+
+}
+
+.admin-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:15px;
+
+}
+
+.admin-table{
+
+display:block;
+
+overflow-x:auto;
+
+white-space:nowrap;
+
+}
+
+.dashboard-box{
+
+padding:18px;
+
+}
+
+.card{
+
+padding:18px;
+
+}
+
+.card-info h2{
+
+font-size:24px;
+
+}
+
+  }
