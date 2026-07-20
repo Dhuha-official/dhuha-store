@@ -865,3 +865,38 @@ font-size:24px;
 }
 
   }
+.admin-notification{
+
+position:fixed;
+
+top:30px;
+
+right:30px;
+
+background:#111;
+
+color:#fff;
+
+padding:15px 25px;
+
+border-radius:14px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+opacity:0;
+
+transform:translateY(-20px);
+
+transition:.3s;
+
+z-index:9999;
+
+}
+
+.admin-notification.show{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
