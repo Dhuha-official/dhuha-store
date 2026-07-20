@@ -84,19 +84,23 @@ function addToCart() {
     const existing = cart.find(item => item.id === productData.id);
 
     if (existing) {
-        existing.qty++;
+
+        existing.qty += qty;
+
     } else {
+
         cart.push({
             ...productData,
-            qty: 1
+            qty: qty
         });
+
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
     alert("Produk berhasil ditambahkan ke keranjang.");
 
-}
+        }
 
 function addToWishlist() {
 
