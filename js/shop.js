@@ -149,34 +149,21 @@ function initSearch() {
 // FILTER KATEGORI
 // =====================================
 
-function initFilter() {
+function initFilter(){
 
-    document
-    .querySelectorAll(".filter-item")
-    .forEach(button => {
+document.querySelectorAll(".filter-item").forEach(btn=>{
 
-        button.addEventListener("click", () => {
+btn.onclick=()=>{
 
-            currentCategory =
-            button.dataset.category;
+currentCategory=btn.dataset.category;
 
-            document
-            .querySelectorAll(".filter-item")
-            .forEach(item =>
-                item.classList.remove("active")
-            );
+filterAndRender();
 
-            button.classList.add("active");
+document.getElementById("filterSheet").classList.remove("show");
 
-            filterAndRender();
+};
 
-            document
-            .getElementById("filterSheet")
-            .classList.remove("show");
-
-        });
-
-    });
+});
 
 }
 
@@ -231,27 +218,21 @@ function filterAndRender() {
 // =====================================
 // SORT
 // =====================================
+function initSort(){
 
-function initSort() {
+document.querySelectorAll(".sort-item").forEach(btn=>{
 
-    document
-    .querySelectorAll(".sort-item")
-    .forEach(button => {
+btn.onclick=()=>{
 
-        button.addEventListener("click", () => {
+currentSort=btn.dataset.sort;
 
-            currentSort =
-            button.dataset.sort;
+filterAndRender();
 
-            filterAndRender();
+document.getElementById("sortSheet").classList.remove("show");
 
-            document
-            .getElementById("sortSheet")
-            .classList.remove("show");
+};
 
-        });
-
-    });
+});
 
 }
 
