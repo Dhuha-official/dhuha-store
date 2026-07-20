@@ -1,12 +1,16 @@
-let cart = JSON.parse(localStorage.getItem("buyNow"));
+// ======================================
+// DHUHA CART
+// ======================================
 
-if (!cart) {
-    cart = JSON.parse(localStorage.getItem("cart")) || [];
-}
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const cartList = document.getElementById("cart-list");
 const cartTotal = document.getElementById("cart-total");
 const checkoutBtn = document.getElementById("checkoutBtn");
+
+// ======================================
+// SAVE CART
+// ======================================
 
 function saveCart() {
 
@@ -18,6 +22,10 @@ function saveCart() {
 
 }
 
+// ======================================
+// RENDER CART
+// ======================================
+
 function renderCart() {
 
     if (!cartList) return;
@@ -28,14 +36,16 @@ function renderCart() {
 
         cartList.innerHTML = `
         <div style="text-align:center;padding:60px 20px;">
+
             <h3>Keranjang masih kosong</h3>
+
             <p>Yuk pilih produk favoritmu.</p>
 
             <a href="shop.html"
-            class="checkout-btn"
-            style="margin-top:20px;display:inline-block;width:auto;padding:14px 24px;">
+               class="checkout-btn"
+               style="margin-top:20px;display:inline-block;width:auto;padding:14px 24px;">
 
-            Belanja Sekarang
+                Belanja Sekarang
 
             </a>
 
@@ -72,54 +82,47 @@ function renderCart() {
 
 <div class="cart-item">
 
-<img src="${item.image}" alt="${item.name}">
+    <img src="${item.image}" alt="${item.name}">
 
-<div class="cart-info">
+    <div class="cart-info">
 
-<h3>${item.name}</h3>
+        <h3>${item.name}</h3>
 
-<div class="cart-price">
+        <div class="cart-price">
 
-Rp ${Number(item.price).toLocaleString("id-ID")}
+            Rp ${Number(item.price).toLocaleString("id-ID")}
 
-</div>
+        </div>
 
-<small>
+        <small>
 
-${item.size ? "Ukuran : " + item.size : ""}
+            ${item.size ? "Ukuran : " + item.size : ""}
 
-${item.color ? "<br>Warna : " + item.color : ""}
+            ${item.color ? "<br>Warna : " + item.color : ""}
 
-</small>
+        </small>
 
-<div class="cart-action">
+        <div class="cart-action">
 
-<div class="cart-qty">
+            <div class="cart-qty">
 
-<button class="qty-btn"
-onclick="changeQty(${index},-1)">−</button>
+                <button class="qty-btn" onclick="changeQty(${index},-1)">−</button>
 
-<span class="qty-number">
+                <span class="qty-number">${qty}</span>
 
-${qty}
+                <button class="qty-btn" onclick="changeQty(${index},1)">+</button>
 
-</span>
+            </div>
 
-<button class="qty-btn"
-onclick="changeQty(${index},1)">+</button>
+            <button class="remove-btn" onclick="removeItem(${index})">
 
-</div>
+                Hapus
 
-<button class="remove-btn"
-onclick="removeItem(${index})">
+            </button>
 
-Hapus
+        </div>
 
-</button>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
@@ -130,11 +133,15 @@ Hapus
     if (cartTotal) {
 
         cartTotal.textContent =
-            "Rp " + total.toLocaleString("id-ID");
+        "Rp " + total.toLocaleString("id-ID");
 
     }
 
 }
+
+// ======================================
+// QTY
+// ======================================
 
 function changeQty(index, value) {
 
@@ -152,6 +159,10 @@ function changeQty(index, value) {
 
 }
 
+// ======================================
+// HAPUS
+// ======================================
+
 function removeItem(index) {
 
     cart.splice(index, 1);
@@ -161,5 +172,33 @@ function removeItem(index) {
     renderCart();
 
 }
+
+// ======================================
+// CHECKOUT
+// ======================================
+
+if (checkoutBtn) {
+
+    checkoutBtn.onclick = () => {
+
+        if (cart.length === 0) {
+
+            alert("Keranjang masih kosong.");
+
+            return;
+
+        }
+
+        localStorage.setItem("buyNow", JSON.stringify(cart));
+
+        window.location.href = "checkout.html";
+
+    };
+
+}
+
+// ======================================
+// LOAD
+// ======================================
 
 renderCart();
