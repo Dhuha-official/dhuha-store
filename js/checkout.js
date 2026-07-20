@@ -14,10 +14,15 @@ if (postcode) {
 // DATA CART / BUY NOW
 // ==========================
 
-let cart = JSON.parse(localStorage.getItem("buyNow"));
+let buyNow = JSON.parse(localStorage.getItem("buyNow"));
+let cartData = JSON.parse(localStorage.getItem("cart")) || [];
 
-if (!cart) {
-    cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = [];
+
+if (buyNow && buyNow.length > 0) {
+    cart = buyNow;
+} else {
+    cart = cartData;
 }
 
 const checkoutList = document.getElementById("checkout-list");
