@@ -2,97 +2,87 @@
 // DHUHA ADMIN ORDERS
 // ======================================
 
-let orders=[];
+let orders = [];
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-loadOrders();
+    loadOrders();
 
 });
-async function loadOrders(){
 
-orders=[
+function loadOrders() {
 
-{
+    orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-id:"#DH1001",
-
-customer:"Kevin Andrean",
-
-date:"19 Jul 2026",
-
-total:249000,
-
-status:"Diproses"
-
-},
-
-{
-
-id:"#DH1002",
-
-customer:"Teuku Rizki",
-
-date:"19 Jul 2026",
-
-total:149000,
-
-status:"Menunggu"
-
-},
-
-{
-
-id:"#DH1003",
-
-customer:"Ahmad",
-
-date:"18 Jul 2026",
-
-total:398000,
-
-status:"Selesai"
+    renderOrders(orders);
 
 }
 
-];
+function renderOrders(list) {
 
-renderOrders(orders);
+    const table = document.getElementById("orders-table");
 
-}
-function renderOrders(list){
+    if (!table) return;
 
-const table=document.getElementById("orders-table");
+    table.innerHTML = "";
 
-table.innerHTML="";
+    if (list.length === 0) {
 
-list.forEach(order=>{
+        table.innerHTML = `
+        <tr>
+            <td colspan="6" style="text-align:center">
+                Belum ada pesanan
+            </td>
+        </tr>
+        `;
 
-table.innerHTML+=`
+        return;
+
+    }
+
+    list.forEach((order, index) => {
+
+        table.innerHTML += `
 
 <tr>
 
 <td>${order.id}</td>
 
-<td>${order.customer}</td>
+<td>${order.customer.name}</td>
 
-<td>${order.date}</td>
+<td>${order.createdAt}</td>
 
-<td>Rp ${order.total.toLocaleString("id-ID")}</td>
+<td>Rp ${Number(order.total).toLocaleString("id-ID")}</td>
 
 <td>
 
-<select class="order-status">
+<select
+class="order-status"
+data-index="${index}">
 
-<option ${order.status==="Menunggu"?"selected":""}>Menunggu</option>
+<option value="Menunggu Pembayaran" ${order.status==="Menunggu Pembayaran"?"selected":""}>
+Menunggu Pembayaran
+</option>
 
-<option ${order.status==="Diproses"?"selected":""}>Diproses</option>
+<option value="Menunggu Verifikasi" ${order.status==="Menunggu Verifikasi"?"selected":""}>
+Menunggu Verifikasi
+</option>
 
-<option ${order.status==="Dikirim"?"selected":""}>Dikirim</option>
+<option value="Diproses" ${order.status==="Diproses"?"selected":""}>
+Diproses
+</option>
 
-<option ${order.status==="Selesai"?"selected":""}>Selesai</option>
+<option value="Dikirim" ${order.status==="Dikirim"?"selected":""}>
+Dikirim
+</option>
 
-<option ${order.status==="Dibatalkan"?"selected":""}>Dibatalkan</option>
+<option value="Selesai" ${order.status==="Selesai"?"selected":""}>
+Selesai
+</option>
+
+<option value="Dibatalkan" ${order.status==="Dibatalkan"?"selected":""}>
+Dibatalkan
+</option>
 
 </select>
 
@@ -100,7 +90,9 @@ table.innerHTML+=`
 
 <td>
 
-<button class="btn">
+<button
+class="btn"
+onclick="showOrder(${index})">
 
 Detail
 
@@ -112,32 +104,124 @@ Detail
 
 `;
 
-});
+    });
 
 }
+
+// ==========================
+// DETAIL
+// ==========================
+
+function showOrder(index){
+
+const order=orders[index];
+
+let items="";
+
+order.items.forEach(item=>{
+
+items+=`
+
+${item.name}
+
+(${item.qty}x)
+
+${item.size ? " | "+item.size : ""}
+
+${item.color ? " | "+item.color : ""}
+
+\n`;
+
+});
+
+alert(
+
+`Nomor :
+
+${order.id}
+
+-------------------------
+
+Pelanggan :
+
+${order.customer.name}
+
+WA :
+
+${order.customer.phone}
+
+-------------------------
+
+Alamat :
+
+${order.customer.address}
+
+${order.customer.city}
+
+${order.customer.province}
+
+${order.customer.postcode}
+
+-------------------------
+
+Produk :
+
+${items}
+
+-------------------------
+
+Kurir :
+
+${order.courier}
+
+Pembayaran :
+
+${order.payment}
+
+-------------------------
+
+Total :
+
+Rp ${Number(order.total).toLocaleString("id-ID")}
+
+`);
+
+}
+
+// ==========================
+// SEARCH
+// ==========================
+
 const search=document.getElementById("search-order");
 
 if(search){
 
 search.addEventListener("keyup",()=>{
 
-const keyword=search.value.toLowerCase();
+const key=search.value.toLowerCase();
 
-const result=orders.filter(item=>
+renderOrders(
 
-item.id.toLowerCase().includes(keyword)
+orders.filter(item=>
+
+item.id.toLowerCase().includes(key)
 
 ||
 
-item.customer.toLowerCase().includes(keyword)
+item.customer.name.toLowerCase().includes(key)
+
+)
 
 );
-
-renderOrders(result);
 
 });
 
 }
+
+// ==========================
+// FILTER
+// ==========================
+
 const filter=document.getElementById("filter-status");
 
 if(filter){
@@ -152,23 +236,36 @@ return;
 
 }
 
-const result=orders.filter(item=>
+renderOrders(
 
-item.status===filter.value
+orders.filter(item=>item.status===filter.value)
 
 );
-
-renderOrders(result);
 
 });
 
 }
+
+// ==========================
+// UPDATE STATUS
+// ==========================
+
 document.addEventListener("change",(e)=>{
 
-if(e.target.classList.contains("order-status")){
+if(!e.target.classList.contains("order-status")) return;
+
+const index=e.target.dataset.index;
+
+orders[index].status=e.target.value;
+
+localStorage.setItem(
+
+"orders",
+
+JSON.stringify(orders)
+
+);
 
 alert("Status pesanan berhasil diperbarui.");
-
-}
 
 });
