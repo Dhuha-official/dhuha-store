@@ -1,9 +1,11 @@
 [
   {
     "id": 1,
-    "name": "DHUHA Oversize Black",
-    "price": 149000,
-    "image": "images/oversize/cat/oversize-cat1.png",
+    "name": "DHUHA BOXY - Purpose Driven",
+    "price": 245000,
+    "image": "images/boxy/purpose/white/dhuha-boxy-purpose-driven1-belakang-putih.png",
+"images/boxy/purpose/white/dhuha-boxy-purpose-driven2-belakang-putih.png",
+    
     "category": "Kaos",
     "description": "Cotton Combed 24s Premium"
   },
