@@ -1,45 +1,94 @@
+// ======================================
+// DHUHA PRODUCT
+// ======================================
+
 let productData = null;
+let allProducts = [];
+let qty = 1;
+
+// ======================================
+// LOAD PRODUCT
+// ======================================
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+    await loadProduct();
+
+    initSize();
+
+    initColor();
+
+    initQty();
+
+    initButtons();
+
+});
+
+// ======================================
+// LOAD DATA
+// ======================================
 
 async function loadProduct() {
 
     const params = new URLSearchParams(window.location.search);
+
     const id = Number(params.get("id"));
 
-    try {
+    const response = await fetch("data/products.json");
 
-        const response = await fetch("data/products.json");
-        const products = await response.json();
+    allProducts = await response.json();
 
-        productData = products.find(item => item.id === id);
+    productData = allProducts.find(item => item.id === id);
 
-        if (!productData) {
-            document.body.innerHTML = "<h2 style='text-align:center;padding:50px'>Produk tidak ditemukan</h2>";
-            return;
-        }
+    if (!productData) {
 
-        document.getElementById("product-image").src = productData.image;
-        document.getElementById("product-name").textContent = productData.name;
-        document.getElementById("product-price").textContent =
-            "Rp " + Number(productData.price).toLocaleString("id-ID");
+        document.body.innerHTML =
+        "<h2 style='padding:50px;text-align:center'>Produk tidak ditemukan</h2>";
 
-        const desc = document.getElementById("product-description");
-if(desc){
+        return;
 
-desc.textContent=productData.description||"";
+    }
+
+    document.getElementById("product-image").src =
+    productData.image;
+
+    document.getElementById("product-name").textContent =
+    productData.name;
+
+    document.getElementById("product-price").textContent =
+    "Rp " +
+    Number(productData.price).toLocaleString("id-ID");
+
+    document.getElementById("product-description").textContent =
+    productData.description || "";
+
+    renderRelated();
 
 }
-        const related = document.getElementById("related-products");
+// ======================================
+// PRODUK TERKAIT
+// ======================================
 
-if (related) {
+function renderRelated(){
 
-    related.innerHTML = "";
+    const related =
+    document.getElementById("related-products");
 
-    products
-        .filter(item => item.category === productData.category && item.id !== productData.id)
-        .slice(0, 4)
-        .forEach(item => {
+    if(!related) return;
 
-            related.innerHTML += `
+    related.innerHTML="";
+
+    allProducts
+    .filter(item=>
+
+        item.category===productData.category &&
+        item.id!==productData.id
+
+    )
+    .slice(0,4)
+    .forEach(item=>{
+
+        related.innerHTML+=`
 
 <div class="product-card">
 
@@ -71,50 +120,168 @@ Lihat Produk
 
 `;
 
-        });
+    });
 
 }
 
-    } catch (err) {
-        console.error(err);
-    }
+// ======================================
+// PILIH UKURAN
+// ======================================
+
+function initSize(){
+
+document.querySelectorAll(".size-list button")
+.forEach(button=>{
+
+button.onclick=()=>{
+
+document
+.querySelectorAll(".size-list button")
+.forEach(btn=>btn.classList.remove("active"));
+
+button.classList.add("active");
+
+};
+
+});
 
 }
 
-function addToCart() {
+// ======================================
+// PILIH WARNA
+// ======================================
 
-    const selectedSize =
-        document.querySelector(".size-list .active");
+function initColor(){
 
-    const selectedColor =
-        document.querySelector(".color.active");
+document.querySelectorAll(".color-btn")
+.forEach(button=>{
 
-    const size =
-        selectedSize ? selectedSize.innerText : "";
+button.onclick=()=>{
 
-    const color =
-        selectedColor ? selectedColor.dataset.color || selectedColor.title || "" : "";
+document
+.querySelectorAll(".color-btn")
+.forEach(btn=>btn.classList.remove("active"));
 
-    let cart =
-        JSON.parse(localStorage.getItem("cart")) || [];
+button.classList.add("active");
 
-    const existing = cart.find(item =>
+};
 
-        item.id === productData.id &&
-        item.size === size &&
-        item.color === color
+});
 
-    );
+}
+
+// ======================================
+// QTY
+// ======================================
+
+function initQty(){
+
+const qtyText=document.getElementById("qty");
+
+document.getElementById("plus").onclick=()=>{
+
+qty++;
+
+qtyText.innerText=qty;
+
+};
+
+document.getElementById("minus").onclick=()=>{
+
+if(qty>1){
+
+qty--;
+
+qtyText.innerText=qty;
+
+}
+
+};
+
+}
+// ======================================
+// GET PILIHAN
+// ======================================
+
+function getSelectedSize(){
+
+const active=document.querySelector(".size-list button.active");
+
+return active?active.innerText:"";
+
+}
+
+function getSelectedColor(){
+
+const active=document.querySelector(".color-btn.active");
+
+return active?active.dataset.color:"";
+
+}
+
+// ======================================
+// TAMBAH KE KERANJANG
+// ======================================
+
+function addToCart(){
+
+const size=getSelectedSize();
+
+const color=getSelectedColor();
+
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
+const existing=cart.find(item=>
+
+item.id===productData.id&&
+item.size===size&&
+item.color===color
+
+);
+
+if(existing){
+
+existing.qty+=qty;
+
+}else{
+
+cart.push({
+
+...productData,
+
+qty:qty,
+
+size:size,
+
+color:color
+
+});
+
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+if(typeof updateCartBadge==="function"){
+
+updateCartBadge();
+
+}
+
+alert("Produk berhasil ditambahkan ke keranjang.");
+
+}
+
+// ======================================
+// WISHLIST
+// ======================================
 
 function addToWishlist(){
 
+const size=getSelectedSize();
+
+const color=getSelectedColor();
+
 let wishlist=JSON.parse(localStorage.getItem("wishlist"))||[];
-
-const selectedSize=document.querySelector(".size-list .active");
-const selectedColor=document.querySelector(".color.active");
-
-const size=selectedSize?selectedSize.innerText:"";
-const color=selectedColor?selectedColor.dataset.color||selectedColor.title||"":"";
 
 const exist=wishlist.find(item=>
 
@@ -144,157 +311,64 @@ color:color
 
 localStorage.setItem("wishlist",JSON.stringify(wishlist));
 
-alert("Produk berhasil ditambahkan ke Wishlist.");
-
-}
-    
-    if(existing){
-
-        existing.qty += qty;
-
-    }else{
-
-        cart.push({
-
-            ...productData,
-
-            qty: qty,
-
-            size: size,
-
-            color: color
-
-        });
-
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    if(typeof updateCartBadge==="function"){
-
-        updateCartBadge();
-
-    }
-
-    alert("Produk berhasil ditambahkan ke keranjang.");
+alert("Produk berhasil ditambahkan ke wishlist.");
 
 }
 
-loadProduct();
+// ======================================
+// BELI SEKARANG
+// ======================================
 
-const cartBtn = document.getElementById("add-cart");
+function buyNow(){
 
-if (cartBtn) {
-    cartBtn.onclick = addToCart;
+const size=getSelectedSize();
+
+const color=getSelectedColor();
+
+localStorage.setItem("buyNow",JSON.stringify([{
+
+...productData,
+
+qty:qty,
+
+size:size,
+
+color:color
+
+}]));
+
+window.location.href="checkout.html";
+
 }
 
-const wishBtn = document.getElementById("wishlist-btn");
+// ======================================
+// BUTTON
+// ======================================
 
-if (wishBtn) {
-    wishBtn.onclick = addToWishlist;
+function initButtons(){
+
+const cart=document.getElementById("add-cart");
+
+if(cart){
+
+cart.onclick=addToCart;
+
 }
-/* ===========================
-   PILIH UKURAN
-=========================== */
 
-document.querySelectorAll(".size-list button").forEach(button=>{
+const wish=document.getElementById("wishlist-btn");
 
-    button.onclick=()=>{
+if(wish){
 
-        document.querySelectorAll(".size-list button")
-        .forEach(btn=>btn.classList.remove("active"));
+wish.onclick=addToWishlist;
 
-        button.classList.add("active");
+}
 
-    };
+const buy=document.querySelector(".checkout-btn");
 
-});
+if(buy){
 
-/* ===========================
-   PILIH WARNA
-=========================== */
+buy.onclick=buyNow;
 
-document.querySelectorAll(".color").forEach(color=>{
-
-    color.onclick=()=>{
-
-        document.querySelectorAll(".color")
-        .forEach(c=>c.classList.remove("active"));
-
-        color.classList.add("active");
-
-    };
-
-});
-
-/* ===========================
-   QTY
-=========================== */
-
-let qty = 1;
-
-const qtyText = document.getElementById("qty");
-
-document.getElementById("plus").onclick=()=>{
-
-    qty++;
-
-    qtyText.innerText=qty;
-
-};
-
-document.getElementById("minus").onclick=()=>{
-
-    if(qty>1){
-
-        qty--;
-
-        qtyText.innerText=qty;
-
-    }
-
-};
-
-/* ===========================
-   BELI SEKARANG
-=========================== */
-
-const checkoutBtn = document.querySelector(".checkout-btn");
-
-if(checkoutBtn){
-
-checkoutBtn.onclick = ()=>{
-
-    const selectedSize =
-        document.querySelector(".size-list .active");
-
-    const selectedColor =
-        document.querySelector(".color.active");
-
-    const size =
-        selectedSize ? selectedSize.innerText : "";
-
-    const color =
-        selectedColor ? selectedColor.dataset.color || selectedColor.title || "" : "";
-
-    localStorage.setItem("buyNow",JSON.stringify([
-
-        {
-
-            ...productData,
-
-            qty:qty,
-
-            size:size,
-
-            color:color
-
-        }
-
-    ]));
-
-    window.location.href="checkout.html";
-
-};
+}
 
     }
