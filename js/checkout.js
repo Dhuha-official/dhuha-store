@@ -24,6 +24,7 @@ if (buyNow && buyNow.length > 0) {
 } else {
     cart = cartData;
 }
+console.log(cart);
 
 const checkoutList = document.getElementById("checkout-list");
 const subtotalElement = document.getElementById("subtotal");
