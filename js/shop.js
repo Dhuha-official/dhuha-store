@@ -1,77 +1,121 @@
-// ==========================
+// =====================================
 // DHUHA SHOP
-// ==========================
+// BAGIAN 1
+// =====================================
 
 let products = [];
+let currentCategory = "Semua";
+let currentSort = "newest";
 
-// ==========================
-// LOAD PRODUK
-// ==========================
+// =====================================
+// LOAD PRODUCT
+// =====================================
 
-document.addEventListener("DOMContentLoaded", loadProducts);
+document.addEventListener("DOMContentLoaded", initShop);
 
-async function loadProducts() {
+async function initShop(){
 
-    products = JSON.parse(localStorage.getItem("products"));
+    await loadProducts();
 
-    if (!products || products.length === 0) {
+    initSearch();
 
-        const response = await fetch("data/products.json");
+    initFilter();
 
-        products = await response.json();
+    initSort();
 
-        localStorage.setItem(
-            "products",
-            JSON.stringify(products)
-        );
-
-    }
-
-    renderProducts(products);
+    initBottomSheet();
 
 }
 
-// ==========================
-// RENDER
-// ==========================
+async function loadProducts(){
 
-function renderProducts(list) {
+    try{
+
+        const localProducts =
+        JSON.parse(localStorage.getItem("products"));
+
+        if(localProducts && localProducts.length){
+
+            products = localProducts;
+
+        }else{
+
+            const response =
+            await fetch("data/products.json");
+
+            products = await response.json();
+
+            localStorage.setItem(
+                "products",
+                JSON.stringify(products)
+            );
+
+        }
+
+        renderProducts(products);
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+
+}
+
+// =====================================
+// RENDER PRODUCT
+// =====================================
+
+function renderProducts(list){
 
     const container =
-        document.getElementById("product-list");
+    document.getElementById("product-list");
 
-    if (!container) return;
+    if(!container) return;
 
-    container.innerHTML = "";
+    container.innerHTML="";
 
-    if (list.length === 0) {
+    if(list.length===0){
 
-        container.innerHTML =
-        "<p>Produk tidak ditemukan.</p>";
+        container.innerHTML=`
+
+<div class="empty-product">
+
+<h3>Produk tidak ditemukan</h3>
+
+</div>
+
+`;
 
         return;
 
     }
 
-    list.forEach(product => {
+    list.forEach(product=>{
 
-        container.innerHTML += `
+        container.innerHTML+=`
 
 <div class="product-card">
 
+<a href="product.html?id=${product.id}">
+
+<div class="product-image">
+
 <img src="${product.image}" alt="${product.name}">
+
+</div>
+
+<div class="product-info">
 
 <h3>${product.name}</h3>
 
-<p>
+<p class="price">
 
 Rp ${Number(product.price).toLocaleString("id-ID")}
 
 </p>
 
-<a href="product.html?id=${product.id}" class="product-btn">
-
-Lihat Produk
+</div>
 
 </a>
 
@@ -82,67 +126,255 @@ Lihat Produk
     });
 
 }
-
-// ==========================
+// =====================================
 // SEARCH
-// ==========================
+// =====================================
 
-const search =
-document.getElementById("searchInput")
+function initSearch() {
 
-if (search) {
+    const searchInput =
+    document.getElementById("searchInput");
 
-    search.addEventListener("keyup", () => {
+    if (!searchInput) return;
 
-        const key =
-        search.value.toLowerCase();
+    searchInput.addEventListener("input", function () {
 
-        renderProducts(
-
-            products.filter(product =>
-
-                product.name.toLowerCase().includes(key)
-
-            )
-
-        );
+        filterAndRender();
 
     });
 
 }
 
-// ==========================
-// FILTER
-// ==========================
+// =====================================
+// FILTER KATEGORI
+// =====================================
 
-function filterCategory(category) {
+function initFilter() {
 
-    if (category === "Semua") {
+    document
+    .querySelectorAll(".filter-item")
+    .forEach(button => {
 
-        renderProducts(products);
+        button.addEventListener("click", () => {
 
-        return;
+            currentCategory =
+            button.dataset.category;
 
-    }
+            document
+            .querySelectorAll(".filter-item")
+            .forEach(item =>
+                item.classList.remove("active")
+            );
 
-    renderProducts(
+            button.classList.add("active");
 
-        products.filter(product =>
+            filterAndRender();
 
-            product.category === category
+            document
+            .getElementById("filterSheet")
+            .classList.remove("show");
 
-        )
+        });
 
-    );
+    });
 
 }
 
-// ==========================
-// AUTO REFRESH
-// ==========================
+// =====================================
+// FILTER DATA
+// =====================================
 
-window.addEventListener("storage", () => {
+function filterAndRender() {
 
-    loadProducts();
+    let result = [...products];
 
-});
+    // SEARCH
+
+    const keyword =
+    document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
+
+    if (keyword !== "") {
+
+        result = result.filter(product =>
+
+            product.name
+            .toLowerCase()
+            .includes(keyword)
+
+        );
+
+    }
+
+    // FILTER KATEGORI
+
+    if (currentCategory !== "Semua") {
+
+        result = result.filter(product =>
+
+            product.category === currentCategory
+
+        );
+
+    }
+
+    // SORT
+
+    result = sortProducts(result);
+
+    renderProducts(result);
+
+      }
+// =====================================
+// SORT
+// =====================================
+
+function initSort() {
+
+    document
+    .querySelectorAll(".sort-item")
+    .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            currentSort =
+            button.dataset.sort;
+
+            filterAndRender();
+
+            document
+            .getElementById("sortSheet")
+            .classList.remove("show");
+
+        });
+
+    });
+
+}
+
+function sortProducts(list) {
+
+    let result = [...list];
+
+    switch (currentSort) {
+
+        case "low":
+
+            result.sort((a, b) =>
+
+                Number(a.price) - Number(b.price)
+
+            );
+
+            break;
+
+        case "high":
+
+            result.sort((a, b) =>
+
+                Number(b.price) - Number(a.price)
+
+            );
+
+            break;
+
+        case "az":
+
+            result.sort((a, b) =>
+
+                a.name.localeCompare(b.name)
+
+            );
+
+            break;
+
+        case "za":
+
+            result.sort((a, b) =>
+
+                b.name.localeCompare(a.name)
+
+            );
+
+            break;
+
+        case "newest":
+
+        default:
+
+            result.sort((a, b) =>
+
+                Number(b.id) - Number(a.id)
+
+            );
+
+            break;
+
+    }
+
+    return result;
+
+}
+
+// =====================================
+// BOTTOM SHEET
+// =====================================
+
+function initBottomSheet() {
+
+    const filterBtn =
+    document.getElementById("filterBtn");
+
+    const sortBtn =
+    document.getElementById("sortBtn");
+
+    const filterSheet =
+    document.getElementById("filterSheet");
+
+    const sortSheet =
+    document.getElementById("sortSheet");
+
+    if (filterBtn && filterSheet) {
+
+        filterBtn.onclick = () => {
+
+            filterSheet.classList.add("show");
+
+            sortSheet.classList.remove("show");
+
+        };
+
+    }
+
+    if (sortBtn && sortSheet) {
+
+        sortBtn.onclick = () => {
+
+            sortSheet.classList.add("show");
+
+            filterSheet.classList.remove("show");
+
+        };
+
+    }
+
+    window.addEventListener("click", (e) => {
+
+        if (e.target === filterSheet) {
+
+            filterSheet.classList.remove("show");
+
+        }
+
+        if (e.target === sortSheet) {
+
+            sortSheet.classList.remove("show");
+
+        }
+
+    });
+
+                       }
