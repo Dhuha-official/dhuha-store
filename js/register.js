@@ -1,12 +1,20 @@
+// ======================================
+// DHUHA REGISTER
+// ======================================
+
 document.getElementById("register-btn").onclick = () => {
 
-    const name = document.getElementById("register-name").value.trim();
+    const name =
+    document.getElementById("register-name").value.trim();
 
-    const email = document.getElementById("register-email").value.trim();
+    const email =
+    document.getElementById("register-email").value.trim();
 
-    const password = document.getElementById("register-password").value;
+    const password =
+    document.getElementById("register-password").value;
 
-    const confirm = document.getElementById("register-confirm").value;
+    const confirm =
+    document.getElementById("register-confirm").value;
 
     if (!name || !email || !password || !confirm) {
 
@@ -24,17 +32,38 @@ document.getElementById("register-btn").onclick = () => {
 
     }
 
+    let users =
+    JSON.parse(localStorage.getItem("users")) || [];
+
+    const exist =
+    users.find(item => item.email === email);
+
+    if (exist) {
+
+        alert("Email sudah terdaftar.");
+
+        return;
+
+    }
+
     const user = {
 
-        name: name,
+        id: Date.now(),
 
-        email: email,
+        name,
 
-        password: password
+        email,
+
+        password
 
     };
 
-    localStorage.setItem("user", JSON.stringify(user));
+    users.push(user);
+
+    localStorage.setItem(
+        "users",
+        JSON.stringify(users)
+    );
 
     alert("Pendaftaran berhasil.");
 
