@@ -1,46 +1,32 @@
-document
-.getElementById("login-btn")
-.onclick = ()=>{
+document.getElementById("login-btn").onclick = () => {
 
-const email =
-document
-.getElementById("login-email")
-.value;
+    const email = document.getElementById("login-email").value.trim();
 
-const password =
-document
-.getElementById("login-password")
-.value;
+    const password = document.getElementById("login-password").value.trim();
 
-const user =
-JSON.parse(localStorage.getItem("user"));
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
-if(!user){
+    const user = users.find(item =>
 
-alert("Silakan daftar terlebih dahulu.");
+        item.email === email &&
+        item.password === password
 
-return;
+    );
 
-}
+    if (!user) {
 
-if(
+        alert("Email atau password salah.");
 
-email===user.email &&
+        return;
 
-password===user.password
+    }
 
-){
+    localStorage.setItem("user", JSON.stringify(user));
 
-localStorage.setItem("login","true");
+    localStorage.setItem("login", "true");
 
-alert("Login berhasil.");
+    alert("Login berhasil.");
 
-window.location.href="account.html";
-
-}else{
-
-alert("Email atau password salah.");
-
-}
+    window.location.href = "account.html";
 
 };
