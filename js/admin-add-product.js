@@ -42,7 +42,7 @@ form.addEventListener("submit", async (e) => {
 
         // Upload ke Storage
         const { error: uploadError } =
-            await supabase.storage
+            await window.supabaseClient.storage
             .from("products")
             .upload(fileName, file);
 
@@ -51,14 +51,13 @@ form.addEventListener("submit", async (e) => {
         // Ambil URL gambar
         const {
             data: { publicUrl }
-        } = supabase.storage
+        } = window.supabaseClient.storage
             .from("products")
             .getPublicUrl(fileName);
 
         // Simpan ke database
         const { error } =
-            await supabase
-            .from("products")
+            window.supabaseClient.from("products")
             .insert([{
 
                 name: name,
