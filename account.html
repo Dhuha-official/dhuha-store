@@ -5,7 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>DHUHA | Akun</title>
 
@@ -21,9 +21,13 @@
 <header class="header">
 
 <div class="logo">
+
 <a href="index.html">
+
 <img src="images/Logo DH.png" alt="DHUHA">
+
 </a>
+
 </div>
 
 <div class="header-icons">
@@ -41,7 +45,9 @@ stroke="currentColor"
 stroke-width="2">
 
 <rect x="2" y="2" width="20" height="20" rx="5"/>
+
 <circle cx="12" cy="12" r="4"/>
+
 <circle cx="17.5" cy="6.5" r="1.2"
 fill="currentColor"
 stroke="none"/>
@@ -77,19 +83,20 @@ id="profilePhoto"
 src="images/Logo DH.png"
 class="profile-photo">
 
-<h2 id="profileName">
+<h2 id="user-name">
 
 Guest
 
 </h2>
 
-<p id="profileEmail">
+<p id="user-email">
 
 Silakan login untuk melanjutkan
 
 </p>
 
-  </section>
+</section>
+
 <section class="account-menu">
 
 <a href="orders.html" class="menu-item">
@@ -134,7 +141,7 @@ Silakan login untuk melanjutkan
 
 </section>
 
-<div class="account-action">
+<div id="login-area" class="account-action">
 
 <a href="login.html" class="login-btn">
 
@@ -150,50 +157,64 @@ Daftar
 
 </div>
 
-</section>
+<div id="logout-area" class="account-action" style="display:none;">
+
+<button id="logoutBtn" class="login-btn">
+
+Logout
+
+</button>
+
+</div>
+
+<nav class="bottom-nav">
+
+<a href="index.html" class="nav-item">
+
+<i data-lucide="house"></i>
+
+<span>Home</span>
+
+</a>
+
+<a href="shop.html" class="nav-item">
+
+<i data-lucide="shopping-bag"></i>
+
+<span>Shop</span>
+
+</a>
+
+<a href="wishlist.html" class="nav-item">
+
+<i data-lucide="heart"></i>
+
+<span>Wishlist</span>
+
+</a>
+
+<a href="cart.html" class="nav-item">
+
+<i data-lucide="shopping-cart"></i>
+
+<span>Cart</span>
+
+</a>
+
+<a href="account.html" class="nav-item active">
+
+<i data-lucide="user"></i>
+
+<span>Akun</span>
+
+</a>
+
+</nav>
+
 <script src="js/account.js"></script>
 <script src="js/navigation.js"></script>
 <script src="js/header.js"></script>
 <script src="js/cart-badge.js"></script>
-  
-<script>
-
-lucide.createIcons();
-
-</script>
-<nav class="bottom-nav">
-
-<a href="index.html" class="nav-item">
-<i data-lucide="house"></i>
-<span>Home</span>
-</a>
-
-<a href="shop.html" class="nav-item">
-<i data-lucide="shopping-bag"></i>
-<span>Shop</span>
-</a>
-
-<a href="wishlist.html" class="nav-item">
-<i data-lucide="heart"></i>
-<span>Wishlist</span>
-</a>
-
-<a href="cart.html" class="nav-item">
-<i data-lucide="shopping-cart"></i>
-<span>Cart</span>
-</a>
-
-<a href="account.html" class="nav-item">
-<i data-lucide="user"></i>
-<span>Akun</span>
-</a>
-
-</nav>
-  <nav class="bottom-nav">
-...
-</nav>
-
-<script src="https://unpkg.com/lucide@latest"></script>
 
 <script>
 
@@ -202,6 +223,5 @@ lucide.createIcons();
 </script>
 
 </body>
-</body>
 
-</html>
+  </html>
