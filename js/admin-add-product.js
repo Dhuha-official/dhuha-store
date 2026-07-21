@@ -41,12 +41,18 @@ form.addEventListener("submit", async (e) => {
             Date.now() + "-" + file.name.replace(/\s+/g, "-");
 
         // Upload ke Storage
-        const { error: uploadError } =
-            await window.supabaseClient.storage
-            .from("products")
-            .upload(fileName, file);
+        const fileExt = file.name.split(".").pop();
+const fileName = `${Date.now()}.${fileExt}`;
 
-        if (uploadError) throw uploadError;
+const { error: uploadError } =
+await window.supabaseClient.storage
+.from("products")
+.upload(fileName, file, {
+    cacheControl: "3600",
+    upsert: false
+});
+
+if (uploadError) throw uploadError;
 
         // Ambil URL gambar
         const {
