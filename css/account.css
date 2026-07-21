@@ -233,3 +233,52 @@ padding:16px;
 }
 
 }
+.account-profile{
+
+margin-top:95px;
+
+background:#fff;
+
+border-radius:28px;
+
+padding:35px 25px;
+
+text-align:center;
+
+box-shadow:0 10px 30px rgba(0,0,0,.06);
+
+}
+
+.profile-photo{
+
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+margin-bottom:18px;
+
+border:4px solid #f4f4f4;
+
+}
+
+.account-profile h2{
+
+font-size:28px;
+
+font-weight:700;
+
+margin-bottom:8px;
+
+}
+
+.account-profile p{
+
+color:#777;
+
+font-size:15px;
+
+}
