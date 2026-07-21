@@ -1,8 +1,15 @@
-const SUPABASE_URL = "https://valwpmiwzaqgijtrbizl.supabase.co";
+// ======================================
+// DHUHA SUPABASE
+// ======================================
 
-const SUPABASE_KEY = "PASTE_PUBLISHABLE_KEY_KAMU_DI_SINI";
+const SUPABASE_URL =
+"https://valwpmiwzaqgijtrbizl.supabase.co";
 
-const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+const SUPABASE_KEY =
+"YOUR_PUBLISHABLE_KEY";
+
+const supabase =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
 );
