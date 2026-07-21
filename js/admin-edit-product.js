@@ -1,122 +1,151 @@
-// ======================================
-// DHUHA ADMIN EDIT PRODUCT
-// ======================================
+// ==============================
+// DHUHA EDIT PRODUCT
+// ==============================
 
-const params=new URLSearchParams(window.location.search);
+const params = new URLSearchParams(location.search);
+const id = params.get("id");
 
-const productId=Number(params.get("id"));
+let oldImage = "";
 
-let products=[];
-
-let currentProduct=null;
-document.addEventListener("DOMContentLoaded",()=>{
-
-loadProduct();
-
-});
+const preview = document.getElementById("edit-preview");
 
 async function loadProduct(){
 
-const response=await fetch("../data/products.json");
+    const {data,error} =
+    await window.supabaseClient
+    .from("products")
+    .select("*")
+    .eq("id",id)
+    .single();
 
-products=await response.json();
+    if(error){
 
-currentProduct=products.find(item=>item.id===productId);
+        alert("Produk tidak ditemukan.");
 
-if(!currentProduct){
+        location.href="products.html";
 
-alert("Produk tidak ditemukan.");
+        return;
 
-location.href="products.html";
+    }
 
-return;
+    document.getElementById("edit-name").value = data.name;
+    document.getElementById("edit-category").value = data.category;
+    document.getElementById("edit-price").value = data.price;
+    document.getElementById("edit-stock").value = data.stock;
+    document.getElementById("edit-description").value = data.description;
 
-}
+    preview.src = data.image_url;
 
-fillForm();
-
-}
-function fillForm(){
-
-document.getElementById("edit-name").value=currentProduct.name;
-
-document.getElementById("edit-category").value=currentProduct.category;
-
-document.getElementById("edit-price").value=currentProduct.price;
-
-document.getElementById("edit-stock").value=currentProduct.stock||0;
-
-document.getElementById("edit-description").value=currentProduct.description||"";
-
-document.getElementById("edit-preview").src="../"+currentProduct.image;
+    oldImage = data.image_url;
 
 }
-const image=document.getElementById("edit-image");
 
-image.addEventListener("change",(e)=>{
+loadProduct();
 
-const file=e.target.files[0];
+document.getElementById("edit-image").onchange = function(){
 
-if(!file)return;
+    const file = this.files[0];
 
-document.getElementById("edit-preview").src=
+    if(file){
 
-URL.createObjectURL(file);
+        preview.src = URL.createObjectURL(file);
+
+    }
+
+};
+
+document.getElementById("edit-product-form")
+.addEventListener("submit",async(e)=>{
+
+    e.preventDefault();
+
+    let imageUrl = oldImage;
+
+    const file =
+    document.getElementById("edit-image").files[0];
+
+    if(file){
+
+        const fileName =
+        Date.now()+"-"+file.name;
+
+        const {error:uploadError} =
+        await window.supabaseClient.storage
+        .from("products")
+        .upload(fileName,file);
+
+        if(uploadError){
+
+            alert(uploadError.message);
+
+            return;
+
+        }
+
+        imageUrl =
+        window.supabaseClient
+        .storage
+        .from("products")
+        .getPublicUrl(fileName)
+        .data.publicUrl;
+
+    }
+
+    const {error} =
+    await window.supabaseClient
+    .from("products")
+    .update({
+
+        name:document.getElementById("edit-name").value,
+
+        category:document.getElementById("edit-category").value,
+
+        description:document.getElementById("edit-description").value,
+
+        price:Number(document.getElementById("edit-price").value),
+
+        stock:Number(document.getElementById("edit-stock").value),
+
+        image_url:imageUrl
+
+    })
+    .eq("id",id);
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    alert("Produk berhasil diperbarui.");
+
+    location.href="products.html";
 
 });
-const form=document.getElementById("edit-product-form");
 
-form.addEventListener("submit",(e)=>{
+document.getElementById("delete-product")
+.onclick = async()=>{
 
-e.preventDefault();
+    if(!confirm("Yakin ingin menghapus produk ini?")) return;
 
-currentProduct.name=
+    const {error} =
+    await window.supabaseClient
+    .from("products")
+    .delete()
+    .eq("id",id);
 
-document.getElementById("edit-name").value;
+    if(error){
 
-currentProduct.category=
+        alert(error.message);
 
-document.getElementById("edit-category").value;
+        return;
 
-currentProduct.price=
+    }
 
-Number(document.getElementById("edit-price").value);
+    alert("Produk berhasil dihapus.");
 
-currentProduct.stock=
+    location.href="products.html";
 
-Number(document.getElementById("edit-stock").value);
-
-currentProduct.description=
-
-document.getElementById("edit-description").value;
-
-alert("Perubahan berhasil disimpan.");
-
-console.log(products);
-
-});
-document
-
-.getElementById("delete-product")
-
-.addEventListener("click",()=>{
-
-const ok=confirm(
-
-"Yakin ingin menghapus produk ini?"
-
-);
-
-if(!ok)return;
-
-products=products.filter(item=>
-
-item.id!==productId
-
-);
-
-alert("Produk berhasil dihapus.");
-
-location.href="products.html";
-
-});
+};
