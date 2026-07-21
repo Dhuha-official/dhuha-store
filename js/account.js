@@ -4,46 +4,47 @@
 
 const user = JSON.parse(localStorage.getItem("user"));
 
-const name = document.getElementById("user-name");
-const email = document.getElementById("user-email");
+const userName = document.getElementById("user-name");
+const userEmail = document.getElementById("user-email");
 
 const loginArea = document.getElementById("login-area");
 const logoutArea = document.getElementById("logout-area");
 
 if (user) {
 
-    if (name) {
-        name.innerText = user.name;
-    }
+    if (userName) userName.innerText = user.name;
 
-    if (email) {
-        email.innerText = user.email;
-    }
+    if (userEmail) userEmail.innerText = user.email;
 
-    if (loginArea) {
-        loginArea.style.display = "none";
-    }
+    if (loginArea) loginArea.style.display = "none";
 
-    if (logoutArea) {
-        logoutArea.style.display = "block";
-    }
+    if (logoutArea) logoutArea.style.display = "block";
 
 } else {
 
-    if (name) {
-        name.innerText = "Guest";
-    }
+    if (userName) userName.innerText = "Guest";
 
-    if (email) {
-        email.innerText = "Silakan login untuk melanjutkan";
-    }
+    if (userEmail) userEmail.innerText = "Silakan login untuk melanjutkan";
 
-    if (loginArea) {
-        loginArea.style.display = "block";
-    }
+    if (loginArea) loginArea.style.display = "block";
 
-    if (logoutArea) {
-        logoutArea.style.display = "none";
-    }
+    if (logoutArea) logoutArea.style.display = "none";
+
+}
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+
+    logoutBtn.onclick = () => {
+
+        localStorage.removeItem("user");
+        localStorage.removeItem("login");
+
+        alert("Berhasil logout.");
+
+        window.location.href = "login.html";
+
+    };
 
 }
