@@ -1,0 +1,95 @@
+.orders-page{
+
+padding:100px 20px;
+
+}
+
+.orders-page h1{
+
+margin-bottom:25px;
+
+}
+
+.order-card{
+
+background:#fff;
+
+padding:20px;
+
+border-radius:20px;
+
+margin-bottom:18px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.05);
+
+}
+
+.top{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:10px;
+
+}
+
+.top span{
+
+background:#f4f4f4;
+
+padding:6px 14px;
+
+border-radius:30px;
+
+font-size:13px;
+
+}
+
+.order-card h3{
+
+margin:15px 0;
+
+}
+
+.order-card a{
+
+display:inline-block;
+
+padding:10px 20px;
+
+background:#111;
+
+color:#fff;
+
+text-decoration:none;
+
+border-radius:12px;
+
+}
+
+.empty{
+
+text-align:center;
+
+padding:80px 20px;
+
+}
+
+.shop-btn{
+
+display:inline-block;
+
+margin-top:20px;
+
+padding:14px 25px;
+
+background:#111;
+
+color:#fff;
+
+border-radius:14px;
+
+text-decoration:none;
+
+}
