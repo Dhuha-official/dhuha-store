@@ -281,43 +281,49 @@ function filterAndRender() {
 
 function filterProducts(){
 
-    let result = products.filter(product => {
+let result = products.filter(product=>{
 
-        if(currentCategory === "Semua"){
-            return true;
-        }
 
-        return product.Category === currentCategory;
-    });
+if(currentCategory === "Semua"){
+return true;
+}
+
+
+return product.category === currentCategory;
+
+
+});
+
+
+renderProducts(result);
+
+
+}
 
 
     // SORTING
 
-    if(currentSort === "newest"){
+    if(currentSort==="low"){
 
-        result.sort((a,b)=> 
-            new Date(b.Created_at) - new Date(a.Created_at)
-        );
+result.sort((a,b)=>a.price-b.price);
 
-    }
+}
 
 
-    if(currentSort === "low"){
+if(currentSort==="high"){
 
-        result.sort((a,b)=>
-            a.Price - b.Price
-        );
+result.sort((a,b)=>b.price-a.price);
 
-    }
+}
 
 
-    if(currentSort === "high"){
+if(currentSort==="newest"){
 
-        result.sort((a,b)=>
-            b.Price - a.Price
-        );
+result.sort((a,b)=>
+new Date(b.created_at)-new Date(a.created_at)
+);
 
-    }
+}
 
 
     renderProducts(result);
@@ -363,23 +369,23 @@ function renderProducts(data){
 
 
             <img 
-            src="${product.Image_url}"
-            alt="${product.Name}"
+            src="${product.image_url}"
+            alt="${product.name}"
             >
 
 
             <h3>
-            ${product.Name}
+            ${product.name}
             </h3>
 
 
             <p class="category">
-            ${product.Category}
+            ${product.category}
             </p>
 
 
             <p class="price">
-            Rp${Number(product.Price).toLocaleString("id-ID")}
+            Rp${Number(product.price).toLocaleString("id-ID")}
             </p>
 
 
@@ -387,12 +393,12 @@ function renderProducts(data){
             <div class="product-action">
 
 
-                <a href="product.html?id=${product.Id}">
+                <a href="product.html?id=${product.id}">
                     Lihat
                 </a>
 
 
-                <button onclick="addToCart('${product.Id}')">
+                <button onclick="addToCart('${product.id}')">
                     + Keranjang
                 </button>
 
@@ -447,11 +453,11 @@ function addToCart(id){
 
         cart.push({
 
-            Id: product.Id,
-            Name: product.Name,
-            Price: product.Price,
-            Image_url: product.Image_url,
-            Category: product.Category,
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image_url: product.image_url,
+            category: product.category,
             qty: 1
 
         });
@@ -468,7 +474,7 @@ function addToCart(id){
 
 
     alert(
-        product.Name + " masuk keranjang"
+        product.name + " masuk keranjang"
     );
 
 }
