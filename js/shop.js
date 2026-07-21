@@ -1,5 +1,5 @@
 // =====================================
-// DHUHA SHOP
+// DHUHA SHOP FINAL
 // BAGIAN 1
 // =====================================
 
@@ -7,13 +7,7 @@ let products = [];
 let currentCategory = "Semua";
 let currentSort = "newest";
 
-// =====================================
-// LOAD PRODUCT
-// =====================================
-
-document.addEventListener("DOMContentLoaded", initShop);
-
-async function initShop(){
+document.addEventListener("DOMContentLoaded", async () => {
 
     await loadProducts();
 
@@ -25,7 +19,17 @@ async function initShop(){
 
     initBottomSheet();
 
-}
+    activeMenu();
+
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+
+});
+
+// =====================================
+// LOAD PRODUCTS FROM SUPABASE
+// =====================================
 
 async function loadProducts() {
 
@@ -40,62 +44,52 @@ async function loadProducts() {
 
         products = data || [];
 
-        renderProducts(products);
+        filterAndRender();
 
     } catch (err) {
 
-        console.error(err);
+        console.error("Supabase Error :", err);
 
-    }
-
-}
-
-        renderProducts(products);
-
-    }catch(err){
-
-        console.error(err);
+        document.getElementById("product-list").innerHTML = `
+            <div class="empty-product">
+                <h3>Gagal memuat produk</h3>
+            </div>
+        `;
 
     }
 
 }
 
 // =====================================
-// RENDER PRODUCT
+// RENDER PRODUCTS
 // =====================================
 
-function renderProducts(list){
+function renderProducts(list) {
 
     const container =
-    document.getElementById("product-list");
+        document.getElementById("product-list");
 
-    if(!container) return;
+    if (!container) return;
 
-    container.innerHTML="";
+    container.innerHTML = "";
 
-    if(list.length===0){
+    if (list.length === 0) {
 
-        container.innerHTML=`
-
-<div class="empty-product">
-
-<h3>Produk tidak ditemukan</h3>
-
-</div>
-
-`;
+        container.innerHTML = `
+        <div class="empty-product">
+            <h3>Produk tidak ditemukan</h3>
+        </div>
+        `;
 
         return;
 
     }
 
-    list.forEach(product=>{
+    list.forEach(product => {
 
-        container.innerHTML+=`
+        container.innerHTML += `
 
-<div class="product-card">
-
-<a href="product.html?id=${product.id}">
+<a href="product.html?id=${product.id}" class="product-card">
 
 <div class="product-image">
 
@@ -117,8 +111,6 @@ Rp ${Number(product.price).toLocaleString("id-ID")}
 
 </a>
 
-</div>
-
 `;
 
     });
@@ -130,57 +122,80 @@ Rp ${Number(product.price).toLocaleString("id-ID")}
 
 function initSearch() {
 
-    const searchInput =
-    document.getElementById("searchInput");
+    const input = document.getElementById("searchInput");
 
-    if (!searchInput) return;
+    if (!input) return;
 
-    searchInput.addEventListener("input", function () {
+    input.addEventListener("input", filterAndRender);
 
-        filterAndRender();
+}
+
+// =====================================
+// FILTER
+// =====================================
+
+function initFilter() {
+
+    document.querySelectorAll(".filter-item")
+    .forEach(button => {
+
+        button.onclick = () => {
+
+            currentCategory =
+            button.dataset.category;
+
+            filterAndRender();
+
+            document
+            .getElementById("filterSheet")
+            .classList.remove("active");
+
+        };
 
     });
 
 }
 
 // =====================================
-// FILTER KATEGORI
+// SORT
 // =====================================
 
-function initFilter(){
+function initSort() {
 
-document.querySelectorAll(".filter-item").forEach(btn=>{
+    document.querySelectorAll(".sort-item")
+    .forEach(button => {
 
-btn.onclick=()=>{
+        button.onclick = () => {
 
-currentCategory=btn.dataset.category;
+            currentSort =
+            button.dataset.sort;
 
-filterAndRender();
+            filterAndRender();
 
-document.getElementById("filterSheet").classList.remove("active");
+            document
+            .getElementById("sortSheet")
+            .classList.remove("active");
 
-};
+        };
 
-});
+    });
 
 }
 
 // =====================================
-// FILTER DATA
+// FILTER + SEARCH + SORT
 // =====================================
 
 function filterAndRender() {
 
     let result = [...products];
 
-    // SEARCH
-
     const keyword =
     document
     .getElementById("searchInput")
     .value
-    .toLowerCase()
-    .trim();
+    .trim()
+    .toLowerCase();
 
     if (keyword !== "") {
 
@@ -194,8 +209,6 @@ function filterAndRender() {
 
     }
 
-    // FILTER KATEGORI
-
     if (currentCategory !== "Semua") {
 
         result = result.filter(product =>
@@ -206,45 +219,13 @@ function filterAndRender() {
 
     }
 
-    // SORT
-
-    result = sortProducts(result);
-
-    renderProducts(result);
-
-      }
-// =====================================
-// SORT
-// =====================================
-function initSort(){
-
-document.querySelectorAll(".sort-item").forEach(btn=>{
-
-btn.onclick=()=>{
-
-currentSort=btn.dataset.sort;
-
-filterAndRender();
-
-document.getElementById("sortSheet").classList.remove("active");
-
-};
-
-});
-
-}
-
-function sortProducts(list) {
-
-    let result = [...list];
-
     switch (currentSort) {
 
         case "low":
 
-            result.sort((a, b) =>
+            result.sort((a,b)=>
 
-                Number(a.price) - Number(b.price)
+                Number(a.price)-Number(b.price)
 
             );
 
@@ -252,9 +233,9 @@ function sortProducts(list) {
 
         case "high":
 
-            result.sort((a, b) =>
+            result.sort((a,b)=>
 
-                Number(b.price) - Number(a.price)
+                Number(b.price)-Number(a.price)
 
             );
 
@@ -262,7 +243,7 @@ function sortProducts(list) {
 
         case "az":
 
-            result.sort((a, b) =>
+            result.sort((a,b)=>
 
                 a.name.localeCompare(b.name)
 
@@ -272,7 +253,7 @@ function sortProducts(list) {
 
         case "za":
 
-            result.sort((a, b) =>
+            result.sort((a,b)=>
 
                 b.name.localeCompare(a.name)
 
@@ -280,91 +261,260 @@ function sortProducts(list) {
 
             break;
 
-        case "newest":
-
         default:
 
-            result.sort((a, b) =>
+            result.sort((a,b)=>
 
-                Number(b.id) - Number(a.id)
+                new Date(b.created_at) -
+                new Date(a.created_at)
 
             );
 
-            break;
+    }
+
+    renderProducts(result);
+
+}
+// =====================================
+// FILTER PRODUCT
+// =====================================
+
+function filterProducts(){
+
+    let result = products.filter(product => {
+
+        if(currentCategory === "Semua"){
+            return true;
+        }
+
+        return product.Category === currentCategory;
+    });
+
+
+    // SORTING
+
+    if(currentSort === "newest"){
+
+        result.sort((a,b)=> 
+            new Date(b.Created_at) - new Date(a.Created_at)
+        );
 
     }
 
-    return result;
 
-}
+    if(currentSort === "low"){
 
-// =====================================
-// BOTTOM SHEET
-// =====================================
-
-function initBottomSheet(){
-
-const filterBtn=document.getElementById("filterBtn");
-const sortBtn=document.getElementById("sortBtn");
-
-const filterSheet=document.getElementById("filterSheet");
-const sortSheet=document.getElementById("sortSheet");
-
-filterBtn.onclick=()=>{
-
-filterSheet.classList.add("active");
-sortSheet.classList.remove("active");
-
-};
-
-sortBtn.onclick=()=>{
-
-sortSheet.classList.add("active");
-filterSheet.classList.remove("active");
-
-};
-
-window.onclick=(e)=>{
-
-if(e.target===filterSheet){
-
-filterSheet.classList.remove("active");
-
-}
-
-if(e.target===sortSheet){
-
-sortSheet.classList.remove("active");
-
-}
-
-};
-
-}
-
-// =====================================
-// ACTIVE MENU
-// =====================================
-
-document.querySelectorAll(".bottom-nav .nav-item")
-.forEach(link => {
-
-    const href = link.getAttribute("href");
-
-    if (window.location.pathname.endsWith(href)) {
-
-        link.classList.add("active");
+        result.sort((a,b)=>
+            a.Price - b.Price
+        );
 
     }
 
-});
 
-// =====================================
-// UPDATE ICON
-// =====================================
+    if(currentSort === "high"){
 
-if (typeof lucide !== "undefined") {
+        result.sort((a,b)=>
+            b.Price - a.Price
+        );
 
-    lucide.createIcons();
+    }
+
+
+    renderProducts(result);
 
 }
+
+
+
+// =====================================
+// RENDER PRODUCT
+// =====================================
+
+function renderProducts(data){
+
+    const container = document.getElementById("product-list");
+
+
+    if(!container) return;
+
+
+    container.innerHTML = "";
+
+
+    if(data.length === 0){
+
+        container.innerHTML = `
+        <div class="empty">
+            Produk tidak ditemukan
+        </div>
+        `;
+
+        return;
+    }
+
+
+
+    data.forEach(product=>{
+
+
+        container.innerHTML += `
+
+        <div class="product-card">
+
+
+            <img 
+            src="${product.Image_url}"
+            alt="${product.Name}"
+            >
+
+
+            <h3>
+            ${product.Name}
+            </h3>
+
+
+            <p class="category">
+            ${product.Category}
+            </p>
+
+
+            <p class="price">
+            Rp${Number(product.Price).toLocaleString("id-ID")}
+            </p>
+
+
+
+            <div class="product-action">
+
+
+                <a href="product.html?id=${product.Id}">
+                    Lihat
+                </a>
+
+
+                <button onclick="addToCart('${product.Id}')">
+                    + Keranjang
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+        `;
+
+
+    });
+
+
+                        }
+// =====================================
+// ADD TO CART
+// =====================================
+
+function addToCart(id){
+
+    let cart = JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
+
+
+    let product = products.find(
+        item => item.Id == id
+    );
+
+
+    if(!product){
+        alert("Produk tidak ditemukan");
+        return;
+    }
+
+
+
+    let existing = cart.find(
+        item => item.Id == id
+    );
+
+
+
+    if(existing){
+
+        existing.qty += 1;
+
+    }else{
+
+
+        cart.push({
+
+            Id: product.Id,
+            Name: product.Name,
+            Price: product.Price,
+            Image_url: product.Image_url,
+            Category: product.Category,
+            qty: 1
+
+        });
+
+
+    }
+
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    alert(
+        product.Name + " masuk keranjang"
+    );
+
+}
+
+
+
+// =====================================
+// CART COUNT
+// =====================================
+
+function updateCartCount(){
+
+    let cart = JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
+
+
+    let total = 0;
+
+
+    cart.forEach(item=>{
+
+        total += item.qty;
+
+    });
+
+
+
+    let count = document.getElementById(
+        "cart-count"
+    );
+
+
+    if(count){
+
+        count.innerHTML = total;
+
+    }
+
+}
+
+
+
+// Jalankan saat halaman dibuka
+
+document.addEventListener(
+    "DOMContentLoaded",
+    updateCartCount
+);
