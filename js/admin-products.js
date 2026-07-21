@@ -1,45 +1,62 @@
-// =====================================
+// ===============================
 // DHUHA ADMIN PRODUCTS
-// =====================================
+// ===============================
 
-let products = [];
+let allProducts = [];
 
-document.addEventListener("DOMContentLoaded", () => {
+async function loadProducts() {
 
-    loadProducts();
+    const tbody = document.getElementById("product-list-admin");
 
-});
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="6">Loading...</td>
+        </tr>
+    `;
 
-// ==========================
-// LOAD
-// ==========================
+    try {
 
-function loadProducts() {
+        const { data, error } =
+        await window.supabaseClient
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending:false });
 
-    products = JSON.parse(localStorage.getItem("products")) || [];
+        if(error) throw error;
 
-    renderProducts();
+        allProducts = data;
+
+        renderProducts(allProducts);
+
+    } catch(err){
+
+        console.error(err);
+
+        tbody.innerHTML=`
+        <tr>
+            <td colspan="6">
+                Gagal memuat produk
+            </td>
+        </tr>
+        `;
+
+    }
 
 }
 
-// ==========================
-// RENDER
-// ==========================
+function renderProducts(list){
 
-function renderProducts() {
+    const tbody =
+    document.getElementById("product-list-admin");
 
-    const table = document.getElementById("products-table");
+    tbody.innerHTML="";
 
-    if (!table) return;
+    if(list.length===0){
 
-    table.innerHTML = "";
-
-    if (products.length === 0) {
-
-        table.innerHTML = `
+        tbody.innerHTML=`
         <tr>
-            <td colspan="7">
-            Belum ada produk
+            <td colspan="6">
+                Belum ada produk
             </td>
         </tr>
         `;
@@ -48,39 +65,46 @@ function renderProducts() {
 
     }
 
-    products.forEach((item, index) => {
+    list.forEach(product=>{
 
-        table.innerHTML += `
+        tbody.innerHTML+=`
 
 <tr>
 
 <td>
 
-<img src="${item.image}" width="60">
+<img
+src="${product.image_url}"
+style="width:70px;height:70px;object-fit:cover;border-radius:10px;">
 
 </td>
 
-<td>${item.name}</td>
+<td>${product.name}</td>
 
-<td>${item.category}</td>
+<td>${product.category}</td>
 
 <td>
 
-Rp ${Number(item.price).toLocaleString("id-ID")}
+Rp ${Number(product.price).toLocaleString("id-ID")}
 
 </td>
 
-<td>${item.stock}</td>
+<td>${product.stock}</td>
 
 <td>
 
-<button onclick="editProduct(${index})">
+<button
+class="btn"
+onclick="editProduct('${product.id}')">
 
 Edit
 
 </button>
 
-<button onclick="deleteProduct(${index})">
+<button
+class="btn"
+style="background:#d33;margin-left:6px;"
+onclick="deleteProduct('${product.id}')">
 
 Hapus
 
@@ -96,108 +120,81 @@ Hapus
 
 }
 
-// ==========================
-// SIMPAN
-// ==========================
+async function deleteProduct(id){
 
-function saveProducts(){
+    if(!confirm("Hapus produk ini?")) return;
 
-localStorage.setItem(
+    const {error}=await window.supabaseClient
 
-"products",
+    .from("products")
 
-JSON.stringify(products)
+    .delete()
 
-);
+    .eq("id",id);
 
-renderProducts();
+    if(error){
 
-}
+        alert(error.message);
 
-// ==========================
-// TAMBAH
-// ==========================
+        return;
 
-function addProduct(){
+    }
 
-const product={
+    alert("Produk berhasil dihapus.");
 
-id:Date.now(),
-
-name:document.getElementById("product-name").value,
-
-category:document.getElementById("product-category").value,
-
-price:Number(document.getElementById("product-price").value),
-
-stock:Number(document.getElementById("product-stock").value),
-
-image:document.getElementById("product-image").value,
-
-description:document.getElementById("product-description").value
-
-};
-
-products.push(product);
-
-saveProducts();
-
-alert("Produk berhasil ditambahkan.");
+    loadProducts();
 
 }
 
-// ==========================
-// EDIT
-// ==========================
+function editProduct(id){
 
-function editProduct(index){
-
-const p=products[index];
-
-document.getElementById("product-name").value=p.name;
-
-document.getElementById("product-category").value=p.category;
-
-document.getElementById("product-price").value=p.price;
-
-document.getElementById("product-stock").value=p.stock;
-
-document.getElementById("product-image").value=p.image;
-
-document.getElementById("product-description").value=p.description;
-
-document.getElementById("saveBtn").onclick=()=>{
-
-p.name=document.getElementById("product-name").value;
-
-p.category=document.getElementById("product-category").value;
-
-p.price=Number(document.getElementById("product-price").value);
-
-p.stock=Number(document.getElementById("product-stock").value);
-
-p.image=document.getElementById("product-image").value;
-
-p.description=document.getElementById("product-description").value;
-
-saveProducts();
-
-alert("Produk berhasil diperbarui.");
-
-};
+    location.href=
+    "edit-product.html?id="+id;
 
 }
 
-// ==========================
-// HAPUS
-// ==========================
+// SEARCH
 
-function deleteProduct(index){
+document.getElementById("search-product")
+.addEventListener("input",function(){
 
-if(!confirm("Hapus produk ini?")) return;
+    const keyword=this.value.toLowerCase();
 
-products.splice(index,1);
+    const result=allProducts.filter(product=>
 
-saveProducts();
+        product.name
+        .toLowerCase()
+        .includes(keyword)
 
-      }
+    );
+
+    renderProducts(result);
+
+});
+
+// FILTER
+
+document.getElementById("filter-category")
+.addEventListener("change",function(){
+
+    if(this.value==="Semua"){
+
+        renderProducts(allProducts);
+
+        return;
+
+    }
+
+    renderProducts(
+
+        allProducts.filter(product=>
+
+            product.category===this.value
+
+        )
+
+    );
+
+});
+
+loadProducts();
