@@ -1,66 +1,92 @@
-// ======================================
+// ==============================
 // DHUHA ADMIN ADD PRODUCT
-// ======================================
+// ==============================
 
-const form=document.getElementById("add-product-form");
+const form = document.getElementById("add-product-form");
+const imageInput = document.getElementById("product-image");
+const preview = document.getElementById("preview-image");
 
-const imageInput=document.getElementById("product-image");
+// Preview gambar
+imageInput.addEventListener("change", () => {
 
-const preview=document.getElementById("preview-image");
-// ======================================
-// PREVIEW IMAGE
-// ======================================
+    const file = imageInput.files[0];
 
-imageInput.addEventListener("change",(e)=>{
+    if (!file) return;
 
-const file=e.target.files[0];
-
-if(!file)return;
-
-preview.src=URL.createObjectURL(file);
+    preview.src = URL.createObjectURL(file);
 
 });
-// ======================================
-// SAVE PRODUCT
-// ======================================
 
-form.addEventListener("submit",(e)=>{
+// Simpan Produk
+form.addEventListener("submit", async (e) => {
 
-e.preventDefault();
+    e.preventDefault();
 
-const product={
+    const name = document.getElementById("product-name").value.trim();
+    const category = document.getElementById("product-category").value;
+    const price = Number(document.getElementById("product-price").value);
+    const stock = Number(document.getElementById("product-stock").value);
+    const description = document.getElementById("product-description").value.trim();
+    const file = imageInput.files[0];
 
-id:Date.now(),
+    if (!name || !category || !price || !stock || !file) {
+        alert("Mohon lengkapi semua data.");
+        return;
+    }
 
-name:document.getElementById("product-name").value,
+    try {
 
-category:document.getElementById("product-category").value,
+        // Nama file unik
+        const fileName =
+            Date.now() + "-" + file.name.replace(/\s+/g, "-");
 
-price:Number(document.getElementById("product-price").value),
+        // Upload ke Storage
+        const { error: uploadError } =
+            await supabase.storage
+            .from("products")
+            .upload(fileName, file);
 
-stock:Number(document.getElementById("product-stock").value),
+        if (uploadError) throw uploadError;
 
-description:document.getElementById("product-description").value,
+        // Ambil URL gambar
+        const {
+            data: { publicUrl }
+        } = supabase.storage
+            .from("products")
+            .getPublicUrl(fileName);
 
-image:preview.src
+        // Simpan ke database
+        const { error } =
+            await supabase
+            .from("products")
+            .insert([{
 
-};
+                name: name,
 
-console.log(product);
+                description: description,
 
-alert("Produk berhasil ditambahkan.");
+                price: price,
 
-form.reset();
+                image_url: publicUrl,
 
-preview.src="../images/no-image.png";
+                category: category,
+
+                stock: stock
+
+            }]);
+
+        if (error) throw error;
+
+        alert("Produk berhasil ditambahkan.");
+
+        window.location.href = "products.html";
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Gagal upload produk.\n" + err.message);
+
+    }
 
 });
-// ======================================
-// AUTO FOCUS
-// ======================================
-
-window.onload=()=>{
-
-document.getElementById("product-name").focus();
-
-};
