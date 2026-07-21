@@ -27,30 +27,28 @@ async function initShop(){
 
 }
 
-async function loadProducts(){
+async function loadProducts() {
 
-    try{
+    try {
 
-        const localProducts =
-        JSON.parse(localStorage.getItem("products"));
+        const { data, error } = await window.supabaseClient
+            .from("products")
+            .select("*")
+            .order("created_at", { ascending: false });
 
-        if(localProducts && localProducts.length){
+        if (error) throw error;
 
-            products = localProducts;
+        products = data || [];
 
-        }else{
+        renderProducts(products);
 
-            const response =
-            await fetch("data/products.json");
+    } catch (err) {
 
-            products = await response.json();
+        console.error(err);
 
-            localStorage.setItem(
-                "products",
-                JSON.stringify(products)
-            );
+    }
 
-        }
+}
 
         renderProducts(products);
 
@@ -101,7 +99,7 @@ function renderProducts(list){
 
 <div class="product-image">
 
-<img src="${product.image}" alt="${product.name}">
+<img src="${product.image_url}" alt="${product.name}">
 
 </div>
 
@@ -343,48 +341,6 @@ sortSheet.classList.remove("active");
 };
 
 }
-// =====================================
-// AUTO REFRESH DARI ADMIN
-// =====================================
-
-window.addEventListener("storage", () => {
-
-    loadProducts();
-
-});
-
-// =====================================
-// REFRESH SAAT KEMBALI KE TAB
-// =====================================
-
-document.addEventListener("visibilitychange", () => {
-
-    if (!document.hidden) {
-
-        loadProducts();
-
-    }
-
-});
-
-// =====================================
-// UPDATE DARI ADMIN PANEL
-// =====================================
-
-setInterval(() => {
-
-    const localProducts =
-        JSON.parse(localStorage.getItem("products")) || [];
-
-    if (localProducts.length !== products.length) {
-
-        products = localProducts;
-
-        filterAndRender();
-
-    }
-
-}, 1000);
 
 // =====================================
 // ACTIVE MENU
