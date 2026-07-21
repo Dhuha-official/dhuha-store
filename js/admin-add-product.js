@@ -57,7 +57,7 @@ form.addEventListener("submit", async (e) => {
 
         // Simpan ke database
         const { error } =
-            window.supabaseClient.from("products")
+            await window.supabaseClient.from("products")
             .insert([{
 
                 name: name,
