@@ -43,9 +43,18 @@ async function loadProduct() {
 
         productData = data;
 
-        document.getElementById("product-image").src =
-        data.image_url;
+        // =====================================
+// LOAD MULTIPLE IMAGE
+// =====================================
 
+const images = data.images
+? data.images.split(",")
+: [data.image_url];
+
+window.productImages = images;
+
+document.getElementById("product-image").src = images[0];
+renderThumbnails(images);
         document.getElementById("product-name").innerText =
         data.name;
 
@@ -458,7 +467,44 @@ function renderRelatedProducts(list) {
 // =====================================
 
 if (typeof lucide !== "undefined") {
+function renderThumbnails(images){
 
+    const container =
+    document.getElementById("product-thumbnails");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    images.forEach((img,index)=>{
+
+        container.innerHTML += `
+
+<img
+src="${img}"
+class="thumb-img ${index===0?'active':''}"
+onclick="changeImage(${index})">
+
+`;
+
+    });
+
+}
+
+function changeImage(index){
+
+    document.getElementById("product-image").src =
+    window.productImages[index];
+
+    document
+    .querySelectorAll(".thumb-img")
+    .forEach(img=>img.classList.remove("active"));
+
+    document
+    .querySelectorAll(".thumb-img")[index]
+    .classList.add("active");
+
+}
     lucide.createIcons();
 
 }
