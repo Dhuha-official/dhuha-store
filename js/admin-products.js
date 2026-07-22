@@ -49,14 +49,32 @@ function renderProducts(list){
     const tbody =
     document.getElementById("product-list-admin");
 
-    
-tbody.innerHTML += `
+    tbody.innerHTML = "";
+
+    if(list.length===0){
+
+        tbody.innerHTML=`
+        <tr>
+            <td colspan="6">
+                Tidak ada produk.
+            </td>
+        </tr>
+        `;
+
+        return;
+
+    }
+
+    list.forEach(product=>{
+
+        tbody.innerHTML += `
 
 <tr>
 
 <td>
 
-<img src="${product.image_url}"
+<img
+src="${product.image_url}"
 style="width:60px;height:60px;object-fit:cover;border-radius:10px;">
 
 </td>
@@ -103,29 +121,6 @@ Hapus
 
 async function deleteProduct(id){
 
-    if(!confirm("Hapus produk ini?")) return;
-
-    const {error}=await window.supabaseClient
-
-    .from("products")
-
-    .delete()
-
-    .eq("id",id);
-
-    if(error){
-
-        alert(error.message);
-
-        return;
-
-    }
-
-    alert("Produk berhasil dihapus.");
-
-    loadProducts();
-
-}
 
 function editProduct(id){
 
