@@ -146,3 +146,134 @@ async function updateStatus(id) {
     loadOrders();
 
 }
+// ======================================
+// SEARCH + FILTER
+// ======================================
+
+const searchInput =
+document.getElementById("search-order");
+
+const statusFilter =
+document.getElementById("filter-status");
+
+if (searchInput) {
+
+    searchInput.addEventListener("input", filterOrders);
+
+}
+
+if (statusFilter) {
+
+    statusFilter.addEventListener("change", filterOrders);
+
+}
+
+function filterOrders() {
+
+    const keyword =
+    searchInput.value.toLowerCase().trim();
+
+    const status =
+    statusFilter.value;
+
+    const filtered =
+    orders.filter(order => {
+
+        const matchKeyword =
+
+            (order.customer_name || "")
+            .toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            (order.product_name || "")
+            .toLowerCase()
+            .includes(keyword);
+
+        const matchStatus =
+
+            status === "Semua"
+
+            ||
+
+            order.status === status;
+
+        return matchKeyword && matchStatus;
+
+    });
+
+    renderFiltered(filtered);
+
+}
+
+function renderFiltered(list) {
+
+    const tbody =
+    document.getElementById("orders-list");
+
+    tbody.innerHTML = "";
+
+    if (list.length === 0) {
+
+        tbody.innerHTML = `
+
+<tr>
+
+<td colspan="8">
+
+Tidak ada pesanan.
+
+</td>
+
+</tr>
+
+`;
+
+        return;
+
+    }
+
+    list.forEach(order => {
+
+        tbody.innerHTML += `
+
+<tr>
+
+<td>${order.customer_name}</td>
+
+<td>${order.product_name}</td>
+
+<td>${order.quantity}</td>
+
+<td>
+
+Rp ${Number(order.total).toLocaleString("id-ID")}
+
+</td>
+
+<td>${order.courier}</td>
+
+<td>${order.payment}</td>
+
+<td>${order.status}</td>
+
+<td>
+
+<button
+class="btn"
+onclick="updateStatus('${order.id}')">
+
+Update
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+    });
+
+            }
