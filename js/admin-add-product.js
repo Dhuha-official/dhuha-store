@@ -1,67 +1,109 @@
 // =====================================
 // DHUHA ADMIN ADD PRODUCT
+// FINAL
 // BAGIAN 1
 // =====================================
 
-const form = document.getElementById("add-product-form");
-const imageInput = document.getElementById("product-image");
-const preview = document.getElementById("preview-image");
+const form =
+document.getElementById("add-product-form");
+
+const imageInput =
+document.getElementById("product-image");
+
+const preview =
+document.getElementById("preview-image");
+
+// =====================================
+// PREVIEW
+// =====================================
 
 imageInput.onchange = () => {
 
     const files = imageInput.files;
 
-    if (files.length > 0) {
+    if(files.length){
 
-        preview.src = URL.createObjectURL(files[0]);
+        preview.src =
+        URL.createObjectURL(files[0]);
 
     }
 
 };
 
-form.addEventListener("submit", async (e) => {
+// =====================================
+// SUBMIT
+// =====================================
+
+form.addEventListener("submit", async(e)=>{
 
     e.preventDefault();
 
-    const files = imageInput.files;
+    const files =
+    imageInput.files;
 
-    if (files.length === 0) {
+    if(files.length===0){
 
         alert("Pilih minimal 1 gambar.");
+
         return;
 
     }
 
-    const imageUrls = [];
+    if(files.length>7){
 
-    for (let i = 0; i < files.length; i++) {
+        alert("Maksimal 7 gambar.");
 
-    const file = files[i];
+        return;
 
-        const fileExt = file.name.split(".").pop();
+    }
 
-        const fileName =
-            Date.now() +
-            "-" +
-            Math.random().toString(36).substring(2,8) +
-            "." +
-            fileExt;
+    const imageUrls=[];
 
-        const { error: uploadError } =
-        await window.supabaseClient.storage
+    for(let i=0;i<files.length;i++){
+
+        const file=files[i];
+
+        const ext=
+        file.name.split(".").pop();
+
+        const fileName=
+
+        Date.now()+"-"+
+
+        Math.random()
+
+        .toString(36)
+
+        .substring(2,8)
+
+        +"."+ext;
+
+        const {error:uploadError}=
+
+        await window.supabaseClient
+
+        .storage
+
         .from("products")
-        .upload(fileName, file);
 
-        if (uploadError) {
+        .upload(fileName,file);
+
+        if(uploadError){
 
             alert(uploadError.message);
+
             return;
 
         }
 
-        const { data } =
-        window.supabaseClient.storage
+        const {data}=
+
+        window.supabaseClient
+
+        .storage
+
         .from("products")
+
         .getPublicUrl(fileName);
 
         imageUrls.push(data.publicUrl);
@@ -89,24 +131,28 @@ form.addEventListener("submit", async (e) => {
     const sizes =
     document.getElementById("product-sizes").value.trim();
 
+    /// =====================================
+// SIMPAN PRODUK
+// =====================================
+
 const { data: product, error } =
 await window.supabaseClient
 .from("products")
 .insert([{
 
-    name: name,
+    name,
 
-    category: category,
+    category,
 
-    price: price,
+    price,
 
-    stock: stock,
+    stock,
 
-    description: description,
+    description,
 
-    colors: colors,
+    colors,
 
-    sizes: sizes,
+    sizes,
 
     image_url: imageUrls[0]
 
@@ -114,11 +160,23 @@ await window.supabaseClient
 .select()
 .single();
 
-    for(let i=0;i<imageUrls.length;i++){
+if(error){
 
-    await window.supabaseClient
-    .from("product_images")
-    .insert({
+    alert(error.message);
+
+    return;
+
+}
+
+// =====================================
+// SIMPAN SEMUA GAMBAR
+// =====================================
+
+const gallery = [];
+
+for(let i=0;i<imageUrls.length;i++){
+
+    gallery.push({
 
         product_id: product.id,
 
@@ -128,53 +186,29 @@ await window.supabaseClient
 
     });
 
-    }
+}
 
-    if (error) {
+const { error: galleryError } =
+await window.supabaseClient
+.from("product_images")
+.insert(gallery);
 
-    alert(error.message);
+if(galleryError){
+
+    alert(galleryError.message);
 
     return;
 
 }
 
-const imageRows = imageUrls.map((url, index) => ({
+// =====================================
+// SELESAI
+// =====================================
 
-    product_id: product.id,
+alert("Produk berhasil ditambahkan.");
 
-    image_url: url,
+form.reset();
 
-    sort_order: index + 1
+preview.src = "../images/no-image.png";
 
-}));
-
-const { error: imageError } =
-await window.supabaseClient
-.from("product_images")
-.insert(imageRows);
-
-if (imageError) {
-
-    alert(imageError.message);
-
-    return;
-
-    }
-    
-    if(error){
-
-        alert(error.message);
-
-        return;
-
-    }
-
-    alert("Produk berhasil ditambahkan.");
-
-    form.reset();
-
-    preview.src="../images/no-image.png";
-
-    location.href="products.html";
-
-});
+location.href = "products.html";
