@@ -1,5 +1,6 @@
 // =====================================
 // DHUHA PRODUCT
+// FINAL VERSION
 // BAGIAN 1
 // =====================================
 
@@ -11,17 +12,19 @@ let productImages = [];
 
 let selectedSize = "";
 let selectedColor = "";
+
 let quantity = 1;
+let currentImage = 0;
 
 // =====================================
-// LOAD
+// START
 // =====================================
 
 document.addEventListener("DOMContentLoaded", async () => {
 
     await loadProduct();
 
-    initQty();
+    initQuantity();
 
 });
 
@@ -29,9 +32,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 // LOAD PRODUCT
 // =====================================
 
-async function loadProduct() {
+async function loadProduct(){
 
-    try {
+    try{
 
         // ==========================
         // PRODUCT
@@ -41,10 +44,10 @@ async function loadProduct() {
         await window.supabaseClient
         .from("products")
         .select("*")
-        .eq("id", productId)
+        .eq("id",productId)
         .single();
 
-        if (error) throw error;
+        if(error) throw error;
 
         productData = data;
 
@@ -56,30 +59,34 @@ async function loadProduct() {
         await window.supabaseClient
         .from("product_images")
         .select("*")
-        .eq("product_id", productId)
+        .eq("product_id",productId)
         .order("sort_order");
 
         productImages = gallery || [];
 
-        const mainImage =
-        document.getElementById("product-image");
+        if(productImages.length===0){
 
-        if(productImages.length){
+            productImages = [{
 
-            mainImage.src =
-            productImages[0].image_url;
+                image_url:data.image_url,
 
-        }else{
+                sort_order:1
 
-            mainImage.src =
-            data.image_url;
+            }];
 
         }
 
-        renderProductGallery();
+        currentImage = 0;
 
         // ==========================
-        // TEXT
+        // MAIN IMAGE
+        // ==========================
+
+        document.getElementById("product-image").src =
+        productImages[0].image_url;
+
+        // ==========================
+        // PRODUCT INFO
         // ==========================
 
         document.getElementById("product-name").innerText =
@@ -92,29 +99,47 @@ async function loadProduct() {
         document.getElementById("product-description").innerText =
         data.description || "";
 
-        // ==========================
-        // SIZE
-        // ==========================
+        renderGallery();
 
-        const sizeList =
-        document.querySelector(".size-list");
+        renderSizes();
 
-        sizeList.innerHTML = "";
+        renderColors();
 
-        if(data.sizes){
+        loadRelatedProducts();
 
-            const sizes =
-            data.sizes.split(",");
+    }catch(err){
 
-            selectedSize =
-            sizes[0].trim();
+        console.error(err);
 
-            sizes.forEach(size=>{
+        alert("Produk tidak ditemukan.");
 
-                sizeList.innerHTML += `
+    }
+
+            }
+// =====================================
+// SIZE
+// =====================================
+
+function renderSizes(){
+
+    const container =
+    document.querySelector(".size-list");
+
+    container.innerHTML = "";
+
+    if(!productData.sizes) return;
+
+    const sizes =
+    productData.sizes.split(",");
+
+    selectedSize = sizes[0].trim();
+
+    sizes.forEach((size,index)=>{
+
+        container.innerHTML += `
 
 <button
-class="size-btn"
+class="size-btn ${index===0?'active':''}"
 data-size="${size.trim()}">
 
 ${size.trim()}
@@ -123,81 +148,17 @@ ${size.trim()}
 
 `;
 
-            });
+    });
 
-        }
+    document
+    .querySelectorAll(".size-btn")
+    .forEach(btn=>{
 
-        // ==========================
-        // COLOR
-        // ==========================
+        btn.onclick=()=>{
 
-        const colorList =
-        document.querySelector(".color-list");
-
-        colorList.innerHTML = "";
-
-        if(data.colors){
-
-            const colors =
-            data.colors.split(",");
-
-            selectedColor =
-            colors[0].trim();
-
-            colors.forEach(color=>{
-
-                colorList.innerHTML += `
-
-<button
-class="color-btn"
-data-color="${color.trim()}">
-
-${color.trim()}
-
-</button>
-
-`;
-
-            });
-
-        }
-
-        initSize();
-        initColor();
-
-        loadRelatedProducts();
-
-    } catch(err){
-
-        console.error(err);
-
-        alert("Produk tidak ditemukan.");
-
-    }
-
-}
-// =====================================
-// SIZE
-// =====================================
-
-function initSize(){
-
-    const buttons =
-    document.querySelectorAll(".size-btn");
-
-    buttons.forEach((btn,index)=>{
-
-        if(index===0){
-
-            btn.classList.add("active");
-
-        }
-
-        btn.onclick = ()=>{
-
-            buttons.forEach(b=>
-                b.classList.remove("active")
-            );
+            document
+            .querySelectorAll(".size-btn")
+            .forEach(b=>b.classList.remove("active"));
 
             btn.classList.add("active");
 
@@ -214,24 +175,45 @@ function initSize(){
 // COLOR
 // =====================================
 
-function initColor(){
+function renderColors(){
 
-    const buttons =
-    document.querySelectorAll(".color-btn");
+    const container =
+    document.querySelector(".color-list");
 
-    buttons.forEach((btn,index)=>{
+    container.innerHTML = "";
 
-        if(index===0){
+    if(!productData.colors) return;
 
-            btn.classList.add("active");
+    const colors =
+    productData.colors.split(",");
 
-        }
+    selectedColor = colors[0].trim();
 
-        btn.onclick = ()=>{
+    colors.forEach((color,index)=>{
 
-            buttons.forEach(b=>
-                b.classList.remove("active")
-            );
+        container.innerHTML += `
+
+<button
+class="color-btn ${index===0?'active':''}"
+data-color="${color.trim()}">
+
+${color.trim()}
+
+</button>
+
+`;
+
+    });
+
+    document
+    .querySelectorAll(".color-btn")
+    .forEach(btn=>{
+
+        btn.onclick=()=>{
+
+            document
+            .querySelectorAll(".color-btn")
+            .forEach(b=>b.classList.remove("active"));
 
             btn.classList.add("active");
 
@@ -248,12 +230,12 @@ function initColor(){
 // QUANTITY
 // =====================================
 
-function initQty(){
+function initQuantity(){
 
     const qty =
     document.getElementById("qty");
 
-    document.getElementById("plus").onclick = ()=>{
+    document.getElementById("plus").onclick=()=>{
 
         quantity++;
 
@@ -261,60 +243,191 @@ function initQty(){
 
     };
 
-    document.getElementById("minus").onclick = ()=>{
+    document.getElementById("minus").onclick=()=>{
 
-        if(quantity>1){
+        if(quantity<=1) return;
 
-            quantity--;
+        quantity--;
 
-            qty.innerText = quantity;
-
-        }
+        qty.innerText = quantity;
 
     };
 
-                            }
+}
+
+// =====================================
+// PRODUCT GALLERY
+// =====================================
+
+function renderGallery(){
+
+    const container =
+    document.getElementById("product-thumbnails");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    productImages.forEach((img,index)=>{
+
+        container.innerHTML += `
+
+<img
+src="${img.image_url}"
+class="product-thumb ${index===0?'active':''}"
+data-index="${index}">
+
+`;
+
+    });
+
+    document
+    .querySelectorAll(".product-thumb")
+    .forEach((thumb,index)=>{
+
+        thumb.onclick=()=>{
+
+            currentImage=index;
+
+            updateGallery();
+
+        };
+
+    });
+
+    initSwipe();
+
+}
+
+function updateGallery(){
+
+    document.getElementById("product-image").src =
+    productImages[currentImage].image_url;
+
+    document
+    .querySelectorAll(".product-thumb")
+    .forEach((thumb,index)=>{
+
+        thumb.classList.toggle(
+            "active",
+            index===currentImage
+        );
+
+    });
+
+}
+// =====================================
+// SWIPE GALLERY
+// =====================================
+
+function initSwipe(){
+
+    const image =
+    document.getElementById("product-image");
+
+    let startX = 0;
+
+    image.addEventListener("touchstart",(e)=>{
+
+        startX =
+        e.touches[0].clientX;
+
+    });
+
+    image.addEventListener("touchend",(e)=>{
+
+        const endX =
+        e.changedTouches[0].clientX;
+
+        const distance =
+        startX - endX;
+
+        if(Math.abs(distance)<50) return;
+
+        if(distance>0){
+
+            nextImage();
+
+        }else{
+
+            prevImage();
+
+        }
+
+    });
+
+}
+
+function nextImage(){
+
+    currentImage++;
+
+    if(currentImage>=productImages.length){
+
+        currentImage=0;
+
+    }
+
+    updateGallery();
+
+}
+
+function prevImage(){
+
+    currentImage--;
+
+    if(currentImage<0){
+
+        currentImage=
+        productImages.length-1;
+
+    }
+
+    updateGallery();
+
+}
+
 // =====================================
 // ADD TO CART
 // =====================================
 
-document.getElementById("add-cart").onclick = () => {
+document.getElementById("add-cart").onclick = ()=>{
 
-    if (!productData) return;
+    if(!productData) return;
 
     let cart =
     JSON.parse(localStorage.getItem("cart")) || [];
 
     const index =
-    cart.findIndex(item =>
+    cart.findIndex(item=>
 
-        item.id === productData.id &&
-        item.size === selectedSize &&
-        item.color === selectedColor
+        item.id===productData.id &&
+        item.size===selectedSize &&
+        item.color===selectedColor
 
     );
 
-    if (index > -1) {
+    if(index>-1){
 
         cart[index].qty += quantity;
 
-    } else {
+    }else{
 
         cart.push({
 
-            id: productData.id,
+            id:productData.id,
 
-            name: productData.name,
+            name:productData.name,
 
-            image: productData.image_url,
+            image:productImages[0].image_url,
 
-            price: productData.price,
+            price:productData.price,
 
-            size: selectedSize,
+            size:selectedSize,
 
-            color: selectedColor,
+            color:selectedColor,
 
-            qty: quantity
+            qty:quantity
 
         });
 
@@ -325,7 +438,7 @@ document.getElementById("add-cart").onclick = () => {
         JSON.stringify(cart)
     );
 
-    if (typeof updateCartBadge === "function") {
+    if(typeof updateCartBadge==="function"){
 
         updateCartBadge();
 
@@ -339,17 +452,21 @@ document.getElementById("add-cart").onclick = () => {
 // WISHLIST
 // =====================================
 
-document.getElementById("wishlist-btn").onclick = () => {
+document.getElementById("wishlist-btn").onclick=()=>{
 
-    if (!productData) return;
+    if(!productData) return;
 
     let wishlist =
     JSON.parse(localStorage.getItem("wishlist")) || [];
 
     const exist =
-    wishlist.find(item => item.id === productData.id);
+    wishlist.find(item=>
 
-    if (exist) {
+        item.id===productData.id
+
+    );
+
+    if(exist){
 
         alert("Produk sudah ada di wishlist.");
 
@@ -359,13 +476,13 @@ document.getElementById("wishlist-btn").onclick = () => {
 
     wishlist.push({
 
-        id: productData.id,
+        id:productData.id,
 
-        name: productData.name,
+        name:productData.name,
 
-        image: productData.image_url,
+        image:productImages[0].image_url,
 
-        price: productData.price
+        price:productData.price
 
     });
 
@@ -382,25 +499,25 @@ document.getElementById("wishlist-btn").onclick = () => {
 // BUY NOW
 // =====================================
 
-document.getElementById("buy-now").onclick = () => {
+document.getElementById("buy-now").onclick=()=>{
 
-    if (!productData) return;
+    if(!productData) return;
 
-    const checkout = [{
+    const checkout=[{
 
-        id: productData.id,
+        id:productData.id,
 
-        name: productData.name,
+        name:productData.name,
 
-        image: productData.image_url,
+        image:productImages[0].image_url,
 
-        price: productData.price,
+        price:productData.price,
 
-        qty: quantity,
+        qty:quantity,
 
-        size: selectedSize,
+        size:selectedSize,
 
-        color: selectedColor
+        color:selectedColor
 
     }];
 
@@ -409,32 +526,32 @@ document.getElementById("buy-now").onclick = () => {
         JSON.stringify(checkout)
     );
 
-    location.href = "checkout.html";
+    location.href="checkout.html";
 
 };
 // =====================================
 // RELATED PRODUCTS
 // =====================================
 
-async function loadRelatedProducts() {
+async function loadRelatedProducts(){
 
-    if (!productData) return;
+    if(!productData) return;
 
-    try {
+    try{
 
         const { data, error } =
         await window.supabaseClient
         .from("products")
         .select("*")
-        .eq("category", productData.category)
-        .neq("id", productData.id)
+        .eq("category",productData.category)
+        .neq("id",productData.id)
         .limit(4);
 
-        if (error) throw error;
+        if(error) throw error;
 
-        renderRelatedProducts(data || []);
+        renderRelatedProducts(data||[]);
 
-    } catch (err) {
+    }catch(err){
 
         console.error(err);
 
@@ -442,33 +559,35 @@ async function loadRelatedProducts() {
 
 }
 
-function renderRelatedProducts(list) {
+function renderRelatedProducts(products){
 
     const container =
     document.getElementById("related-products");
 
-    if (!container) return;
+    if(!container) return;
 
-    container.innerHTML = "";
+    container.innerHTML="";
 
-    if (list.length === 0) {
+    if(products.length===0){
 
-        container.innerHTML =
+        container.innerHTML=
         "<p>Tidak ada produk lainnya.</p>";
 
         return;
 
     }
 
-    list.forEach(product => {
+    products.forEach(product=>{
 
-        container.innerHTML += `
+        container.innerHTML+=`
 
 <a href="product.html?id=${product.id}" class="product-card">
 
 <div class="product-image">
 
-<img src="${product.image_url}" alt="${product.name}">
+<img
+src="${product.image_url}"
+alt="${product.name}">
 
 </div>
 
@@ -493,61 +612,44 @@ Rp ${Number(product.price).toLocaleString("id-ID")}
 }
 
 // =====================================
-// PRODUCT GALLERY
+// AUTO UPDATE THUMBNAIL
 // =====================================
 
-function renderProductGallery(){
+const observer = new MutationObserver(()=>{
 
-    const container =
-    document.getElementById("product-thumbnails");
+    const thumbs =
+    document.querySelectorAll(".product-thumb");
 
-    if(!container) return;
+    thumbs.forEach((thumb,index)=>{
 
-    container.innerHTML = "";
+        thumb.onclick=()=>{
 
-    if(productImages.length===0){
+            currentImage=index;
 
-        container.innerHTML = `
+            updateGallery();
 
-<img
-src="${productData.image_url}"
-class="product-thumb active">
-
-`;
-
-        return;
-
-    }
-
-    productImages.forEach((image,index)=>{
-
-        container.innerHTML += `
-
-<img
-src="${image.image_url}"
-class="product-thumb ${index===0?'active':''}"
-onclick="changeImage('${image.image_url}',this)">
-
-`;
+        };
 
     });
 
+});
+
+observer.observe(
+
+document.body,
+
+{
+
+childList:true,
+
+subtree:true
+
 }
 
-function changeImage(url, element){
-
-    document.getElementById("product-image").src = url;
-
-    document
-    .querySelectorAll(".product-thumb")
-    .forEach(img=>img.classList.remove("active"));
-
-    element.classList.add("active");
-
-}
+);
 
 // =====================================
-// ICON
+// LUCIDE
 // =====================================
 
 if(typeof lucide!=="undefined"){
@@ -555,3 +657,7 @@ if(typeof lucide!=="undefined"){
     lucide.createIcons();
 
 }
+
+// =====================================
+// END
+// =====================================
