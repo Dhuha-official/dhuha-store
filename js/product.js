@@ -44,6 +44,19 @@ async function loadProduct() {
         productData = data;
 
         // =====================================
+// LOAD PRODUCT IMAGES
+// =====================================
+
+const { data: images } =
+await window.supabaseClient
+.from("product_images")
+.select("*")
+.eq("product_id", productId)
+.order("sort_order");
+
+window.productImages = images || [];
+        
+        // =====================================
 // LOAD MULTIPLE IMAGE
 // =====================================
 
@@ -53,7 +66,21 @@ const images = data.images
 
 window.productImages = images;
 
-document.getElementById("product-image").src = images[0];
+const mainImage =
+document.getElementById("product-image");
+
+if (window.productImages.length > 0) {
+
+    mainImage.src =
+    window.productImages[0].image_url;
+
+    renderProductImages();
+
+} else {
+
+    mainImage.src = data.image_url;
+
+}
 renderThumbnails(images);
         document.getElementById("product-name").innerText =
         data.name;
