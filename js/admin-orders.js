@@ -4,35 +4,44 @@
 
 let orders = [];
 
-document.addEventListener("DOMContentLoaded", () => {
+async function loadOrders() {
 
-    loadOrders();
+    try {
 
-});
+        const { data, error } =
+        await window.supabaseClient
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-function loadOrders() {
+        if (error) throw error;
 
-    orders = JSON.parse(localStorage.getItem("orders")) || [];
+        orders = data || [];
 
-    renderOrders(orders);
+        renderOrders();
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
 
 }
 
-function renderOrders(list) {
+function renderOrders() {
 
-    const table = document.getElementById("orders-table");
+    const tbody =
+    document.getElementById("orders-list");
 
-    if (!table) return;
+    if (!tbody) return;
 
-    table.innerHTML = "";
+    tbody.innerHTML = "";
 
-    if (list.length === 0) {
+    if (orders.length === 0) {
 
-        table.innerHTML = `
+        tbody.innerHTML = `
         <tr>
-            <td colspan="6" style="text-align:center">
-                Belum ada pesanan
-            </td>
+            <td colspan="8">Belum ada pesanan.</td>
         </tr>
         `;
 
@@ -40,61 +49,35 @@ function renderOrders(list) {
 
     }
 
-    list.forEach((order, index) => {
+    orders.forEach(order => {
 
-        table.innerHTML += `
+        tbody.innerHTML += `
 
 <tr>
 
-<td>${order.orderNumber}</td>
+<td>${order.customer_name}</td>
 
-<td>${order.customer.name}</td>
+<td>${order.product_name}</td>
 
-<td>${order.createdAt}</td>
-
-<td>Rp ${Number(order.total).toLocaleString("id-ID")}</td>
+<td>${order.quantity}</td>
 
 <td>
-
-<select
-class="order-status"
-data-index="${index}">
-
-<option value="Menunggu Pembayaran" ${order.status==="Menunggu Pembayaran"?"selected":""}>
-Menunggu Pembayaran
-</option>
-
-<option value="Menunggu Verifikasi" ${order.status==="Menunggu Verifikasi"?"selected":""}>
-Menunggu Verifikasi
-</option>
-
-<option value="Diproses" ${order.status==="Diproses"?"selected":""}>
-Diproses
-</option>
-
-<option value="Dikirim" ${order.status==="Dikirim"?"selected":""}>
-Dikirim
-</option>
-
-<option value="Selesai" ${order.status==="Selesai"?"selected":""}>
-Selesai
-</option>
-
-<option value="Dibatalkan" ${order.status==="Dibatalkan"?"selected":""}>
-Dibatalkan
-</option>
-
-</select>
-
+Rp ${Number(order.total).toLocaleString("id-ID")}
 </td>
+
+<td>${order.courier}</td>
+
+<td>${order.payment}</td>
+
+<td>${order.status}</td>
 
 <td>
 
 <button
-class="btn"
-onclick="showOrder(${index})">
+onclick="updateStatus('${order.id}')"
+class="btn">
 
-Detail
+Update
 
 </button>
 
@@ -108,164 +91,58 @@ Detail
 
 }
 
-// ==========================
-// DETAIL
-// ==========================
-
-function showOrder(index){
-
-const order=orders[index];
-
-let items="";
-
-order.items.forEach(item=>{
-
-items+=`
-
-${item.name}
-
-(${item.qty}x)
-
-${item.size ? " | "+item.size : ""}
-
-${item.color ? " | "+item.color : ""}
-
-\n`;
-
-});
-
-alert(
-
-`Nomor :
-
-${order.orderNumber}
-
--------------------------
-
-Pelanggan :
-
-${order.customer.name}
-
-WA :
-
-${order.customer.phone}
-
--------------------------
-
-Alamat :
-
-${order.customer.address}
-
-${order.customer.city}
-
-${order.customer.province}
-
-${order.customer.postcode}
-
--------------------------
-
-Produk :
-
-${items}
-
--------------------------
-
-Kurir :
-
-${order.courier}
-
-Pembayaran :
-
-${order.payment}
-
--------------------------
-
-Total :
-
-Rp ${Number(order.total).toLocaleString("id-ID")}
-
-`);
-
-}
-
-// ==========================
-// SEARCH
-// ==========================
-
-const search=document.getElementById("search-order");
-
-if(search){
-
-search.addEventListener("keyup",()=>{
-
-const key=search.value.toLowerCase();
-
-renderOrders(
-
-orders.filter(item=>
-
-order.orderNumber.toLowerCase().includes(key)
-
-||
-
-item.customer.name.toLowerCase().includes(key)
-
-)
-
-);
-
-});
-
-}
-
-// ==========================
-// FILTER
-// ==========================
-
-const filter=document.getElementById("filter-status");
-
-if(filter){
-
-filter.addEventListener("change",()=>{
-
-if(filter.value==="Semua"){
-
-renderOrders(orders);
-
-return;
-
-}
-
-renderOrders(
-
-orders.filter(item=>item.status===filter.value)
-
-);
-
-});
-
-}
-
-// ==========================
+loadOrders();
+// ======================================
 // UPDATE STATUS
-// ==========================
+// ======================================
 
-document.addEventListener("change",(e)=>{
+async function updateStatus(id) {
 
-if(!e.target.classList.contains("order-status")) return;
+    const order =
+    orders.find(item => item.id === id);
 
-const index=e.target.dataset.index;
+    if (!order) return;
 
-orders[index].status=e.target.value;
+    let status = order.status;
 
-localStorage.setItem(
+    switch (status) {
 
-"orders",
+        case "Menunggu Pembayaran":
+            status = "Diproses";
+            break;
 
-JSON.stringify(orders)
+        case "Diproses":
+            status = "Dikirim";
+            break;
 
-);
+        case "Dikirim":
+            status = "Selesai";
+            break;
 
-alert("Status pesanan berhasil diperbarui.");
+        default:
+            alert("Pesanan sudah selesai.");
+            return;
 
-});
+    }
+
+    const { error } =
+    await window.supabaseClient
+    .from("orders")
+    .update({
+
+        status: status
+
+    })
+    .eq("id", id);
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    loadOrders();
+
+}
