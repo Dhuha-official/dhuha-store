@@ -187,3 +187,16 @@ Rp ${Number(order.total).toLocaleString("id-ID")}
     }
 
 }
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+
+    logoutBtn.onclick = () => {
+
+        localStorage.removeItem("adminLogin");
+
+        window.location.href = "login.html";
+
+    };
+
+}
