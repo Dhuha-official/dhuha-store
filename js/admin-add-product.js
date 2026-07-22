@@ -1,91 +1,117 @@
-// ======================================
+// =====================================
 // DHUHA ADMIN ADD PRODUCT
-// ======================================
+// BAGIAN 1
+// =====================================
 
 const form = document.getElementById("add-product-form");
 const imageInput = document.getElementById("product-image");
 const preview = document.getElementById("preview-image");
 
-// Preview gambar
 imageInput.onchange = () => {
 
-    const file = imageInput.files[0];
+    const files = imageInput.files;
 
-    if (file) {
+    if (files.length > 0) {
 
-        preview.src = URL.createObjectURL(file);
+        preview.src = URL.createObjectURL(files[0]);
 
     }
 
 };
 
-// Submit
 form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    // Ambil data form
-    const name = document.getElementById("product-name").value.trim();
-    const category = document.getElementById("product-category").value;
-    const price = Number(document.getElementById("product-price").value);
-    const stock = Number(document.getElementById("product-stock").value);
-    const description = document.getElementById("product-description").value.trim();
-    const colors = document.getElementById("product-colors").value.trim();
-    const sizes = document.getElementById("product-sizes").value.trim();
+    const files = imageInput.files;
 
-    const file = imageInput.files[0];
+    if (files.length === 0) {
 
-    if (!name || !category || !price || !stock || !file) {
-
-        alert("Mohon lengkapi semua data.");
-
+        alert("Pilih minimal 1 gambar.");
         return;
 
     }
 
-    // Upload gambar
-    const fileExt = file.name.split(".").pop();
-    const fileName = Date.now() + "." + fileExt;
+    const imageUrls = [];
 
-    const { error: uploadError } =
+    for (const file of files) {
+
+        const fileExt = file.name.split(".").pop();
+
+        const fileName =
+            Date.now() +
+            "-" +
+            Math.random().toString(36).substring(2,8) +
+            "." +
+            fileExt;
+
+        const { error: uploadError } =
         await window.supabaseClient.storage
         .from("products")
         .upload(fileName, file);
 
-    if (uploadError) {
+        if (uploadError) {
 
-        alert(uploadError.message);
+            alert(uploadError.message);
+            return;
 
-        return;
+        }
 
-    }
-
-    // URL gambar
-    const { data } =
+        const { data } =
         window.supabaseClient.storage
         .from("products")
         .getPublicUrl(fileName);
 
-    const imageUrl = data.publicUrl;
+        imageUrls.push(data.publicUrl);
 
-    // Simpan ke database
-    const { error } =
-        await window.supabaseClient
-        .from("products")
-        .insert([{
+    }
 
-            name: name,
-            category: category,
-            price: price,
-            stock: stock,
-            description: description,
-            colors: colors,
-            sizes: sizes,
-            image_url: imageUrl
+    const name =
+    document.getElementById("product-name").value.trim();
 
-        }]);
+    const category =
+    document.getElementById("product-category").value;
 
-    if (error) {
+    const price =
+    Number(document.getElementById("product-price").value);
+
+    const stock =
+    Number(document.getElementById("product-stock").value);
+
+    const description =
+    document.getElementById("product-description").value.trim();
+
+    const colors =
+    document.getElementById("product-colors").value.trim();
+
+    const sizes =
+    document.getElementById("product-sizes").value.trim();
+        const { error } =
+    await window.supabaseClient
+    .from("products")
+    .insert([{
+
+        name: name,
+
+        category: category,
+
+        price: price,
+
+        stock: stock,
+
+        description: description,
+
+        colors: colors,
+
+        sizes: sizes,
+
+        image_url: imageUrls[0],
+
+        images: imageUrls.join(",")
+
+    }]);
+
+    if(error){
 
         alert(error.message);
 
@@ -95,6 +121,10 @@ form.addEventListener("submit", async (e) => {
 
     alert("Produk berhasil ditambahkan.");
 
-    location.href = "products.html";
+    form.reset();
+
+    preview.src="../images/no-image.png";
+
+    location.href="products.html";
 
 });
