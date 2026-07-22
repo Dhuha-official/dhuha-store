@@ -100,8 +100,7 @@
 
 </a>
 
-localStorage.removeItem("adminLogin");
-window.location.href="login.html";
+<a href="#" id="logoutBtn">
 
 <i data-lucide="log-out"></i>
 
@@ -128,8 +127,6 @@ window.location.href="login.html";
 <span>Administrator</span>
 
 </div>
-
-<header class="admin-header">
 
 <h1>Dashboard</h1>
 
@@ -212,11 +209,9 @@ window.location.href="login.html";
 
 <h3>Pendapatan</h3>
 
-<h2 id="total-income">
-
+<h2 id="total-revenue">
 Rp 0
-
-</h2>
+  </h2>
 
 </div>
 
@@ -385,13 +380,17 @@ Voucher baru dibuat
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/admin-dashboard.js"></script>
+
 <script src="../js/admin.js"></script>
 
 <script>
-
 lucide.createIcons();
-
-</script>
+  </script>
 
 </body>
 
