@@ -4,35 +4,40 @@
 
 let allProducts = [];
 
+// ===============================
+// LOAD PRODUCTS
+// ===============================
+
 async function loadProducts() {
 
     const tbody = document.getElementById("product-list-admin");
 
+    if (!tbody) return;
+
     tbody.innerHTML = `
-        <tr>
-            <td colspan="6">Loading...</td>
-        </tr>
+    <tr>
+        <td colspan="6">Loading...</td>
+    </tr>
     `;
 
     try {
 
-        const { data, error } =
-        await window.supabaseClient
-        .from("products")
-        .select("*")
-        .order("created_at", { ascending:false });
+        const { data, error } = await window.supabaseClient
+            .from("products")
+            .select("*")
+            .order("created_at", { ascending: false });
 
-        if(error) throw error;
+        if (error) throw error;
 
-        allProducts = data;
+        allProducts = data || [];
 
         renderProducts(allProducts);
 
-    } catch(err){
+    } catch (err) {
 
         console.error(err);
 
-        tbody.innerHTML=`
+        tbody.innerHTML = `
         <tr>
             <td colspan="6">
                 Gagal memuat produk
@@ -44,19 +49,24 @@ async function loadProducts() {
 
 }
 
-function renderProducts(list){
+// ===============================
+// RENDER PRODUCTS
+// ===============================
 
-    const tbody =
-    document.getElementById("product-list-admin");
+function renderProducts(list) {
+
+    const tbody = document.getElementById("product-list-admin");
+
+    if (!tbody) return;
 
     tbody.innerHTML = "";
 
-    if(list.length===0){
+    if (list.length === 0) {
 
-        tbody.innerHTML=`
+        tbody.innerHTML = `
         <tr>
             <td colspan="6">
-                Tidak ada produk.
+                Tidak ada produk
             </td>
         </tr>
         `;
@@ -65,7 +75,7 @@ function renderProducts(list){
 
     }
 
-    list.forEach(product=>{
+    list.forEach(product => {
 
         tbody.innerHTML += `
 
@@ -119,78 +129,20 @@ Hapus
 
 }
 
-async function deleteProduct(id){
-
-
-function editProduct(id){
-
-    location.href=
-    "edit-product.html?id="+id;
-
-}
-
-// SEARCH
-
-document.getElementById("search-product")
-.addEventListener("input",function(){
-
-    const keyword=this.value.toLowerCase();
-
-    const result=allProducts.filter(product=>
-
-        product.name
-        .toLowerCase()
-        .includes(keyword)
-
-    );
-
-    renderProducts(result);
-
-});
-
-// FILTER
-
-document.getElementById("filter-category")
-.addEventListener("change",function(){
-
-    if(this.value==="Semua"){
-
-        renderProducts(allProducts);
-
-        return;
-
-    }
-
-    renderProducts(
-
-        allProducts.filter(product=>
-
-            product.category===this.value
-
-        )
-
-    );
-
-});
-
-loadProducts();
-// ======================================
-// DELETE PRODUCT
-// ======================================
+// ===============================
+// DELETE
+// ===============================
 
 async function deleteProduct(id) {
 
-    const ok = confirm("Yakin ingin menghapus produk ini?");
-
-    if (!ok) return;
+    if (!confirm("Yakin ingin menghapus produk ini?")) return;
 
     try {
 
-        const { error } =
-        await window.supabaseClient
-        .from("products")
-        .delete()
-        .eq("id", id);
+        const { error } = await window.supabaseClient
+            .from("products")
+            .delete()
+            .eq("id", id);
 
         if (error) throw error;
 
@@ -206,4 +158,60 @@ async function deleteProduct(id) {
 
     }
 
-    }
+}
+
+// ===============================
+// SEARCH
+// ===============================
+
+const searchInput = document.getElementById("search-product");
+
+if (searchInput) {
+
+    searchInput.addEventListener("input", function () {
+
+        const keyword = this.value.toLowerCase();
+
+        const result = allProducts.filter(product =>
+            product.name.toLowerCase().includes(keyword)
+        );
+
+        renderProducts(result);
+
+    });
+
+}
+
+// ===============================
+// FILTER
+// ===============================
+
+const filterCategory = document.getElementById("filter-category");
+
+if (filterCategory) {
+
+    filterCategory.addEventListener("change", function () {
+
+        if (this.value === "Semua") {
+
+            renderProducts(allProducts);
+
+            return;
+
+        }
+
+        const result = allProducts.filter(product =>
+            product.category === this.value
+        );
+
+        renderProducts(result);
+
+    });
+
+}
+
+// ===============================
+// START
+// ===============================
+
+loadProducts();
