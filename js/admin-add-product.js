@@ -34,7 +34,9 @@ form.addEventListener("submit", async (e) => {
 
     const imageUrls = [];
 
-    for (const file of files) {
+    for (let i = 0; i < files.length; i++) {
+
+    const file = files[i];
 
         const fileExt = file.name.split(".").pop();
 
@@ -111,6 +113,22 @@ await window.supabaseClient
 }])
 .select()
 .single();
+
+    for(let i=0;i<imageUrls.length;i++){
+
+    await window.supabaseClient
+    .from("product_images")
+    .insert({
+
+        product_id: product.id,
+
+        image_url: imageUrls[i],
+
+        sort_order: i+1
+
+    });
+
+    }
 
     if (error) {
 
