@@ -14,15 +14,27 @@ if (postcode) {
 // DATA CART / BUY NOW
 // ==========================
 
-let buyNow = JSON.parse(localStorage.getItem("buyNow"));
-let cartData = JSON.parse(localStorage.getItem("cart")) || [];
+const checkoutProduct =
+JSON.parse(localStorage.getItem("checkoutProduct"));
+
+const checkoutItems =
+JSON.parse(localStorage.getItem("checkoutItems"));
 
 let cart = [];
 
-if (buyNow && buyNow.length > 0) {
-    cart = buyNow;
+if (checkoutProduct) {
+
+    cart = [checkoutProduct];
+
+} else if (checkoutItems) {
+
+    cart = checkoutItems;
+
 } else {
-    cart = cartData;
+
+    cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
 }
 console.log(cart);
 
@@ -221,9 +233,11 @@ checkoutBtn.onclick = function () {
     localStorage.setItem("orders", JSON.stringify(orders));
 
     localStorage.setItem("currentOrder", JSON.stringify(order));
-
-    localStorage.removeItem("buyNow");
-
+    
+localStorage.removeItem("checkoutProduct");
+    
+localStorage.removeItem("checkoutItems");
+    
     window.location.href = "payment.html";
 
 };
