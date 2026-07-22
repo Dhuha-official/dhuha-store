@@ -57,18 +57,19 @@ form.addEventListener("submit", async(e)=>{
     .from("products")
     .insert([{
 
-        name:document.getElementById("product-name").value,
+        const name = document.getElementById("product-name").value.trim();
+const category = document.getElementById("product-category").value;
+const price = Number(document.getElementById("product-price").value);
+const stock = Number(document.getElementById("product-stock").value);
+const description = document.getElementById("product-description").value.trim();
 
-        description:document.getElementById("product-description").value,
+const colors =
+document.getElementById("product-colors").value.trim();
 
-        price:Number(document.getElementById("product-price").value),
+const sizes =
+document.getElementById("product-sizes").value.trim();
 
-        image_url:imageUrl,
-
-        category:document.getElementById("product-category").value,
-
-        stock:Number(document.getElementById("product-stock").value)
-
+const file = imageInput.files[0];
     }]);
 
     if(error){
