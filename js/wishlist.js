@@ -1,98 +1,209 @@
-const wishlistList = document.getElementById("wishlist-list");
-const wishlistEmpty = document.getElementById("wishlist-empty");
-const wishlistCount = document.getElementById("wishlist-count");
-const clearWishlist = document.getElementById("clearWishlist");
+// ======================================
+// DHUHA WISHLIST
+// ======================================
 
-let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let wishlist =
+JSON.parse(localStorage.getItem("wishlist")) || [];
+
+const wishlistList =
+document.getElementById("wishlist-list");
+
+// ======================================
+// RENDER
+// ======================================
 
 function renderWishlist(){
 
-wishlistList.innerHTML="";
+    if(!wishlistList) return;
 
-wishlistCount.innerText=`Total ${wishlist.length} Produk`;
+    wishlistList.innerHTML = "";
 
-if(wishlist.length===0){
+    if(wishlist.length===0){
 
-wishlistEmpty.style.display="block";
+        wishlistList.innerHTML = `
 
-wishlistList.style.display="none";
+<div class="empty-page">
 
-return;
+<h3>Wishlist masih kosong</h3>
 
-}
+<p>Tambahkan produk favoritmu.</p>
 
-wishlistEmpty.style.display="none";
+<a href="shop.html" class="checkout-btn">
 
-wishlistList.style.display="flex";
-
-wishlist.forEach((product,index)=>{
-
-wishlistList.innerHTML+=`
-
-<div class="wishlist-card">
-
-<img src="${product.image}" alt="${product.name}">
-
-<div class="wishlist-info">
-
-<h3>${product.name}</h3>
-
-<div class="wishlist-price">
-
-Rp ${Number(product.price).toLocaleString("id-ID")}
-
-</div>
-
-<div class="stock">
-
-🟢 Stok tersedia
-
-</div>
-
-<a href="product.html?id=${product.id}" class="view-product">
-
-Lihat Produk
+Belanja Sekarang
 
 </a>
 
 </div>
 
-<button class="remove-btn" onclick="removeWishlist(${index})">
+`;
 
-🗑
+        return;
+
+    }
+
+    wishlist.forEach((item,index)=>{
+
+        wishlistList.innerHTML += `
+
+<div class="wishlist-card">
+
+<img src="${item.image}" alt="${item.name}">
+
+<div class="wishlist-info">
+
+<h3>${item.name}</h3>
+
+<p>
+
+Rp ${Number(item.price).toLocaleString("id-ID")}
+
+</p>
+
+${item.size ? `<small>Ukuran : ${item.size}</small><br>` : ""}
+
+${item.color ? `<small>Warna : ${item.color}</small>` : ""}
+
+<div class="wishlist-action">
+
+<a
+href="product.html?id=${item.id}"
+class="btn">
+
+Lihat
+
+</a>
+
+<button
+class="btn"
+onclick="moveToCart(${index})">
+
+Tambah ke Keranjang
+
+</button>
+
+<button
+class="delete-btn"
+onclick="removeWishlist(${index})">
+
+Hapus
 
 </button>
 
 </div>
 
+</div>
+
+</div>
+
 `;
 
-});
+    });
 
 }
+
+// ======================================
+// HAPUS
+// ======================================
 
 function removeWishlist(index){
 
-wishlist.splice(index,1);
+    wishlist.splice(index,1);
 
-localStorage.setItem("wishlist",JSON.stringify(wishlist));
+    localStorage.setItem(
+        "wishlist",
+        JSON.stringify(wishlist)
+    );
 
-renderWishlist();
-
-}
-
-clearWishlist.onclick=()=>{
-
-if(confirm("Hapus semua wishlist?")){
-
-wishlist=[];
-
-localStorage.removeItem("wishlist");
-
-renderWishlist();
+    renderWishlist();
 
 }
 
+// ======================================
+// PINDAH KE CART
+// ======================================
+
+function moveToCart(index){
+
+    let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+    const item = wishlist[index];
+
+    const exist =
+    cart.find(product=>
+
+        product.id===item.id &&
+        product.size===item.size &&
+        product.color===item.color
+
+    );
+
+    if(exist){
+
+        exist.qty += item.qty || 1;
+
+    }else{
+
+        cart.push({
+
+            id:item.id,
+
+            name:item.name,
+
+            image:item.image,
+
+            price:item.price,
+
+            qty:item.qty || 1,
+
+            size:item.size || "",
+
+            color:item.color || ""
+
+        });
+
+    }
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    if(typeof updateCartBadge==="function"){
+
+        updateCartBadge();
+
+    }
+
+    wishlist.splice(index,1);
+
+    localStorage.setItem(
+        "wishlist",
+        JSON.stringify(wishlist)
+    );
+
+    alert("Produk dipindahkan ke keranjang.");
+
+    renderWishlist();
+
 }
+
+// ======================================
+// AUTO REFRESH
+// ======================================
+
+window.addEventListener("storage",()=>{
+
+    wishlist =
+    JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    renderWishlist();
+
+});
+
+// ======================================
+// LOAD
+// ======================================
 
 renderWishlist();
