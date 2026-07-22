@@ -3,56 +3,47 @@
 // ======================================
 
 const fullname = document.getElementById("fullname");
-const email = document.getElementById("email");
 const phone = document.getElementById("phone");
-
-const image = document.getElementById("profile-image");
-const upload = document.getElementById("profile-upload");
-
+const birth = document.getElementById("birth_date");
+const email = document.getElementById("email");
 const saveBtn = document.getElementById("save-profile");
 
-let user = null;
+let currentUser = null;
 
 // ======================================
 // LOAD PROFILE
 // ======================================
 
-async function loadProfile(){
+async function loadProfile() {
 
     const {
-        data:{user:currentUser},
+        data: { user },
         error
     } = await window.supabaseClient.auth.getUser();
 
-    if(error || !currentUser){
+    if (error || !user) {
 
-        location.href="login.html";
+        location.href = "login.html";
         return;
 
     }
 
-    user = currentUser;
+    currentUser = user;
 
     email.value = user.email;
 
-    const {data} =
+    const { data } =
     await window.supabaseClient
     .from("profiles")
     .select("*")
-    .eq("id",user.id)
+    .eq("id", user.id)
     .single();
 
-    if(data){
+    if (data) {
 
-        fullname.value = data.full_name || "";
-
+        fullname.value = data.name || "";
         phone.value = data.phone || "";
-
-        if(data.avatar_url){
-
-            image.src = data.avatar_url;
-
-        }
+        birth.value = data.birth_date || "";
 
     }
 
@@ -61,17 +52,35 @@ async function loadProfile(){
 loadProfile();
 
 // ======================================
-// PREVIEW FOTO
+// SAVE PROFILE
 // ======================================
 
-upload.onchange = ()=>{
+saveBtn.onclick = async () => {
 
-    const file = upload.files[0];
+    const { error } =
+    await window.supabaseClient
+    .from("profiles")
+    .upsert({
 
-    if(file){
+        id: currentUser.id,
 
-        image.src = URL.createObjectURL(file);
+        name: fullname.value.trim(),
+
+        phone: phone.value.trim(),
+
+        birth_date: birth.value,
+
+        updated_at: new Date().toISOString()
+
+    });
+
+    if (error) {
+
+        alert(error.message);
+        return;
 
     }
+
+    alert("Profil berhasil diperbarui.");
 
 };
