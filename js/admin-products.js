@@ -49,33 +49,15 @@ function renderProducts(list){
     const tbody =
     document.getElementById("product-list-admin");
 
-    tbody.innerHTML="";
-
-    if(list.length===0){
-
-        tbody.innerHTML=`
-        <tr>
-            <td colspan="6">
-                Belum ada produk
-            </td>
-        </tr>
-        `;
-
-        return;
-
-    }
-
-    list.forEach(product=>{
-
-        tbody.innerHTML+=`
+    
+tbody.innerHTML += `
 
 <tr>
 
 <td>
 
-<img
-src="${product.image_url}"
-style="width:70px;height:70px;object-fit:cover;border-radius:10px;">
+<img src="${product.image_url}"
+style="width:60px;height:60px;object-fit:cover;border-radius:10px;">
 
 </td>
 
@@ -93,17 +75,16 @@ Rp ${Number(product.price).toLocaleString("id-ID")}
 
 <td>
 
-<button
-class="btn"
-onclick="editProduct('${product.id}')">
+<a
+href="edit-product.html?id=${product.id}"
+class="btn">
 
 Edit
 
-</button>
+</a>
 
 <button
-class="btn"
-style="background:#d33;margin-left:6px;"
+class="btn delete-btn"
 onclick="deleteProduct('${product.id}')">
 
 Hapus
@@ -198,3 +179,36 @@ document.getElementById("filter-category")
 });
 
 loadProducts();
+// ======================================
+// DELETE PRODUCT
+// ======================================
+
+async function deleteProduct(id) {
+
+    const ok = confirm("Yakin ingin menghapus produk ini?");
+
+    if (!ok) return;
+
+    try {
+
+        const { error } =
+        await window.supabaseClient
+        .from("products")
+        .delete()
+        .eq("id", id);
+
+        if (error) throw error;
+
+        alert("Produk berhasil dihapus.");
+
+        loadProducts();
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert(err.message);
+
+    }
+
+    }
