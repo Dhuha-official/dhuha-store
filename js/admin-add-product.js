@@ -86,31 +86,63 @@ form.addEventListener("submit", async (e) => {
 
     const sizes =
     document.getElementById("product-sizes").value.trim();
-        const { error } =
-    await window.supabaseClient
-    .from("products")
-    .insert([{
 
-        name: name,
+const { data: product, error } =
+await window.supabaseClient
+.from("products")
+.insert([{
 
-        category: category,
+    name: name,
 
-        price: price,
+    category: category,
 
-        stock: stock,
+    price: price,
 
-        description: description,
+    stock: stock,
 
-        colors: colors,
+    description: description,
 
-        sizes: sizes,
+    colors: colors,
 
-        image_url: imageUrls[0],
+    sizes: sizes,
 
-        images: imageUrls.join(",")
+    image_url: imageUrls[0]
 
-    }]);
+}])
+.select()
+.single();
 
+    if (error) {
+
+    alert(error.message);
+
+    return;
+
+}
+
+const imageRows = imageUrls.map((url, index) => ({
+
+    product_id: product.id,
+
+    image_url: url,
+
+    sort_order: index + 1
+
+}));
+
+const { error: imageError } =
+await window.supabaseClient
+.from("product_images")
+.insert(imageRows);
+
+if (imageError) {
+
+    alert(imageError.message);
+
+    return;
+
+    }
+    
     if(error){
 
         alert(error.message);
