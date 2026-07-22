@@ -661,3 +661,33 @@ if(typeof lucide!=="undefined"){
 // =====================================
 // END
 // =====================================
+const viewer =
+document.getElementById("imageViewer");
+
+const viewerImg =
+document.getElementById("viewerImage");
+
+document.getElementById("product-image").onclick=()=>{
+
+    viewer.style.display="flex";
+
+    viewerImg.src=
+    document.getElementById("product-image").src;
+
+};
+
+document.getElementById("closeViewer").onclick=()=>{
+
+    viewer.style.display="none";
+
+};
+
+viewer.onclick=(e)=>{
+
+    if(e.target===viewer){
+
+        viewer.style.display="none";
+
+    }
+
+};
