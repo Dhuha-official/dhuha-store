@@ -225,18 +225,53 @@ checkoutBtn.onclick = function () {
 
     };
 
-    let orders =
-    JSON.parse(localStorage.getItem("orders")) || [];
+    const { error } =
+await window.supabaseClient
+.from("orders")
+.insert([{
 
-    orders.unshift(order);
+    order_id: order.id,
 
-    localStorage.setItem("orders", JSON.stringify(orders));
+    customer_name: order.customer.name,
 
-    localStorage.setItem("currentOrder", JSON.stringify(order));
-    
-localStorage.removeItem("checkoutProduct");
-    
-localStorage.removeItem("checkoutItems");
+    phone: order.customer.phone,
+
+    province: order.customer.province,
+
+    city: order.customer.city,
+
+    postcode: order.customer.postcode,
+
+    address: order.customer.address,
+
+    items: order.items,
+
+    subtotal: order.subtotal,
+
+    shipping: order.shipping,
+
+    total: order.total,
+
+    courier: order.courier,
+
+    payment: order.payment,
+
+    status: order.status
+
+}]);
+
+if(error){
+
+    alert(error.message);
+
+    return;
+
+}
+
+localStorage.setItem(
+    "currentOrder",
+    JSON.stringify(order)
+);
     
     window.location.href = "payment.html";
 
