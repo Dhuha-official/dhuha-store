@@ -1,23 +1,34 @@
 // ======================================
-// DHUHA CART
+// DHUHA CART FINAL
 // ======================================
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
 
-const cartList = document.getElementById("cart-list");
-const cartTotal = document.getElementById("cart-total");
-const checkoutBtn = document.getElementById("checkoutBtn");
+const cartList =
+document.getElementById("cart-list");
+
+const cartTotal =
+document.getElementById("cart-total");
+
+const checkoutBtn =
+document.getElementById("checkoutBtn");
 
 // ======================================
 // SAVE CART
 // ======================================
 
-function saveCart() {
+function saveCart(){
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
 
-    if (typeof updateCartBadge === "function") {
+    if(typeof updateCartBadge==="function"){
+
         updateCartBadge();
+
     }
 
 }
@@ -26,103 +37,122 @@ function saveCart() {
 // RENDER CART
 // ======================================
 
-function renderCart() {
+function renderCart(){
 
-    if (!cartList) return;
+    if(!cartList) return;
 
-    cartList.innerHTML = "";
+    cartList.innerHTML="";
 
-    if (cart.length === 0) {
+    if(cart.length===0){
 
-        cartList.innerHTML = `
-        <div style="text-align:center;padding:60px 20px;">
+        cartList.innerHTML=`
 
-            <h3>Keranjang masih kosong</h3>
+<div class="empty-cart">
 
-            <p>Yuk pilih produk favoritmu.</p>
+<h3>Keranjang masih kosong</h3>
 
-            <a href="shop.html"
-               class="checkout-btn"
-               style="margin-top:20px;display:inline-block;width:auto;padding:14px 24px;">
+<p>Yuk pilih produk favoritmu.</p>
 
-                Belanja Sekarang
+<a href="shop.html" class="checkout-btn">
 
-            </a>
+Belanja Sekarang
 
-        </div>
-        `;
+</a>
 
-        if (cartTotal) {
-            cartTotal.textContent = "Rp 0";
-        }
+</div>
 
-        if (checkoutBtn) {
-            checkoutBtn.disabled = true;
+`;
+
+        cartTotal.innerHTML="Rp 0";
+
+        if(checkoutBtn){
+
+            checkoutBtn.disabled=true;
+
         }
 
         return;
 
     }
 
-    if (checkoutBtn) {
-        checkoutBtn.disabled = false;
+    if(checkoutBtn){
+
+        checkoutBtn.disabled=false;
+
     }
 
-    let total = 0;
+    let total=0;
 
-    cart.forEach((item, index) => {
+    cart.forEach((item,index)=>{
 
-        const qty = item.qty || 1;
+        const qty=item.qty||1;
 
-        const subtotal = Number(item.price) * qty;
+        const subtotal=
+        Number(item.price)*qty;
 
-        total += subtotal;
+        total+=subtotal;
 
-        cartList.innerHTML += `
+        cartList.innerHTML+=`
 
 <div class="cart-item">
 
-    <img src="${item.image}" alt="${item.name}">
+<div class="cart-image">
 
-    <div class="cart-info">
+<img src="${item.image}" alt="${item.name}">
 
-        <h3>${item.name}</h3>
+</div>
 
-        <div class="cart-price">
+<div class="cart-info">
 
-            Rp ${Number(item.price).toLocaleString("id-ID")}
+<h3>${item.name}</h3>
 
-        </div>
+<p class="cart-price">
 
-        <small>
+Rp ${Number(item.price).toLocaleString("id-ID")}
 
-            ${item.size ? "Ukuran : " + item.size : ""}
+</p>
 
-            ${item.color ? "<br>Warna : " + item.color : ""}
+${item.size ? `<p>Ukuran : ${item.size}</p>` : ""}
 
-        </small>
+${item.color ? `<p>Warna : ${item.color}</p>` : ""}
 
-        <div class="cart-action">
+<div class="cart-action">
 
-            <div class="cart-qty">
+<div class="cart-qty">
 
-                <button class="qty-btn" onclick="changeQty(${index},-1)">−</button>
+<button onclick="changeQty(${index},-1)">
 
-                <span class="qty-number">${qty}</span>
+−
 
-                <button class="qty-btn" onclick="changeQty(${index},1)">+</button>
+</button>
 
-            </div>
+<span>
 
-            <button class="remove-btn" onclick="removeItem(${index})">
+${qty}
 
-                Hapus
+</span>
 
-            </button>
+<button onclick="changeQty(${index},1)">
 
-        </div>
++
 
-    </div>
+</button>
+
+</div>
+
+<button
+
+class="remove-btn"
+
+onclick="removeItem(${index})">
+
+Hapus
+
+</button>
+
+</div>
+
+</div>
 
 </div>
 
@@ -130,26 +160,23 @@ function renderCart() {
 
     });
 
-    if (cartTotal) {
+    cartTotal.innerHTML=
 
-        cartTotal.textContent =
-        "Rp " + total.toLocaleString("id-ID");
-
-    }
+    "Rp "+total.toLocaleString("id-ID");
 
 }
 
 // ======================================
-// QTY
+// UBAH QTY
 // ======================================
 
-function changeQty(index, value) {
+function changeQty(index,value){
 
-    cart[index].qty += value;
+    cart[index].qty=(cart[index].qty||1)+value;
 
-    if (cart[index].qty <= 0) {
+    if(cart[index].qty<=0){
 
-        cart.splice(index, 1);
+        cart.splice(index,1);
 
     }
 
@@ -163,9 +190,11 @@ function changeQty(index, value) {
 // HAPUS
 // ======================================
 
-function removeItem(index) {
+function removeItem(index){
 
-    cart.splice(index, 1);
+    if(!confirm("Hapus produk ini?")) return;
+
+    cart.splice(index,1);
 
     saveCart();
 
@@ -177,33 +206,48 @@ function removeItem(index) {
 // CHECKOUT
 // ======================================
 
-if (checkoutBtn) {
+if(checkoutBtn){
 
-    checkoutBtn.onclick = () => {
+    checkoutBtn.onclick=()=>{
 
-        if (cart.length === 0) {
+        if(cart.length===0){
 
-            alert("Keranjang masih kosong.");
+            alert("Keranjang kosong.");
 
             return;
 
         }
 
         localStorage.setItem(
-    "checkoutItems",
-    JSON.stringify(cart)
-);
 
-window.location.href = "checkout.html";
+            "buyNow",
+
+            JSON.stringify(cart)
+
+        );
+
+        location.href="checkout.html";
+
     };
 
 }
+
+// ======================================
+// REFRESH ANTAR TAB
+// ======================================
+
+window.addEventListener("storage",()=>{
+
+    cart=
+
+    JSON.parse(localStorage.getItem("cart"))||[];
+
+    renderCart();
+
+});
 
 // ======================================
 // LOAD
 // ======================================
 
 renderCart();
-if (typeof updateCartBadge === "function") {
-    updateCartBadge();
-}
