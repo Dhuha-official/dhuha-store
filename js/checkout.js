@@ -1,93 +1,120 @@
-// ==========================
-// KODE POS
-// ==========================
+// ======================================
+// DHUHA CHECKOUT FINAL
+// ======================================
 
 const postcode = document.getElementById("postcode");
 
-if (postcode) {
-    postcode.addEventListener("input", function () {
-        this.value = this.value.replace(/\D/g, "");
+if(postcode){
+
+    postcode.addEventListener("input",function(){
+
+        this.value=this.value.replace(/\D/g,"");
+
     });
-}
-
-// ==========================
-// DATA CART / BUY NOW
-// ==========================
-
-const checkoutProduct =
-JSON.parse(localStorage.getItem("checkoutProduct"));
-
-const checkoutItems =
-JSON.parse(localStorage.getItem("checkoutItems"));
-
-let cart = [];
-
-if (checkoutProduct) {
-
-    cart = [checkoutProduct];
-
-} else if (checkoutItems) {
-
-    cart = checkoutItems;
-
-} else {
-
-    cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
 
 }
-console.log(cart);
 
-const checkoutList = document.getElementById("checkout-list");
-const subtotalElement = document.getElementById("subtotal");
-const shippingCostElement = document.getElementById("shippingCost");
-const shippingTotalElement = document.getElementById("shippingTotal");
-const shippingEstimateElement = document.getElementById("shippingEstimate");
-const totalElement = document.getElementById("checkout-total");
-const checkoutBtn = document.getElementById("checkoutBtn");
+// ======================================
+// LOAD CART
+// ======================================
+
+let buyNow =
+JSON.parse(localStorage.getItem("buyNow"));
+
+let cart =
+buyNow && buyNow.length
+? buyNow
+: JSON.parse(localStorage.getItem("cart")) || [];
+
+// ======================================
+// ELEMENT
+// ======================================
+
+const checkoutList =
+document.getElementById("checkout-list");
+
+const subtotalElement =
+document.getElementById("subtotal");
+
+const shippingCostElement =
+document.getElementById("shippingCost");
+
+const shippingTotalElement =
+document.getElementById("shippingTotal");
+
+const shippingEstimateElement =
+document.getElementById("shippingEstimate");
+
+const totalElement =
+document.getElementById("checkout-total");
+
+const checkoutBtn =
+document.getElementById("checkoutBtn");
 
 let subtotal = 0;
 let shippingCost = 0;
 let shippingEstimate = "";
-
-// ==========================
+// ======================================
 // RENDER CHECKOUT
-// ==========================
+// ======================================
 
-function renderCheckout() {
+function renderCheckout(){
 
-    if (!checkoutList) return;
+    if(!checkoutList) return;
 
-    checkoutList.innerHTML = "";
+    checkoutList.innerHTML="";
 
-    subtotal = 0;
+    subtotal=0;
 
-    if (cart.length === 0) {
+    if(cart.length===0){
 
-        checkoutList.innerHTML = `
-        <p style="text-align:center;padding:40px;">
-        Keranjang kosong.
-        </p>`;
+        checkoutList.innerHTML=`
+
+<p style="text-align:center;padding:40px;">
+
+Keranjang kosong.
+
+</p>
+
+`;
+
+        subtotalElement.innerHTML="Rp 0";
+        totalElement.innerHTML="Rp 0";
+
+        if(checkoutBtn){
+
+            checkoutBtn.disabled=true;
+
+        }
 
         return;
 
     }
 
-    cart.forEach(item => {
+    if(checkoutBtn){
 
-        const qty = item.qty || 1;
+        checkoutBtn.disabled=false;
 
-        const total = qty * Number(item.price);
+    }
 
-        subtotal += total;
+    cart.forEach(item=>{
 
-        checkoutList.innerHTML += `
+        const qty=item.qty||1;
+
+        const total=
+        qty*Number(item.price);
+
+        subtotal+=total;
+
+        checkoutList.innerHTML+=`
 
 <div class="checkout-item">
 
 <div>
 
-<strong>${item.name}</strong><br>
+<strong>${item.name}</strong>
+
+<br>
 
 <small>
 
@@ -113,172 +140,251 @@ Rp ${total.toLocaleString("id-ID")}
 
     });
 
-    subtotalElement.innerHTML =
-        "Rp " + subtotal.toLocaleString("id-ID");
+    subtotalElement.innerHTML=
+
+    "Rp "+subtotal.toLocaleString("id-ID");
 
     updateShipping();
 
 }
 
-// ==========================
+// ======================================
 // ONGKIR
-// ==========================
+// ======================================
 
-function updateShipping() {
+function updateShipping(){
 
-    const courier =
-        document.querySelector("input[name='shipping']:checked").value;
+    const courier=
 
-    switch (courier) {
+    document.querySelector(
+
+    "input[name='shipping']:checked"
+
+    ).value;
+
+    switch(courier){
 
         case "JNE":
-            shippingCost = 28000;
-            shippingEstimate = "2-4 Hari";
+
+            shippingCost=28000;
+
+            shippingEstimate="2-4 Hari";
+
             break;
 
         case "J&T":
-            shippingCost = 30500;
-            shippingEstimate = "1-3 Hari";
+
+            shippingCost=30500;
+
+            shippingEstimate="1-3 Hari";
+
             break;
 
         case "SiCepat":
-            shippingCost = 32000;
-            shippingEstimate = "2-3 Hari";
+
+            shippingCost=32000;
+
+            shippingEstimate="2-3 Hari";
+
             break;
 
     }
 
-    shippingCostElement.innerHTML =
-        "Rp " + shippingCost.toLocaleString("id-ID");
+    shippingCostElement.innerHTML=
 
-    shippingTotalElement.innerHTML =
-        "Rp " + shippingCost.toLocaleString("id-ID");
+    "Rp "+shippingCost.toLocaleString("id-ID");
 
-    shippingEstimateElement.innerHTML =
-        shippingEstimate;
+    shippingTotalElement.innerHTML=
 
-    totalElement.innerHTML =
-        "Rp " + (subtotal + shippingCost).toLocaleString("id-ID");
+    "Rp "+shippingCost.toLocaleString("id-ID");
+
+    shippingEstimateElement.innerHTML=
+
+    shippingEstimate;
+
+    totalElement.innerHTML=
+
+    "Rp "+(subtotal+shippingCost).toLocaleString("id-ID");
 
 }
 
-document.querySelectorAll("input[name='shipping']")
-.forEach(item => {
+document
 
-    item.addEventListener("change", updateShipping);
+.querySelectorAll("input[name='shipping']")
+
+.forEach(item=>{
+
+    item.addEventListener(
+
+        "change",
+
+        updateShipping
+
+    );
 
 });
-
-// ==========================
+// ======================================
 // CHECKOUT
-// ==========================
+// ======================================
 
+checkoutBtn.onclick = async () => {
 
-checkoutBtn.onclick = function () {
+    const customer_name =
+    document.getElementById("fullname").value.trim();
 
-    const name = document.getElementById("fullname").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const province = document.getElementById("province").value.trim();
-    const city = document.getElementById("city").value.trim();
-    const postcode = document.getElementById("postcode").value.trim();
-    const address = document.getElementById("detailAddress").value.trim();
+    const phone =
+    document.getElementById("phone").value.trim();
 
-    if (!name || !phone || !province || !city || !postcode || !address) {
+    const province =
+    document.getElementById("province").value.trim();
+
+    const city =
+    document.getElementById("city").value.trim();
+
+    const postcode =
+    document.getElementById("postcode").value.trim();
+
+    const address =
+    document.getElementById("detailAddress").value.trim();
+
+    if(
+        !customer_name ||
+        !phone ||
+        !province ||
+        !city ||
+        !postcode ||
+        !address
+    ){
+
         alert("Mohon lengkapi data penerima.");
+
         return;
+
     }
 
     const courier =
-    document.querySelector("input[name='shipping']:checked").value;
+    document.querySelector(
+        "input[name='shipping']:checked"
+    ).value;
 
     const payment =
-    document.querySelector("input[name='payment']:checked").value;
+    document.querySelector(
+        "input[name='payment']:checked"
+    ).value;
 
-    const order = {
+    try{
 
-        id: "DH" + Date.now(),
+        for(const item of cart){
 
-        customer: {
-            name,
-            phone,
-            province,
-            city,
-            postcode,
-            address
-        },
+            const { error } =
+            await window.supabaseClient
+            .from("orders")
+            .insert({
 
-        items: cart,
+                product_id:item.id,
 
-        subtotal: subtotal,
+                product_name:item.name,
 
-        shipping: shippingCost,
+                customer_name:customer_name,
 
-        total: subtotal + shippingCost,
+                phone:phone,
 
-        courier: courier,
+                province:province,
 
-        payment: payment,
+                city:city,
 
-        status: "Menunggu Pembayaran",
+                postcode:postcode,
 
-        createdAt: new Date().toLocaleString("id-ID")
+                address:address,
 
-    };
+                price:item.price,
 
-    const { error } =
-await window.supabaseClient
-.from("orders")
-.insert([{
+                quantity:item.qty,
 
-    order_id: order.id,
+                total:item.price*item.qty,
 
-    customer_name: order.customer.name,
+                courier:courier,
 
-    phone: order.customer.phone,
+                payment:payment,
 
-    province: order.customer.province,
+                status:"Menunggu Pembayaran"
 
-    city: order.customer.city,
+            });
 
-    postcode: order.customer.postcode,
+            if(error) throw error;
 
-    address: order.customer.address,
+        }
 
-    items: order.items,
+        localStorage.setItem(
 
-    subtotal: order.subtotal,
+            "buyNow",
 
-    shipping: order.shipping,
+            JSON.stringify(cart)
 
-    total: order.total,
+        );
 
-    courier: order.courier,
+        localStorage.removeItem("cart");
 
-    payment: order.payment,
+        if(typeof updateCartBadge==="function"){
 
-    status: order.status
+            updateCartBadge();
 
-}]);
+        }
 
-if(error){
+        location.href="payment.html";
 
-    alert(error.message);
+    }catch(err){
 
-    return;
+        console.error(err);
 
-}
+        alert(err.message);
 
-localStorage.setItem(
-    "currentOrder",
-    JSON.stringify(order)
-);
-    
-    window.location.href = "payment.html";
+    }
 
 };
+// ======================================
+// CLEAR BUY NOW SETELAH PEMBAYARAN
+// ======================================
 
-// ==========================
+window.addEventListener("pageshow", () => {
+
+    if (!performance.navigation ||
+        performance.navigation.type !== 2) {
+
+        localStorage.removeItem("buyNow");
+
+    }
+
+});
+
+// ======================================
+// AUTO REFRESH ONGKIR
+// ======================================
+
+document.querySelectorAll(
+"input[name='shipping']"
+).forEach(item => {
+
+    item.addEventListener("change", () => {
+
+        updateShipping();
+
+    });
+
+});
+
+// ======================================
 // LOAD
-// ==========================
+// ======================================
 
 renderCheckout();
+
+// ======================================
+// UPDATE ICON
+// ======================================
+
+if (typeof lucide !== "undefined") {
+
+    lucide.createIcons();
+
+}
