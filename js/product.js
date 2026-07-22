@@ -535,3 +535,42 @@ function changeImage(index){
     lucide.createIcons();
 
 }
+// =====================================
+// PRODUCT GALLERY
+// =====================================
+
+function renderProductImages() {
+
+    const container =
+    document.getElementById("product-thumbnails");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    window.productImages.forEach((img, index) => {
+
+        container.innerHTML += `
+
+<img
+src="${img.image_url}"
+class="product-thumb ${index===0?'active':''}"
+onclick="changeImage('${img.image_url}',this)">
+
+`;
+
+    });
+
+}
+
+function changeImage(url, element){
+
+    document.getElementById("product-image").src = url;
+
+    document
+    .querySelectorAll(".product-thumb")
+    .forEach(img=>img.classList.remove("active"));
+
+    element.classList.add("active");
+
+}
