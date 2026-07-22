@@ -189,10 +189,12 @@ if (checkoutBtn) {
 
         }
 
-        localStorage.setItem("buyNow", JSON.stringify(cart));
+        localStorage.setItem(
+    "checkoutItems",
+    JSON.stringify(cart)
+);
 
-        window.location.href = "checkout.html";
-
+window.location.href = "checkout.html";
     };
 
 }
@@ -202,3 +204,6 @@ if (checkoutBtn) {
 // ======================================
 
 renderCart();
+if (typeof updateCartBadge === "function") {
+    updateCartBadge();
+}
